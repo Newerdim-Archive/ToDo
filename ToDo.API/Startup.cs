@@ -29,6 +29,9 @@ namespace ToDo.API
             services.Configure<TokenSettings>(Configuration.GetSection("TokenSettings"));
             services.AddTransient<ITokenService, TokenService>();
             
+            services.AddHttpContextAccessor();
+            services.AddTransient<ICookieService, CookieService>();
+            
             services.AddControllers();
         }
 
