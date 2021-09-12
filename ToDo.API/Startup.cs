@@ -5,6 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ToDo.API.Data;
+using ToDo.API.Helpers;
+using ToDo.API.Services;
 
 namespace ToDo.API
 {
@@ -23,6 +25,9 @@ namespace ToDo.API
             {
                 opt.UseNpgsql(Configuration.GetConnectionString("Default"));
             });
+            
+            services.Configure<TokenSettings>(Configuration.GetSection("TokenSettings"));
+            services.AddTransient<ITokenService, TokenService>();
             
             services.AddControllers();
         }
