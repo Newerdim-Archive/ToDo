@@ -54,15 +54,14 @@ namespace ToDo.UnitTests.Services
         public void CreateAccessToken_TokenIsValidJwt()
         {
             // Arrange
-            var tokenHandler = new JwtSecurityTokenHandler();
 
             // Act
             var token = _sut.CreateAccessToken(1);
 
-            var isValidJwt = tokenHandler.CanReadToken(token);
+            var isTokenValid = IsTokenValid(token, _tokenSettings.AccessTokenSecret);
 
             // Assert
-            isValidJwt.Should().BeTrue();
+            isTokenValid.Should().BeTrue();
         }
 
         [Fact]
@@ -121,10 +120,10 @@ namespace ToDo.UnitTests.Services
             // Act
             var token = _sut.CreateRefreshToken(1);
 
-            var isValidJwt = IsTokenValid(token, _tokenSettings.RefreshTokenSecret);
+            var isTokenValid = IsTokenValid(token, _tokenSettings.RefreshTokenSecret);
             
             // Assert
-            isValidJwt.Should().BeTrue();
+            isTokenValid.Should().BeTrue();
         }
         
         [Fact]
