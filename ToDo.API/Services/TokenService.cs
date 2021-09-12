@@ -19,43 +19,37 @@ namespace ToDo.API.Services
         
         public string CreateAccessToken(int userId)
         {
-            var key = Encoding.UTF8.GetBytes(_tokenSettings.AccessTokenSecret);
+            var secret = _tokenSettings.AccessTokenSecret;
             
             var expiresTime = DateTime.UtcNow.AddMinutes(15);
 
-            var claims = new Claim[]
-            {
-                new(ClaimTypes.NameIdentifier, userId.ToString())
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = expiresTime,
-                SigningCredentials = new SigningCredentials(
-                    new SymmetricSecurityKey(key),
-                    SecurityAlgorithms.HmacSha512Signature)
-            };
-
-            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(securityToken);
+            return CreateToken(userId, expiresTime, secret);
         }
 
         public string CreateRefreshToken(int userId)
         {
-            var key = Encoding.UTF8.GetBytes(_tokenSettings.RefreshTokenSecret);
+            var secret = _tokenSettings.RefreshTokenSecret;
             
             var expiresTime = DateTime.UtcNow.AddDays(14);
 
+            return CreateToken(userId, expiresTime, secret);
+        }
+
+        /// <summary>
+        /// Create Token
+        /// </summary>
+        /// <param name="userId">User id</param>
+        /// <param name="expiresTime">Expires time</param>
+        /// <param name="secret">Token secret</param>
+        /// <returns>Token</returns>
+        private static string CreateToken(int userId, DateTime expiresTime, string secret)
+        {
             var claims = new Claim[]
             {
                 new(ClaimTypes.NameIdentifier, userId.ToString())
             };
 
-            var tokenHandler = new JwtSecurityTokenHandler();
+            var key = Encoding.UTF8.GetBytes(secret);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -65,6 +59,8 @@ namespace ToDo.API.Services
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha512Signature)
             };
+            
+            var tokenHandler = new JwtSecurityTokenHandler();
 
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
 
