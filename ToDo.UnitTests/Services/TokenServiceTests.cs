@@ -25,7 +25,8 @@ namespace ToDo.UnitTests.Services
         {
             _tokenSettings = new TokenSettings
             {
-                AccessTokenSecret = "Test secret for access token"
+                AccessTokenSecret = "Test secret for access token",
+                RefreshTokenSecret = "Test secret for refresh token"
             };
 
             _tokenSettingsOptionsMock
@@ -47,8 +48,6 @@ namespace ToDo.UnitTests.Services
 
             // Assert
             token.Should().NotBeNullOrWhiteSpace();
-
-            _tokenSettingsOptionsMock.VerifyAll();
         }
 
         [Fact]
@@ -64,8 +63,6 @@ namespace ToDo.UnitTests.Services
 
             // Assert
             isValidJwt.Should().BeTrue();
-
-            _tokenSettingsOptionsMock.VerifyAll();
         }
 
         [Fact]
@@ -81,8 +78,6 @@ namespace ToDo.UnitTests.Services
 
             // Assert
             userIdInToken.Should().NotBeNull().And.Be(userId);
-
-            _tokenSettingsOptionsMock.VerifyAll();
         }
 
         [Fact]
@@ -100,6 +95,66 @@ namespace ToDo.UnitTests.Services
             expiresTime.Should().NotBeNull().And.BeCloseTo(expectedExpiresTime, TimeSpan.FromSeconds(5));
 
             _tokenSettingsOptionsMock.VerifyAll();
+        }
+
+        #endregion
+
+        #region CreateRefreshToken
+
+        [Fact]
+        public void CreateRefreshToken_ReturnsToken()
+        {
+            // Arrange
+            
+            // Act
+            var token = _sut.CreateRefreshToken(1);
+
+            // Assert
+            token.Should().NotBeNullOrWhiteSpace();
+        }
+        
+        [Fact]
+        public void CreateRefreshToken_TokenIsValidJwt()
+        {
+            // Arrange
+            
+            // Act
+            var token = _sut.CreateRefreshToken(1);
+
+            var isValidJwt = IsTokenValid(token, _tokenSettings.RefreshTokenSecret);
+            
+            // Assert
+            isValidJwt.Should().BeTrue();
+        }
+        
+        [Fact]
+        public void CreateRefreshToken_TokenContainsUserId()
+        {
+            // Arrange
+            const int userId = 1;
+            
+            // Act
+            var token = _sut.CreateRefreshToken(userId);
+
+            var userIdInToken = GetUserIdFromToken(token, _tokenSettings.RefreshTokenSecret);
+            
+            // Assert
+            userIdInToken.Should().Be(userId);
+        }
+        
+        [Fact]
+        public void CreateRefreshToken_TokenExpiresIn14Days()
+        {
+            // Arrange
+            var expectedExpiresTime = DateTime.UtcNow.AddDays(14);
+            
+            // Act
+            var token = _sut.CreateRefreshToken(1);
+
+            var expiresTime = GetExpiresTimeFromToken(token, _tokenSettings.RefreshTokenSecret); 
+            
+            // Assert
+            expiresTime.Should().BeCloseTo(expectedExpiresTime, TimeSpan.FromSeconds(5));
         }
 
         #endregion
@@ -179,6 +234,19 @@ namespace ToDo.UnitTests.Services
             }
         }
 
+        /// <summary>
+        /// Check if token is valid using secret
+        /// </summary>
+        /// <param name="token">JWT</param>
+        /// <param name="secret">Token secret</param>
+        /// <returns>True if is valid; otherwise, null</returns>
+        private static bool IsTokenValid(string token, string secret)
+        {
+            var result = ValidateToken(token, secret);
+            
+            return result is not null;
+        }
+        
         /// <summary>
         /// Get token validation parameters
         /// </summary>
