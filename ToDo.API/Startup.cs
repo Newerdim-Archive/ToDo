@@ -36,6 +36,8 @@ namespace ToDo.API
             services.AddTransient<IGoogleJsonWebSignatureWrapper, GoogleJsonWebSignatureWrapper>();
             services.Configure<GoogleAuthSettings>(Configuration.GetSection("GoogleAuthSettings"));
             services.AddTransient<IExternalTokenService, GoogleTokenService>();
+            
+            services.AddAutoMapper(typeof(MapperProfile));
 
             services.AddControllers();
         }
