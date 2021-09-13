@@ -28,5 +28,13 @@ namespace ToDo.API.Services
 
             return _mapper.Map<User>(userInDb);
         }
+
+        public async Task<bool> ExistsByExternalIdAsync(string externalId, ExternalAuthProvider provider)
+        {
+            return await _context.Users
+                .AsNoTracking()
+                .Where(u => u.Provider == provider)
+                .AnyAsync(u => u.ExternalId == externalId);
+        }
     }
 }

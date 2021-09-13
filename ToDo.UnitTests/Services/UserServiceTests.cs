@@ -68,5 +68,33 @@ namespace ToDo.UnitTests.Services
         }
         
         #endregion
+
+        #region ExistsByExternalIdAsync
+
+        [Fact]
+        public async Task ExistsByExternalIdAsync_UserExists_ReturnsTrue()
+        {
+            // Arrange
+            
+            // Act
+            var exists = await _sut.ExistsByExternalIdAsync("1", ExternalAuthProvider.Google);
+
+            // Assert
+            exists.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task ExistsByExternalIdAsync_UserNotExist_ReturnsFalse()
+        {
+            // Arrange
+            
+            // Act
+            var exists = await _sut.ExistsByExternalIdAsync("999", ExternalAuthProvider.Google);
+
+            // Assert
+            exists.Should().BeFalse();
+        }
+        
+        #endregion
     }
 }

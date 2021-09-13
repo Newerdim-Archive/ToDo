@@ -13,5 +13,13 @@ namespace ToDo.API.Services
         /// <param name="provider">External provider</param>
         /// <returns>User if exists; otherwise, null</returns>
         public Task<User> GetByExternalIdAsync(string externalId, ExternalAuthProvider provider);
+
+        /// <summary>
+        ///     Check if the user exists
+        /// </summary>
+        /// <param name="externalId">External id</param>
+        /// <param name="provider">External provider</param>
+        /// <returns>True if exists; otherwise, null</returns>
+        public Task<bool> ExistsByExternalIdAsync(string externalId, ExternalAuthProvider provider);
     }
 }
