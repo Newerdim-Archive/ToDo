@@ -38,9 +38,9 @@ namespace ToDo.API
             services.Configure<GoogleAuthSettings>(Configuration.GetSection("GoogleAuthSettings"));
             services.AddTransient<GoogleTokenService>();
             services.AddTransient<IExternalTokenService, GoogleTokenService>(s => s.GetService<GoogleTokenService>());
-            
+
             services.AddTransient<IExternalTokenFactory, ExternalTokenFactory>();
-            
+
             services.AddAutoMapper(typeof(MapperProfile));
             services.AddTransient<IUserService, UserService>();
 

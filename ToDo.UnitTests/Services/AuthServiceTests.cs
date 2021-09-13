@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
@@ -13,9 +12,8 @@ namespace ToDo.UnitTests.Services
 {
     public class AuthServiceTests
     {
-        private readonly AuthService _sut;
-
         private readonly Mock<IExternalTokenFactory> _externalTokenFactoryMock;
+        private readonly AuthService _sut;
         private readonly Mock<IUserService> _userService;
 
         public AuthServiceTests()
@@ -44,7 +42,7 @@ namespace ToDo.UnitTests.Services
             _userService
                 .Setup(x => x.ExistsByExternalIdAsync(externalTokenPayload.UserId, provider))
                 .ReturnsAsync(false);
-            
+
             _userService
                 .Setup(x => x.CreateAsync(
                     It.Is<CreateUser>(
@@ -180,7 +178,7 @@ namespace ToDo.UnitTests.Services
 
             // Assert
             result.Should().NotBeNull();
-            
+
             result.CreatedUser.Should().NotBeNull().And.Be(createdUser);
 
             _externalTokenFactoryMock.VerifyAll();

@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Google.Apis.Auth;
 using ToDo.API.Dto;
 using ToDo.API.Enum;
 using ToDo.API.Extensions;
@@ -17,7 +16,7 @@ namespace ToDo.API.Services
             _externalTokenFactory = externalTokenFactory;
             _userService = userService;
         }
-        
+
         public async Task<ExternalSignUpResult> ExternalSignUpAsync(string token, ExternalAuthProvider provider)
         {
             var tokenPayload = await _externalTokenFactory.ValidateAsync(token, provider);
@@ -56,7 +55,7 @@ namespace ToDo.API.Services
                 ProfilePictureUrl = tokenPayload.ProfilePictureUrl,
                 Provider = provider
             });
-            
+
             return new ExternalSignUpResult
             {
                 Message = ExternalSignUpResultMessage.SignedUpSuccessfully,

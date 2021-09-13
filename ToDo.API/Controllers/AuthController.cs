@@ -13,8 +13,8 @@ namespace ToDo.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly ICookieService _cookieService;
         private readonly IAuthService _authService;
+        private readonly ICookieService _cookieService;
         private readonly ITokenService _tokenService;
 
         public AuthController(ITokenService tokenService, ICookieService cookieService, IAuthService authService)

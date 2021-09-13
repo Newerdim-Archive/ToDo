@@ -50,7 +50,7 @@ namespace ToDo.API.Services
                 CreatedAt = DateTimeOffset.UtcNow,
                 UpdatedAt = DateTimeOffset.UtcNow
             };
-            
+
             await _context.Users.AddAsync(createdUser);
 
             await _context.SaveChangesAsync();

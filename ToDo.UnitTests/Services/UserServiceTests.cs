@@ -1,9 +1,7 @@
-using System.Linq;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using ToDo.API.Data;
 using ToDo.API.Dto;
 using ToDo.API.Enum;
@@ -16,8 +14,8 @@ namespace ToDo.UnitTests.Services
 {
     public class UserServiceTests : IClassFixture<SeededDataFixture>
     {
-        private readonly UserService _sut;
         private readonly DataContext _context;
+        private readonly UserService _sut;
 
         public UserServiceTests(SeededDataFixture fixture)
         {
@@ -27,9 +25,9 @@ namespace ToDo.UnitTests.Services
             });
 
             var mapper = new Mapper(mapperConfiguration);
-            
+
             _context = fixture.Context;
-            
+
             _sut = new UserService(_context, mapper);
         }
 
@@ -56,7 +54,7 @@ namespace ToDo.UnitTests.Services
             user.Username.Should().Be("user1");
             user.ProfilePictureUrl.Should().Be("www.example.com/picture/1");
         }
-        
+
         [Fact]
         public async Task GetByExternalIdAsync_UserNotExist_ReturnsNull()
         {
@@ -68,7 +66,7 @@ namespace ToDo.UnitTests.Services
             // Assert
             user.Should().BeNull();
         }
-        
+
         #endregion
 
         #region ExistsByExternalIdAsync
@@ -77,7 +75,7 @@ namespace ToDo.UnitTests.Services
         public async Task ExistsByExternalIdAsync_UserExists_ReturnsTrue()
         {
             // Arrange
-            
+
             // Act
             var exists = await _sut.ExistsByExternalIdAsync("1", ExternalAuthProvider.Google);
 
@@ -89,7 +87,7 @@ namespace ToDo.UnitTests.Services
         public async Task ExistsByExternalIdAsync_UserNotExist_ReturnsFalse()
         {
             // Arrange
-            
+
             // Act
             var exists = await _sut.ExistsByExternalIdAsync("999", ExternalAuthProvider.Google);
 

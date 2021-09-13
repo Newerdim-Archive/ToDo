@@ -1,5 +1,3 @@
-using System;
-
 namespace ToDo.API.Const
 {
     public static class ResponseMessage
