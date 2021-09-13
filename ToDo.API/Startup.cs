@@ -38,6 +38,7 @@ namespace ToDo.API
             services.AddTransient<IExternalTokenService, GoogleTokenService>();
             
             services.AddAutoMapper(typeof(MapperProfile));
+            services.AddTransient<IUserService, UserService>();
 
             services.AddControllers();
         }

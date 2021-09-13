@@ -1,6 +1,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using ToDo.API.Data;
+using ToDo.UnitTests.TestHelpers;
 
 namespace ToDo.UnitTests.DataFixture
 {
@@ -11,6 +12,7 @@ namespace ToDo.UnitTests.DataFixture
         public SeededDataFixture()
         {
             Context = CreateNewEmptyDb();
+            Context.SeedUsers();
         }
 
         public void Dispose()
