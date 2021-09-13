@@ -10,7 +10,7 @@ namespace ToDo.API.Services
         {
             _responseCookies = httpContextAccessor.HttpContext?.Response.Cookies;
         }
-        
+
         public void Add(string key, string value)
         {
             var cookieOptions = new CookieOptions
@@ -19,7 +19,7 @@ namespace ToDo.API.Services
                 HttpOnly = true,
                 SameSite = SameSiteMode.None
             };
-            
+
             _responseCookies.Append(key, value, cookieOptions);
         }
     }

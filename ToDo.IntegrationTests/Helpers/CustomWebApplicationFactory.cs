@@ -9,13 +9,13 @@ using ToDo.API.Data;
 namespace ToDo.IntegrationTests.Helpers
 {
     /// <summary>
-    /// Custom WebApplicationFactory with in memory db
+    ///     Custom WebApplicationFactory with in memory db
     /// </summary>
     /// <typeparam name="TStartup"></typeparam>
     [ExcludeFromCodeCoverage]
     public class CustomWebApplicationFactory<TStartup> :
         WebApplicationFactory<TStartup>
-            where TStartup : class
+        where TStartup : class
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {

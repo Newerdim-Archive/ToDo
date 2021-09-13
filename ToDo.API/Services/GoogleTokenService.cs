@@ -1,16 +1,16 @@
 using System.Threading.Tasks;
+using Google.Apis.Auth;
 using Microsoft.Extensions.Options;
 using ToDo.API.Dto;
 using ToDo.API.Helpers;
 using ToDo.API.Wrappers;
-using Google.Apis.Auth;
 
 namespace ToDo.API.Services
 {
     public class GoogleTokenService : IExternalTokenService
     {
-        private readonly IGoogleJsonWebSignatureWrapper _googleJsonWebSignatureWrapper;
         private readonly GoogleAuthSettings _googleAuthSettings;
+        private readonly IGoogleJsonWebSignatureWrapper _googleJsonWebSignatureWrapper;
 
         public GoogleTokenService(
             IGoogleJsonWebSignatureWrapper googleJsonWebSignatureWrapper,

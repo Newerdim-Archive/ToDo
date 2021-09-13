@@ -14,11 +14,10 @@ namespace ToDo.UnitTests.Services
 {
     public class GoogleTokenServiceTests
     {
-        private readonly GoogleTokenService _sut;
-
         private readonly GoogleAuthSettings _googleAuthSettings;
 
         private readonly Mock<IGoogleJsonWebSignatureWrapper> _googleJsonWebSignatureWrapperMock;
+        private readonly GoogleTokenService _sut;
 
         public GoogleTokenServiceTests()
         {
@@ -101,13 +100,13 @@ namespace ToDo.UnitTests.Services
             // Assert
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
-        
+
         [Fact]
         public async Task ValidateAsync_TokenIsValid_ReturnsCorrectPayload()
         {
             // Arrange
             var googlePayload = new Fixture().Create<GoogleJsonWebSignature.Payload>();
-            
+
             _googleJsonWebSignatureWrapperMock
                 .Setup(_ => _.ValidateAsync(
                     It.IsAny<string>(),
@@ -120,12 +119,12 @@ namespace ToDo.UnitTests.Services
 
             // Assert
             payload.Should().NotBeNull();
-            
+
             payload.UserId.Should().Be(googlePayload.Subject);
             payload.Email.Should().Be(googlePayload.Email);
             payload.Username.Should().Be(googlePayload.Name);
             payload.ProfilePictureUrl.Should().Be(googlePayload.Picture);
-            
+
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
 

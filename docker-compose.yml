@@ -13,7 +13,7 @@ services:
     restart: always
     depends_on:
       - todo-db
-    ports: 
+    ports:
       - "80:80"
       - "443:443"
     networks:
@@ -24,7 +24,7 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_PASSWORD: 
+      POSTGRES_PASSWORD:
     ports:
       - "5432:5432"
     networks:

@@ -9,9 +9,8 @@ namespace ToDo.UnitTests.Services
 {
     public class CookieServiceTests
     {
-        private readonly CookieService _sut;
-        
         private readonly HttpContext _httpContext = new DefaultHttpContext();
+        private readonly CookieService _sut;
 
         public CookieServiceTests()
         {
@@ -32,16 +31,16 @@ namespace ToDo.UnitTests.Services
             // Arrange
             const string key = "key";
             const string value = "value";
-            
+
             // Act
             _sut.Add(key, value);
-            
+
             var cookieValueFromResponse = _httpContext.GetCookieValueFromResponse(key);
 
             // Assert
             cookieValueFromResponse.Should().NotBeNullOrWhiteSpace().And.Be(value);
         }
-        
+
         [Fact]
         public void Add_CookieHasCorrectOptions()
         {
@@ -49,10 +48,10 @@ namespace ToDo.UnitTests.Services
             const string key = "key";
 
             const string expectedOptions = "Secure; SameSite=None; HttpOnly";
-            
+
             // Act
             _sut.Add(key, "value");
-            
+
             var cookieFromResponse = _httpContext.GetCookieFromResponse(key);
 
             // Assert

@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Http;
-
 namespace ToDo.API.Services
 {
     public interface ICookieService
     {
         /// <summary>
-        /// Add cookie to response
+        ///     Add cookie to response
         /// </summary>
         /// <param name="key">Cookie key</param>
         /// <param name="value">Cookie value</param>

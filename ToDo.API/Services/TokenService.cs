@@ -16,11 +16,11 @@ namespace ToDo.API.Services
         {
             _tokenSettings = tokenSettingsOptions.Value;
         }
-        
+
         public string CreateAccessToken(int userId)
         {
             var secret = _tokenSettings.AccessTokenSecret;
-            
+
             var expiresTime = DateTime.UtcNow.AddMinutes(15);
 
             return CreateToken(userId, expiresTime, secret);
@@ -29,14 +29,14 @@ namespace ToDo.API.Services
         public string CreateRefreshToken(int userId)
         {
             var secret = _tokenSettings.RefreshTokenSecret;
-            
+
             var expiresTime = DateTime.UtcNow.AddDays(14);
 
             return CreateToken(userId, expiresTime, secret);
         }
 
         /// <summary>
-        /// Create Token
+        ///     Create Token
         /// </summary>
         /// <param name="userId">User id</param>
         /// <param name="expiresTime">Expires time</param>
@@ -59,7 +59,7 @@ namespace ToDo.API.Services
                     new SymmetricSecurityKey(key),
                     SecurityAlgorithms.HmacSha512Signature)
             };
-            
+
             var tokenHandler = new JwtSecurityTokenHandler();
 
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);

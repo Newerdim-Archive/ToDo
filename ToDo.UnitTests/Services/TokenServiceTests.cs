@@ -15,11 +15,10 @@ namespace ToDo.UnitTests.Services
 {
     public class TokenServiceTests
     {
+        private readonly TokenService _sut;
         private readonly TokenSettings _tokenSettings;
 
         private readonly Mock<IOptions<TokenSettings>> _tokenSettingsOptionsMock = new();
-
-        private readonly TokenService _sut;
 
         public TokenServiceTests()
         {
@@ -84,7 +83,7 @@ namespace ToDo.UnitTests.Services
         {
             // Arrange
             var expectedExpiresTime = DateTime.UtcNow.AddMinutes(15);
-            
+
             // Act
             var token = _sut.CreateAccessToken(1);
 
@@ -104,54 +103,54 @@ namespace ToDo.UnitTests.Services
         public void CreateRefreshToken_ReturnsToken()
         {
             // Arrange
-            
+
             // Act
             var token = _sut.CreateRefreshToken(1);
 
             // Assert
             token.Should().NotBeNullOrWhiteSpace();
         }
-        
+
         [Fact]
         public void CreateRefreshToken_TokenIsValidJwt()
         {
             // Arrange
-            
+
             // Act
             var token = _sut.CreateRefreshToken(1);
 
             var isTokenValid = IsTokenValid(token, _tokenSettings.RefreshTokenSecret);
-            
+
             // Assert
             isTokenValid.Should().BeTrue();
         }
-        
+
         [Fact]
         public void CreateRefreshToken_TokenContainsUserId()
         {
             // Arrange
             const int userId = 1;
-            
+
             // Act
             var token = _sut.CreateRefreshToken(userId);
 
             var userIdInToken = GetUserIdFromToken(token, _tokenSettings.RefreshTokenSecret);
-            
+
             // Assert
             userIdInToken.Should().Be(userId);
         }
-        
+
         [Fact]
         public void CreateRefreshToken_TokenExpiresIn14Days()
         {
             // Arrange
             var expectedExpiresTime = DateTime.UtcNow.AddDays(14);
-            
+
             // Act
             var token = _sut.CreateRefreshToken(1);
 
-            var expiresTime = GetExpiresTimeFromToken(token, _tokenSettings.RefreshTokenSecret); 
-            
+            var expiresTime = GetExpiresTimeFromToken(token, _tokenSettings.RefreshTokenSecret);
+
             // Assert
             expiresTime.Should().BeCloseTo(expectedExpiresTime, TimeSpan.FromSeconds(5));
         }

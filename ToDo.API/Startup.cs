@@ -13,13 +13,13 @@ namespace ToDo.API
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-        
+
+        public IConfiguration Configuration { get; }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(opt =>
@@ -29,14 +29,14 @@ namespace ToDo.API
             
             services.Configure<TokenSettings>(Configuration.GetSection("TokenSettings"));
             services.AddTransient<ITokenService, TokenService>();
-            
+
             services.AddHttpContextAccessor();
             services.AddTransient<ICookieService, CookieService>();
 
             services.AddTransient<IGoogleJsonWebSignatureWrapper, GoogleJsonWebSignatureWrapper>();
             services.Configure<GoogleAuthSettings>(Configuration.GetSection("GoogleAuthSettings"));
             services.AddTransient<IExternalTokenService, GoogleTokenService>();
-            
+
             services.AddControllers();
         }
 

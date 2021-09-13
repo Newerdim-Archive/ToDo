@@ -7,7 +7,7 @@ namespace ToDo.IntegrationTests.Helpers
     public static class HttpResponseMessageExtensions
     {
         /// <summary>
-        /// Get cookie from http response
+        ///     Get cookie from http response
         /// </summary>
         /// <param name="httpResponseMessage">Http response message</param>
         /// <param name="cookieKey">Cookie key</param>
@@ -18,9 +18,9 @@ namespace ToDo.IntegrationTests.Helpers
 
             return cookies?.FirstOrDefault(x => x.StartsWith(cookieKey));
         }
-        
+
         /// <summary>
-        /// Get cookie value from http response
+        ///     Get cookie value from http response
         /// </summary>
         /// <param name="httpResponseMessage">Http response message</param>
         /// <param name="cookieKey">Cookie key</param>
@@ -28,7 +28,7 @@ namespace ToDo.IntegrationTests.Helpers
         public static string GetCookieValue(this HttpResponseMessage httpResponseMessage, string cookieKey)
         {
             var cookie = httpResponseMessage.GetCookie(cookieKey);
-            
+
             // Cookie looks like this: key=value; path=/; secure; samesite=none; httponly
             // This will get only the value from cookie
             return cookie?.Split(new[] {"=", ";"}, StringSplitOptions.None)[1];
