@@ -8,14 +8,8 @@ using ToDo.API.Data;
 
 namespace ToDo.IntegrationTests.Helpers
 {
-    /// <summary>
-    ///     Custom WebApplicationFactory with in memory db
-    /// </summary>
-    /// <typeparam name="TStartup"></typeparam>
-    [ExcludeFromCodeCoverage]
-    public class CustomWebApplicationFactory<TStartup> :
-        WebApplicationFactory<TStartup>
-        where TStartup : class
+    public class CustomWebApplicationFactory<TEntryPoint> : WebApplicationFactory<TEntryPoint>
+        where TEntryPoint : class
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
@@ -33,6 +27,28 @@ namespace ToDo.IntegrationTests.Helpers
                 {
                     options.UseInMemoryDatabase("InMemoryDbForTesting");
                 });
+                
+                var sp = services.BuildServiceProvider();
+
+                using var scope = sp.CreateScope();
+
+                var scopedServices = scope.ServiceProvider;
+
+                var context = scopedServices.GetRequiredService<DataContext>();
+
+                var isDbCreated = context.Database.EnsureCreated();
+
+                try
+                {
+                    if (isDbCreated)
+                    {
+                        context.SeedUsers();
+                    }
+                }
+                catch
+                {
+                    // ignored
+                }
             });
         }
     }
