@@ -40,6 +40,8 @@ namespace ToDo.API
             services.AddAutoMapper(typeof(MapperProfile));
             services.AddTransient<IUserService, UserService>();
 
+            services.AddTransient<IAuthService, AuthService>();
+
             services.AddControllers();
         }
 
