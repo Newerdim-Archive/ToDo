@@ -1,9 +1,11 @@
 using System.Linq;
 using System.Threading.Tasks;
+using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using ToDo.API.Data;
+using ToDo.API.Dto;
 using ToDo.API.Enum;
 using ToDo.API.Helpers;
 using ToDo.API.Services;
@@ -95,6 +97,30 @@ namespace ToDo.UnitTests.Services
             exists.Should().BeFalse();
         }
         
+        #endregion
+
+        #region CreateAsync
+
+        [Fact]
+        public async Task CreateAsync_ReturnCorrectUser()
+        {
+            // Arrange
+            var createUser = new Fixture().Create<CreateUser>();
+
+            // Act
+            var createdUser = await _sut.CreateAsync(createUser);
+
+            // Assert
+            createdUser.Should().NotBeNull();
+
+            createdUser.Id.Should().Be(3);
+            createdUser.Username.Should().Be(createUser.Username);
+            createdUser.Email.Should().Be(createUser.Email);
+            createdUser.ExternalId.Should().Be(createUser.ExternalId);
+            createdUser.Provider.Should().Be(createUser.Provider);
+            createdUser.ProfilePictureUrl.Should().Be(createUser.ProfilePictureUrl);
+        }
+
         #endregion
     }
 }

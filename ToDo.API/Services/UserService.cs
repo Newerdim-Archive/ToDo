@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -18,7 +19,7 @@ namespace ToDo.API.Services
             _context = context;
             _mapper = mapper;
         }
-        
+
         public async Task<User> GetByExternalIdAsync(string externalId, ExternalAuthProvider provider)
         {
             var userInDb = await _context.Users
@@ -35,6 +36,26 @@ namespace ToDo.API.Services
                 .AsNoTracking()
                 .Where(u => u.Provider == provider)
                 .AnyAsync(u => u.ExternalId == externalId);
+        }
+
+        public async Task<User> CreateAsync(CreateUser user)
+        {
+            var createdUser = new Entities.User
+            {
+                Username = user.Username,
+                Email = user.Email,
+                ExternalId = user.ExternalId,
+                Provider = user.Provider,
+                ProfilePictureUrl = user.ProfilePictureUrl,
+                CreatedAt = DateTimeOffset.UtcNow,
+                UpdatedAt = DateTimeOffset.UtcNow
+            };
+            
+            await _context.Users.AddAsync(createdUser);
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<User>(createdUser);
         }
     }
 }
