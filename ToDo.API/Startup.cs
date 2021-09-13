@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ToDo.API.Data;
+using ToDo.API.Factories;
 using ToDo.API.Helpers;
 using ToDo.API.Services;
 using ToDo.API.Wrappers;
@@ -35,7 +36,10 @@ namespace ToDo.API
 
             services.AddTransient<IGoogleJsonWebSignatureWrapper, GoogleJsonWebSignatureWrapper>();
             services.Configure<GoogleAuthSettings>(Configuration.GetSection("GoogleAuthSettings"));
-            services.AddTransient<IExternalTokenService, GoogleTokenService>();
+            services.AddTransient<GoogleTokenService>();
+            services.AddTransient<IExternalTokenService, GoogleTokenService>(s => s.GetService<GoogleTokenService>());
+            
+            services.AddTransient<IExternalTokenFactory, ExternalTokenFactory>();
             
             services.AddAutoMapper(typeof(MapperProfile));
             services.AddTransient<IUserService, UserService>();
