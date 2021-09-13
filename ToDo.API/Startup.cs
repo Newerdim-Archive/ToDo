@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using ToDo.API.Data;
 using ToDo.API.Helpers;
 using ToDo.API.Services;
+using ToDo.API.Wrappers;
 
 namespace ToDo.API
 {
@@ -31,6 +32,8 @@ namespace ToDo.API
             
             services.AddHttpContextAccessor();
             services.AddTransient<ICookieService, CookieService>();
+
+            services.AddTransient<IGoogleJsonWebSignatureWrapper, GoogleJsonWebSignatureWrapper>();
             
             services.AddControllers();
         }
