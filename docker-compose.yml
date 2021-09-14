@@ -1,8 +1,31 @@
 version: '3.4'
 
+networks:
+  todo-network:
+
 services:
-  todo.api:
-    image: ${DOCKER_REGISTRY-}todoapi
+  todo-api:
+    container_name: todo-api
+    image: ${DOCKER_REGISTRY-}todo-api
     build:
       context: .
       dockerfile: ToDo.API/Dockerfile
+    restart: always
+    depends_on:
+      - todo-db
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - todo-network
+
+  todo-db:
+    container_name: todo-db
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: UltimateSecretPasswordForDb
+    ports:
+      - "5432:5432"
+    networks:
+      - todo-network

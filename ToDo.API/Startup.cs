@@ -1,8 +1,14 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ToDo.API.Data;
+using ToDo.API.Factories;
+using ToDo.API.Helpers;
+using ToDo.API.Services;
+using ToDo.API.Wrappers;
 
 namespace ToDo.API
 {
@@ -15,23 +21,46 @@ namespace ToDo.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataContext>(opt =>
+            {
+                opt.UseNpgsql(Configuration.GetConnectionString("Default"));
+            });
+            
+            services.Configure<TokenSettings>(Configuration.GetSection("TokenSettings"));
+            services.AddTransient<ITokenService, TokenService>();
+
+            services.AddHttpContextAccessor();
+            services.AddTransient<ICookieService, CookieService>();
+
+            services.AddTransient<IGoogleJsonWebSignatureWrapper, GoogleJsonWebSignatureWrapper>();
+            services.Configure<GoogleAuthSettings>(Configuration.GetSection("GoogleAuthSettings"));
+            services.AddTransient<GoogleTokenService>();
+            services.AddTransient<IExternalTokenService, GoogleTokenService>(s => s.GetService<GoogleTokenService>());
+
+            services.AddTransient<IExternalTokenFactory, ExternalTokenFactory>();
+
+            services.AddAutoMapper(typeof(MapperProfile));
+            services.AddTransient<IUserService, UserService>();
+
+            services.AddTransient<IAuthService, AuthService>();
 
             services.AddControllers();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
         {
+            if (context.Database.ProviderName != "Microsoft.EntityFrameworkCore.InMemory")
+            {
+                context.Database.Migrate();
+            }
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
-            app.UseHttpsRedirection();
-
+            
             app.UseRouting();
 
             app.UseAuthorization();
