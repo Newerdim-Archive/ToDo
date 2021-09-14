@@ -266,7 +266,7 @@ namespace ToDo.IntegrationTests.Controllers
             content!.Message.Should().Be(ResponseMessage.ValidationError);
             content.Errors.Should().ContainSingle(x =>
                 x.Property == "Token" &&
-                x.Messages.Contains("'Token' is invalid")
+                x.Messages.Contains("'Token' is required")
             );
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
