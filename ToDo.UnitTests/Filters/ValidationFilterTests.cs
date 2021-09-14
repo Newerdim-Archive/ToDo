@@ -47,9 +47,7 @@ namespace ToDo.UnitTests.Filters
         {
             // Arrange
             const string property = "property";
-            const string validationErrorMessage = "'{0}' is required";
-            
-            const string expectedMessage = "'property' is invalid";
+            const string validationErrorMessage = "'property' is required";
             
             _modelState.AddModelError(property, validationErrorMessage);
 
@@ -67,7 +65,7 @@ namespace ToDo.UnitTests.Filters
             
             content.Errors.Should().ContainSingle(x => 
                 x.Property == property &&
-                x.Messages.Contains(expectedMessage)
+                x.Messages.Contains(validationErrorMessage)
             );
         }
 

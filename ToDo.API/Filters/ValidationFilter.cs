@@ -12,7 +12,7 @@ namespace ToDo.API.Filters
         {
             if (context.ModelState.IsValid)
             {
-                base.OnActionExecuting(context);
+                return;
             }
             
             var errors = context.ModelState.Keys
@@ -31,6 +31,8 @@ namespace ToDo.API.Filters
             };
 
             context.Result = new BadRequestObjectResult(response);
+            
+            base.OnActionExecuting(context);
         }
     }
 }
