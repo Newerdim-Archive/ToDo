@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -8,9 +9,9 @@ using Google.Apis.Auth;
 using Moq;
 using ToDo.API;
 using ToDo.API.Const;
-using ToDo.API.Dto;
 using ToDo.API.Enum;
 using ToDo.API.Models;
+using ToDo.API.Responses;
 using ToDo.API.Wrappers;
 using ToDo.IntegrationTests.Helpers;
 using Xunit;
@@ -58,7 +59,7 @@ namespace ToDo.IntegrationTests.Controllers
             // Act
             var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalSignUp, model);
 
-            var content = await response.Content.ReadFromJsonAsync<ExternalSignUpResponse>();
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<string>>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -90,14 +91,14 @@ namespace ToDo.IntegrationTests.Controllers
             // Act
             var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalSignUp, model);
 
-            var content = await response.Content.ReadFromJsonAsync<ExternalSignUpResponse>();
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<string>>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             content.Should().NotBeNull();
 
-            content!.AccessToken.Should().NotBeNullOrWhiteSpace();
+            content!.Data.Should().NotBeNullOrWhiteSpace();
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
@@ -133,7 +134,7 @@ namespace ToDo.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task ExternalSignUpAsync_TokenIsInvalid_ReturnsBadRequestWithErrorMessage()
+        public async Task ExternalSignUpAsync_TokenIsInvalid_ReturnsBadRequestWithMessageAndErrors()
         {
             // Arrange
             var model = new ExternalSignUpModel
@@ -152,12 +153,18 @@ namespace ToDo.IntegrationTests.Controllers
             // Act
             var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalSignUp, model);
 
-            var errorMessage = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
-            errorMessage.Should().Contain(ResponseMessage.TokenIsInvalid);
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be(ResponseMessage.ValidationError);
+            content.Errors.Should().ContainSingle(x =>
+                x.Property == "Token" &&
+                x.Messages.Contains("'Token' is invalid")
+            );
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
@@ -182,12 +189,18 @@ namespace ToDo.IntegrationTests.Controllers
             // Act
             var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalSignUp, model);
 
-            var errorMessage = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
-            errorMessage.Should().Contain(ResponseMessage.TokenNotHaveProfileInformation);
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be(ResponseMessage.ValidationError);
+            content.Errors.Should().ContainSingle(x =>
+                x.Property == "Token" &&
+                x.Messages.Contains("'Token' does not have profile information")
+            );
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
@@ -215,12 +228,14 @@ namespace ToDo.IntegrationTests.Controllers
             // Act
             var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalSignUp, model);
 
-            var errorMessage = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.Conflict);
 
-            errorMessage.Should().Contain(ResponseMessage.UserAlreadyExists);
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be(ResponseMessage.UserAlreadyExists);
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
@@ -241,12 +256,18 @@ namespace ToDo.IntegrationTests.Controllers
             // Act
             var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalSignUp, model);
 
-            var errorMessage = await response.Content.ReadAsStringAsync();
+            var content = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
-            errorMessage.Should().Contain("Token is required");
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be(ResponseMessage.ValidationError);
+            content.Errors.Should().ContainSingle(x =>
+                x.Property == "Token" &&
+                x.Messages.Contains("'Token' is invalid")
+            );
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
