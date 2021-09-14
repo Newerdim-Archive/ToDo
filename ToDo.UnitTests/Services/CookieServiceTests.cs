@@ -14,7 +14,7 @@ namespace ToDo.UnitTests.Services
 
         public CookieServiceTests()
         {
-            var httpContextAccessorMock = new Mock<IHttpContextAccessor>();
+            var httpContextAccessorMock = new Mock<IHttpContextAccessor>(MockBehavior.Strict);
 
             httpContextAccessorMock
                 .SetupGet(x => x.HttpContext)

@@ -18,8 +18,6 @@ namespace ToDo.UnitTests.Services
         private readonly TokenService _sut;
         private readonly TokenSettings _tokenSettings;
 
-        private readonly Mock<IOptions<TokenSettings>> _tokenSettingsOptionsMock = new();
-
         public TokenServiceTests()
         {
             _tokenSettings = new TokenSettings
@@ -28,11 +26,13 @@ namespace ToDo.UnitTests.Services
                 RefreshTokenSecret = "Test secret for refresh token"
             };
 
-            _tokenSettingsOptionsMock
-                .SetupGet(_ => _.Value)
+            var tokenSettingsOptionsMock = new Mock<IOptions<TokenSettings>>(MockBehavior.Strict);
+            
+            tokenSettingsOptionsMock
+                .SetupGet(x => x.Value)
                 .Returns(_tokenSettings);
 
-            _sut = new TokenService(_tokenSettingsOptionsMock.Object);
+            _sut = new TokenService(tokenSettingsOptionsMock.Object);
         }
 
         #region CreateAccessToken
@@ -91,8 +91,6 @@ namespace ToDo.UnitTests.Services
 
             // Assert
             expiresTime.Should().NotBeNull().And.BeCloseTo(expectedExpiresTime, TimeSpan.FromSeconds(5));
-
-            _tokenSettingsOptionsMock.VerifyAll();
         }
 
         #endregion

@@ -34,7 +34,7 @@ namespace ToDo.UnitTests.Factories
             var googleJsonWebSignatureWrapperMock = new Mock<IGoogleJsonWebSignatureWrapper>();
 
             googleJsonWebSignatureWrapperMock
-                .Setup(_ => _.ValidateAsync(
+                .Setup(x => x.ValidateAsync(
                     It.IsAny<string>(),
                     It.IsAny<GoogleJsonWebSignature.ValidationSettings>())
                 )
@@ -43,7 +43,7 @@ namespace ToDo.UnitTests.Factories
             var googleAuthSettingsOptionsMock = new Mock<IOptions<GoogleAuthSettings>>();
 
             googleAuthSettingsOptionsMock
-                .SetupGet(_ => _.Value)
+                .SetupGet(x => x.Value)
                 .Returns(new GoogleAuthSettings());
 
             return new GoogleTokenService(

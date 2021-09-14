@@ -31,7 +31,7 @@ namespace ToDo.UnitTests.Services
             var googleAuthSettingsOptions = new Mock<IOptions<GoogleAuthSettings>>(MockBehavior.Strict);
 
             googleAuthSettingsOptions
-                .SetupGet(_ => _.Value)
+                .SetupGet(x => x.Value)
                 .Returns(_googleAuthSettings);
 
             _sut = new GoogleTokenService(
@@ -86,7 +86,7 @@ namespace ToDo.UnitTests.Services
         {
             // Arrange
             _googleJsonWebSignatureWrapperMock
-                .Setup(_ => _.ValidateAsync(
+                .Setup(x => x.ValidateAsync(
                     It.IsAny<string>(),
                     It.Is<GoogleJsonWebSignature.ValidationSettings>(
                         s => s.Audience.Contains(_googleAuthSettings.ClientId)
@@ -108,7 +108,7 @@ namespace ToDo.UnitTests.Services
             var googlePayload = new Fixture().Create<GoogleJsonWebSignature.Payload>();
 
             _googleJsonWebSignatureWrapperMock
-                .Setup(_ => _.ValidateAsync(
+                .Setup(x => x.ValidateAsync(
                     It.IsAny<string>(),
                     It.IsAny<GoogleJsonWebSignature.ValidationSettings>()
                 ))

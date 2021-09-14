@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
-using ToDo.API.Data;
 using ToDo.API.Dto;
 using ToDo.API.Enum;
 using ToDo.API.Helpers;
@@ -14,7 +13,6 @@ namespace ToDo.UnitTests.Services
 {
     public class UserServiceTests : IClassFixture<SeededDataFixture>
     {
-        private readonly DataContext _context;
         private readonly UserService _sut;
 
         public UserServiceTests(SeededDataFixture fixture)
@@ -26,9 +24,9 @@ namespace ToDo.UnitTests.Services
 
             var mapper = new Mapper(mapperConfiguration);
 
-            _context = fixture.Context;
+            var context = fixture.Context;
 
-            _sut = new UserService(_context, mapper);
+            _sut = new UserService(context, mapper);
         }
 
         #region GetByExternalIdAsync

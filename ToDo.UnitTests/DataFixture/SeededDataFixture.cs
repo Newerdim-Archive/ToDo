@@ -21,7 +21,7 @@ namespace ToDo.UnitTests.DataFixture
             GC.SuppressFinalize(this);
         }
 
-        public static DataContext CreateNewEmptyDb()
+        private static DataContext CreateNewEmptyDb()
         {
             var options = new DbContextOptionsBuilder<DataContext>()
                 .UseInMemoryDatabase(Guid.NewGuid().ToString())
