@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ToDo.API.Data;
 using ToDo.API.Factories;
+using ToDo.API.Filters;
 using ToDo.API.Helpers;
 using ToDo.API.Services;
 using ToDo.API.Wrappers;
@@ -46,7 +47,10 @@ namespace ToDo.API
 
             services.AddTransient<IAuthService, AuthService>();
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new ValidationFilter());
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
