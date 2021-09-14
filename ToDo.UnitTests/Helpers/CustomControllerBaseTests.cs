@@ -98,6 +98,8 @@ namespace ToDo.UnitTests.Helpers
             // Arrange
             const string property = "property";
             const string validationErrorMessage = "'{0}' is invalid";
+            
+            const string expectedMessage = "'property' is invalid";
 
             // Act
             var result = BadRequest(property, validationErrorMessage);
@@ -110,7 +112,7 @@ namespace ToDo.UnitTests.Helpers
 
             response.Errors.Should().ContainSingle(x =>
                 x.Property == property && 
-                x.Messages.Contains("'property' is invalid")
+                x.Messages.Contains(expectedMessage)
             );
         }
         
