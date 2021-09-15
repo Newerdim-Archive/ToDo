@@ -55,5 +55,14 @@ namespace ToDo.API.Controllers
 
             return Ok(ResponseMessage.SignedUpSuccessfully, accessToken);
         }
+        
+        [AllowAnonymous]
+        [HttpGet("log-out")]
+        public IActionResult LogOut()
+        {
+            _cookieService.Delete(CookieName.RefreshToken);
+            
+            return Ok(ResponseMessage.LoggedOutSuccessfully);
+        }
     }
 }
