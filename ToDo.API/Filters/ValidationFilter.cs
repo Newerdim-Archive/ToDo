@@ -24,14 +24,14 @@ namespace ToDo.API.Filters
                         .Select(e => e.ErrorMessage)
                 });
 
-            var response = new ValidationErrorResponse 
+            var response = new ValidationErrorResponse
             {
                 Message = ResponseMessage.ValidationError,
                 Errors = errors
             };
 
             context.Result = new BadRequestObjectResult(response);
-            
+
             base.OnActionExecuting(context);
         }
     }

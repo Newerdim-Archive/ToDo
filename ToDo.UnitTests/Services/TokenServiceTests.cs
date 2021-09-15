@@ -27,7 +27,7 @@ namespace ToDo.UnitTests.Services
             };
 
             var tokenSettingsOptionsMock = new Mock<IOptions<TokenSettings>>(MockBehavior.Strict);
-            
+
             tokenSettingsOptionsMock
                 .SetupGet(x => x.Value)
                 .Returns(_tokenSettings);

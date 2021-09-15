@@ -18,7 +18,7 @@ namespace ToDo.API.Helpers
                 Message = message
             });
         }
-        
+
         /// <summary>
         ///     Creates <see cref="OkObjectResult" /> with data and message
         /// </summary>
@@ -43,7 +43,7 @@ namespace ToDo.API.Helpers
         {
             return base.Conflict(new BaseResponse
             {
-                Message = message,
+                Message = message
             });
         }
 
@@ -56,7 +56,7 @@ namespace ToDo.API.Helpers
         {
             return base.Unauthorized(new BaseResponse
             {
-                Message = message,
+                Message = message
             });
         }
 
@@ -64,12 +64,12 @@ namespace ToDo.API.Helpers
         ///     Create <see cref="BadRequestObjectResult" /> with validation error
         /// </summary>
         /// <param name="invalidPropertyName">Name of invalid property</param>
-        /// <param name="message">Validation error message from <see cref="ValidationErrorMessage"/></param>
+        /// <param name="message">Validation error message from <see cref="ValidationErrorMessage" /></param>
         /// <returns>Bad request</returns>
         protected BadRequestObjectResult BadRequest(string invalidPropertyName, string message)
         {
             message = string.Format(message, invalidPropertyName);
-            
+
             var errors = new[]
             {
                 new ValidationError
@@ -85,7 +85,7 @@ namespace ToDo.API.Helpers
                 Errors = errors
             });
         }
-        
+
         /// <summary>
         ///     Creates <see cref="NotFoundObjectResult" /> with message
         /// </summary>
@@ -93,9 +93,9 @@ namespace ToDo.API.Helpers
         /// <returns>Not found</returns>
         protected NotFoundObjectResult NotFound(string message)
         {
-            return base.NotFound(new BaseResponse()
+            return base.NotFound(new BaseResponse
             {
-                Message = message,
+                Message = message
             });
         }
     }

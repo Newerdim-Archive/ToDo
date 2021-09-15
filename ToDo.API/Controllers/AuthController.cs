@@ -6,7 +6,6 @@ using ToDo.API.Const;
 using ToDo.API.Enum;
 using ToDo.API.Helpers;
 using ToDo.API.Models;
-using ToDo.API.Responses;
 using ToDo.API.Services;
 
 namespace ToDo.API.Controllers
@@ -55,13 +54,13 @@ namespace ToDo.API.Controllers
 
             return Ok(ResponseMessage.SignedUpSuccessfully, accessToken);
         }
-        
+
         [AllowAnonymous]
         [HttpGet("log-out")]
         public IActionResult LogOut()
         {
             _cookieService.Delete(CookieName.RefreshToken);
-            
+
             return Ok(ResponseMessage.LoggedOutSuccessfully);
         }
     }

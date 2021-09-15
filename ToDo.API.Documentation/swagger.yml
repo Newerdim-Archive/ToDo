@@ -111,4 +111,4 @@ components:
       scheme: bearer
 
 security:
-  - BearerAuth: []
+  - BearerAuth: [ ]

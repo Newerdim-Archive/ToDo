@@ -67,7 +67,7 @@ namespace ToDo.UnitTests.Services
         {
             // Arrange
             const string key = "key";
-            
+
             // Act
             _sut.Delete(key);
 
@@ -84,7 +84,7 @@ namespace ToDo.UnitTests.Services
         {
             // Arrange
             const string key = "key";
-            
+
             const string expectedOptions = "Secure; SameSite=None; HttpOnly";
 
             // Act
@@ -96,7 +96,6 @@ namespace ToDo.UnitTests.Services
             cookieFromResponse.Should()
                 .NotBeNullOrWhiteSpace().And
                 .EndWithEquivalentOf(expectedOptions);
-
         }
 
         #endregion

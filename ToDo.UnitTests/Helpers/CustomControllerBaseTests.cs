@@ -98,7 +98,7 @@ namespace ToDo.UnitTests.Helpers
             // Arrange
             const string property = "property";
             const string validationErrorMessage = "'{0}' is invalid";
-            
+
             const string expectedMessage = "'property' is invalid";
 
             // Act
@@ -111,11 +111,11 @@ namespace ToDo.UnitTests.Helpers
             response!.Message.Should().Be("One or more validation errors occurred");
 
             response.Errors.Should().ContainSingle(x =>
-                x.Property == property && 
+                x.Property == property &&
                 x.Messages.Contains(expectedMessage)
             );
         }
-        
+
         #endregion
 
         #region NotFound

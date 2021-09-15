@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Google.Apis.Auth;
-using Google.Apis.Auth.OAuth2.Requests;
 using Moq;
 using ToDo.API;
 using ToDo.API.Const;
@@ -286,7 +285,7 @@ namespace ToDo.IntegrationTests.Controllers
             var response = await _httpClient.GetAsync(ApiRoute.LogOut);
 
             var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
-            
+
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 

@@ -17,10 +17,10 @@ namespace ToDo.UnitTests.Filters
 {
     public class ValidationFilterTests
     {
-        private readonly ValidationFilter _sut = new();
-        
-        private readonly ModelStateDictionary _modelState = new();
         private readonly ActionExecutingContext _actionExecutingContext;
+
+        private readonly ModelStateDictionary _modelState = new();
+        private readonly ValidationFilter _sut = new();
 
         public ValidationFilterTests()
         {
@@ -32,14 +32,14 @@ namespace ToDo.UnitTests.Filters
                 new ActionDescriptor(),
                 _modelState
             );
-            
+
             _actionExecutingContext = new ActionExecutingContext(
                 actionContext,
                 new List<IFilterMetadata>(),
                 new Dictionary<string, object>(),
                 new Mock<Controller>().Object);
         }
-        
+
         #region OnActionExecuting
 
         [Fact]
@@ -48,22 +48,22 @@ namespace ToDo.UnitTests.Filters
             // Arrange
             const string property = "property";
             const string validationErrorMessage = "'property' is required";
-            
+
             _modelState.AddModelError(property, validationErrorMessage);
 
             //Act
             _sut.OnActionExecuting(_actionExecutingContext);
 
             var result = _actionExecutingContext.Result as BadRequestObjectResult;
-            
+
             var content = result?.Value as ValidationErrorResponse;
 
             //Assert
             content.Should().NotBeNull();
-            
+
             content!.Message.Should().Be(ResponseMessage.ValidationError);
-            
-            content.Errors.Should().ContainSingle(x => 
+
+            content.Errors.Should().ContainSingle(x =>
                 x.Property == property &&
                 x.Messages.Contains(validationErrorMessage)
             );
@@ -73,12 +73,12 @@ namespace ToDo.UnitTests.Filters
         public void OnActionExecuting_ModelStateIsValid_ReturnsNullResult()
         {
             // Arrange
-            
+
             //Act
             _sut.OnActionExecuting(_actionExecutingContext);
 
             var result = _actionExecutingContext.Result;
-            
+
             //Assert
             result.Should().BeNull();
         }
