@@ -14,8 +14,7 @@ services:
     depends_on:
       - todo-db
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
     networks:
       - todo-network
 
@@ -29,3 +28,13 @@ services:
       - "5432:5432"
     networks:
       - todo-network
+
+  todo-api-documentation:
+    container_name: todo-api-documentation
+    image: ${DOCKER_REGISTRY-}todo-api-documentation
+    build:
+      context: .
+      dockerfile: ToDo.API.Documentation/Dockerfile
+    restart: always
+    ports:
+      - "8081:80"
