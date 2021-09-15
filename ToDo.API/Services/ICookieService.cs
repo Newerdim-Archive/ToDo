@@ -8,5 +8,11 @@ namespace ToDo.API.Services
         /// <param name="key">Cookie key</param>
         /// <param name="value">Cookie value</param>
         public void Add(string key, string value);
+
+        /// <summary>
+        ///     Delete cookie
+        /// </summary>
+        /// <param name="key">Cookie key</param>
+        public void Delete(string key);
     }
 }

@@ -22,5 +22,17 @@ namespace ToDo.API.Services
 
             _responseCookies.Append(key, value, cookieOptions);
         }
+
+        public void Delete(string key)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                Secure = true,
+                HttpOnly = true,
+                SameSite = SameSiteMode.None
+            };
+
+            _responseCookies.Delete(key, cookieOptions);
+        }
     }
 }
