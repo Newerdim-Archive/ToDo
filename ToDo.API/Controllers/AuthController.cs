@@ -53,13 +53,16 @@ namespace ToDo.API.Controllers
 
             var accessToken = _tokenService.CreateAccessToken(externalAuthResult.CreatedUser.Id);
 
-            var response = new WithDataResponse<string>
-            {
-                Message = ResponseMessage.SignedUpSuccessfully,
-                Data = accessToken
-            };
-
-            return Ok(response);
+            return Ok(ResponseMessage.SignedUpSuccessfully, accessToken);
+        }
+        
+        [AllowAnonymous]
+        [HttpGet("log-out")]
+        public IActionResult LogOut()
+        {
+            _cookieService.Delete(CookieName.RefreshToken);
+            
+            return Ok(ResponseMessage.LoggedOutSuccessfully);
         }
     }
 }

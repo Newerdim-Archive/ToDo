@@ -1,14 +1,21 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using ToDo.API.Const;
 using ToDo.API.Data;
 using ToDo.API.Factories;
 using ToDo.API.Filters;
 using ToDo.API.Helpers;
+using ToDo.API.Responses;
 using ToDo.API.Services;
 using ToDo.API.Wrappers;
 
@@ -25,11 +32,8 @@ namespace ToDo.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(opt =>
-            {
-                opt.UseNpgsql(Configuration.GetConnectionString("Default"));
-            });
-            
+            services.AddDbContext<DataContext>(opt => { opt.UseNpgsql(Configuration.GetConnectionString("Default")); });
+
             services.Configure<TokenSettings>(Configuration.GetSection("TokenSettings"));
             services.AddTransient<ITokenService, TokenService>();
 
@@ -48,15 +52,42 @@ namespace ToDo.API
 
             services.AddTransient<IAuthService, AuthService>();
 
-            services.AddControllers(options =>
-            {
-                options.Filters.Add(new ValidationFilter());
-            });
-            
-            services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.SuppressModelStateInvalidFilter = true;
-            });
+            var accessTokenSecret = Configuration.GetSection("TokenSettings:AccessTokenSecret").Value;
+            var accessTokenSecretKey = Encoding.UTF8.GetBytes(accessTokenSecret);
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateIssuerSigningKey = true,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(accessTokenSecretKey)
+                    };
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnChallenge = async context =>
+                        {
+                            context.HandleResponse();
+
+                            context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+                            context.Response.ContentType = "application/json";
+
+                            var response = JsonConvert.SerializeObject(new BaseResponse
+                            {
+                                Message = ResponseMessage.Unauthorized
+                            });
+
+                            await context.Response.WriteAsync(response);
+                        }
+                    };
+                });
+
+            services.AddControllers(options => { options.Filters.Add(new ValidationFilter()); });
+
+            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
@@ -65,20 +96,18 @@ namespace ToDo.API
             {
                 context.Database.Migrate();
             }
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            
+
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
         }
     }
 }

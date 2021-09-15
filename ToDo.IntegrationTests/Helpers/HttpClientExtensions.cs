@@ -10,7 +10,7 @@ namespace ToDo.IntegrationTests.Helpers
             client.DefaultRequestHeaders.Add("Cookie", $"{key}={value};");
         }
 
-        public static void AddAccessToken(this HttpClient client, string token)
+        public static void AddAuthenticationToken(this HttpClient client, string token)
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }

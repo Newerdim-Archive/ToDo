@@ -59,5 +59,46 @@ namespace ToDo.UnitTests.Services
         }
 
         #endregion
+
+        #region Delete
+
+        [Fact]
+        public void Delete_AddsExpiredCookieToResponse()
+        {
+            // Arrange
+            const string key = "key";
+            
+            // Act
+            _sut.Delete(key);
+
+            var cookieFromResponse = _httpContext.GetCookieFromResponse(key);
+
+            // Assert
+            cookieFromResponse.Should()
+                .NotBeNullOrWhiteSpace().And
+                .StartWithEquivalentOf("key=; expires=Thu, 01 Jan 1970 00:00:00 GMT;");
+        }
+
+        [Fact]
+        public void Delete_HasCorrectOptions()
+        {
+            // Arrange
+            const string key = "key";
+            
+            const string expectedOptions = "Secure; SameSite=None; HttpOnly";
+
+            // Act
+            _sut.Delete(key);
+
+            var cookieFromResponse = _httpContext.GetCookieFromResponse(key);
+
+            // Assert
+            cookieFromResponse.Should()
+                .NotBeNullOrWhiteSpace().And
+                .EndWithEquivalentOf(expectedOptions);
+
+        }
+
+        #endregion
     }
 }

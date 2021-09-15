@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoFixture;
 using FluentAssertions;
 using Google.Apis.Auth;
+using Google.Apis.Auth.OAuth2.Requests;
 using Moq;
 using ToDo.API;
 using ToDo.API.Const;
@@ -270,6 +271,46 @@ namespace ToDo.IntegrationTests.Controllers
             );
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
+        }
+
+        #endregion
+
+        #region LogOut
+
+        [Fact]
+        public async Task LogOut_ReturnsOkWithMessage()
+        {
+            // Arrange
+
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.LogOut);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+            
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("Logged out successfully");
+        }
+
+        [Fact]
+        public async Task LogOut_AddsExpiredRefreshToken()
+        {
+            // Arrange
+
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.LogOut);
+
+            var refreshToken = response.GetCookie(CookieName.RefreshToken);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            refreshToken.Should()
+                .NotBeNullOrWhiteSpace().And
+                .Be("refresh_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/; secure; samesite=none; httponly");
         }
 
         #endregion
