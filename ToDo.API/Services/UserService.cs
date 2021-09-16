@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using ToDo.API.Data;
 using ToDo.API.Dto;
@@ -13,11 +15,13 @@ namespace ToDo.API.Services
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public UserService(DataContext context, IMapper mapper)
+        public UserService(DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {
             _context = context;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         public async Task<User> GetByExternalIdAsync(string externalId, ExternalAuthProvider provider)
@@ -56,6 +60,25 @@ namespace ToDo.API.Services
             await _context.SaveChangesAsync();
 
             return _mapper.Map<User>(createdUser);
+        }
+
+        public int GetCurrentId()
+        {
+            var nameIdentifier = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            if (nameIdentifier is null)
+            {
+                throw new Exception("Current user does not have 'NameIdentifier'");
+            }
+            
+            var isValidUserId = int.TryParse(nameIdentifier, out var userId);
+
+            if (!isValidUserId)
+            {
+                throw new Exception("Current user does not have 'NameIdentifier' of type int");
+            }
+
+            return userId;
         }
     }
 }
