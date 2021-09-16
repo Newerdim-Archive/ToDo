@@ -14,5 +14,12 @@ namespace ToDo.API.Services
         /// </summary>
         /// <param name="key">Cookie key</param>
         public void Delete(string key);
+
+        /// <summary>
+        ///     Get value from cookie
+        /// </summary>
+        /// <param name="key">Cookie key</param>
+        /// <returns>Cookie value if exists; otherwise, null</returns>
+        public string GetValue(string key);
     }
 }
