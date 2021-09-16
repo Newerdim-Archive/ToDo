@@ -18,6 +18,7 @@ namespace ToDo.IntegrationTests.Helpers
                     Email = "User1@mail.com",
                     ExternalId = "1",
                     Provider = ExternalAuthProvider.Google,
+                    ProfilePictureUrl = "www.example.com/picure/1",
                     CreatedAt = DateTimeOffset.UtcNow,
                     UpdatedAt = DateTimeOffset.UtcNow
                 },
@@ -28,6 +29,7 @@ namespace ToDo.IntegrationTests.Helpers
                     Email = "User2@mail.com",
                     ExternalId = "2",
                     Provider = ExternalAuthProvider.Google,
+                    ProfilePictureUrl = "www.example.com/picure/2",
                     CreatedAt = DateTimeOffset.UtcNow,
                     UpdatedAt = DateTimeOffset.UtcNow
                 }
