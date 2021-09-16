@@ -1,7 +1,12 @@
+using System;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoFixture;
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.AspNetCore.Http;
+using Moq;
 using ToDo.API.Dto;
 using ToDo.API.Enum;
 using ToDo.API.Helpers;
@@ -14,6 +19,7 @@ namespace ToDo.UnitTests.Services
     public class UserServiceTests : IClassFixture<SeededDataFixture>
     {
         private readonly UserService _sut;
+        private readonly HttpContext _httpContext = new DefaultHttpContext();
 
         public UserServiceTests(SeededDataFixture fixture)
         {
@@ -26,7 +32,13 @@ namespace ToDo.UnitTests.Services
 
             var context = fixture.Context;
 
-            _sut = new UserService(context, mapper);
+            var httpContextAccessor = new Mock<IHttpContextAccessor>();
+
+            httpContextAccessor
+                .SetupGet(x => x.HttpContext)
+                .Returns(_httpContext);
+
+            _sut = new UserService(context, mapper, httpContextAccessor.Object);
         }
 
         #region GetByExternalIdAsync
@@ -115,6 +127,63 @@ namespace ToDo.UnitTests.Services
             createdUser.ExternalId.Should().Be(createUser.ExternalId);
             createdUser.Provider.Should().Be(createUser.Provider);
             createdUser.ProfilePictureUrl.Should().Be(createUser.ProfilePictureUrl);
+        }
+
+        #endregion
+
+        #region GetCurrentId
+
+        [Fact]
+        public void GetCurrentId_UserIdExistsAndIsValid_ReturnsUserId()
+        {
+            // Arrange
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, "1")
+            };
+
+            var identity = new ClaimsIdentity(claims);
+
+            _httpContext.User = new ClaimsPrincipal(identity);
+
+            // Act
+            var userId = _sut.GetCurrentId();
+
+            // Assert
+            userId.Should().Be(1);
+        }
+
+        [Fact]
+        public void GetCurrentId_UserIdNotExist_ThrowsException()
+        {
+            // Arrange
+            _httpContext.User = new ClaimsPrincipal();
+
+            // Act
+            Action act = () => _sut.GetCurrentId();
+
+            // Assert
+            act.Should().Throw<Exception>();
+        }
+        
+        [Fact]
+        public void GetCurrentId_UserIdIsNotOfTypeInt_ThrowsException()
+        {
+            // Arrange
+            var claims = new List<Claim>
+            {
+                new(ClaimTypes.NameIdentifier, "invalid")
+            };
+
+            var identity = new ClaimsIdentity(claims);
+
+            _httpContext.User = new ClaimsPrincipal(identity);
+
+            // Act
+            Action act = () => _sut.GetCurrentId();
+
+            // Assert
+            act.Should().Throw<Exception>();
         }
 
         #endregion
