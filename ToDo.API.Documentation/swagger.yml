@@ -55,7 +55,7 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "User already exists"
-  /log-out:
+  /auth/log-out:
     get:
       tags:
         - "Authentication"
@@ -69,7 +69,7 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "Logged out successfully"
-  /external-log-in:
+  /auth/external-log-in:
     post:
       tags:
         - "Authentication"
@@ -113,7 +113,7 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "User not exist"
-  /refresh-tokens:
+  /auth/refresh-tokens:
     get:
       tags:
         - "Authentication"
