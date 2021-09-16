@@ -1,0 +1,196 @@
+openapi: "3.0.2"
+info:
+  title: ToDo API
+  description: Basic ToDo API
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/api/
+    description: Main (development) server
+tags:
+  - name: Authentication
+paths:
+  /auth/external-sign-up:
+    post:
+      tags:
+        - "Authentication"
+      summary: Sign up new user using external provider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExternalSignUpModel"
+            example:
+              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+              provider: "Google"
+      responses:
+        200:
+          description: If request is valid returns 'Ok' with message and access token. Also adds refresh token to cookies
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithDataResponse"
+              example:
+                message: "Signed up successfully"
+                data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        400:
+          description: If request is invalid returns 'Bad Request' with message and errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+              example:
+                message: "One or more validation errors occurred"
+                validationErrors:
+                  - propertyName: "Token"
+                    messages:
+                      - "'Token' is required"
+                      - "'Token' is invalid"
+                      - "'Token' does not have profile information"
+        409:
+          description: If user exists returns 'Conflict' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "User already exists"
+  /log-out:
+    get:
+      tags:
+        - "Authentication"
+      summary: Log out user and remove refresh token from cookies
+      responses:
+        200:
+          description: If logged out successfully returns 'Ok' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "Logged out successfully"
+  /external-log-in:
+    post:
+      tags:
+        - "Authentication"
+      summary: Log in existing user using external provider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExternalLogInModel"
+            example:
+              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+              provider: "Google"
+      responses:
+        200:
+          description: If request is valid returns 'Ok' with message and access token. Also adds refresh token to cookies
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithDataResponse"
+              example:
+                message: "Logged in successfully"
+                data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        400:
+          description: If request is invalid returns 'Bad Request' with message and errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+              example:
+                message: "One or more validation errors occurred"
+                validationErrors:
+                  - propertyName: "Token"
+                    messages:
+                      - "'Token' is required"
+                      - "'Token' is invalid"
+        401:
+          description: If user not exist returns 'Unauthorized' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "User not exist"
+  /refresh-tokens:
+    get:
+      tags:
+        - "Authentication"
+      summary: Refresh access and refresh tokens
+      responses:
+        200:
+          description: If tokens have been refreshed successfully, returns 'Ok' with message access token.
+            Also adds a new refresh token to cookies
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithDataResponse"
+              example:
+                message: "Tokens have been refreshed successfully"
+                data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        401:
+          description: If token is invalid or does not exist, returns 'Unauthorized' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "Refresh token is invalid or expired"
+
+components:
+  schemas:
+    BaseResponse:
+      description: Basic response
+      type: object
+      properties:
+        message:
+          type: string
+
+    WithDataResponse:
+      description: Response with data
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: object
+          nullable: true
+
+    ValidationErrorResponse:
+      description: Validation error response
+      type: object
+      properties:
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              property:
+                type: string
+              messages:
+                type: array
+                items:
+                  type: string
+
+    ExternalSignUpModel:
+      type: object
+      properties:
+        Token:
+          type: string
+          nullable: false
+          description: Valid token from external provider
+        Provider:
+          type: string
+          nullable: false
+          enum:
+            - Google
+
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+security:
+  - BearerAuth: [ ]
