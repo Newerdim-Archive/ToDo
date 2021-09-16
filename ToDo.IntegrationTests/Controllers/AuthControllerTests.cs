@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
 using AutoFixture;
+using AutoFixture.Xunit2;
 using FluentAssertions;
 using Google.Apis.Auth;
 using Moq;
@@ -30,11 +31,6 @@ namespace ToDo.IntegrationTests.Controllers
             var mockedFixture = factory.ReplaceGoogleJsonWebSignatureWrapper(_googleJsonWebSignatureWrapperMock.Object);
 
             _httpClient = mockedFixture.CreateClient();
-        }
-
-        private static GoogleJsonWebSignature.Payload CreateGoogleJsonWebSignaturePayload()
-        {
-            return new Fixture().Create<GoogleJsonWebSignature.Payload>();
         }
 
         #region ExternalSignUpAsync
@@ -313,5 +309,167 @@ namespace ToDo.IntegrationTests.Controllers
         }
 
         #endregion
+
+        #region ExternalLogInAsync
+
+        [Theory, AutoData]
+        public async Task ExternalLogInAsync_ModelIsValid_ReturnsOkWithMessage(ExternalLogInModel model)
+        {
+            // Arrange
+            _googleJsonWebSignatureWrapperMock
+                .Setup(x => x.ValidateAsync(model.Token, It.IsAny<GoogleJsonWebSignature.ValidationSettings>()))
+                .ReturnsAsync(new GoogleJsonWebSignature.Payload
+                {
+                    Subject = "1"
+                });
+
+            // Act
+            var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalLogIn, model);
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<string>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("Logged in successfully");
+
+            _googleJsonWebSignatureWrapperMock.VerifyAll();
+        }
+
+        [Theory, AutoData]
+        public async Task ExternalLogInAsync_InvalidToken_ReturnsBadRequestWithMessageAndError(ExternalLogInModel model)
+        {
+            // Arrange
+            _googleJsonWebSignatureWrapperMock
+                .Setup(x => x.ValidateAsync(model.Token, It.IsAny<GoogleJsonWebSignature.ValidationSettings>()))
+                .ThrowsAsync(new InvalidJwtException(""));
+
+            // Act
+            var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalLogIn, model);
+
+            var content = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("One or more validation errors occurred");
+            content!.Errors.Should().ContainSingle(x =>
+                x.Property == "Token" &&
+                x.Messages.Contains("'Token' is invalid")
+            );
+
+            _googleJsonWebSignatureWrapperMock.VerifyAll();
+        }
+
+        [Theory, AutoData]
+        public async Task ExternalLogInAsync_UserNotExist_ReturnsUnauthorizedWithMessage(ExternalLogInModel model)
+        {
+            // Arrange
+            _googleJsonWebSignatureWrapperMock
+                .Setup(x => x.ValidateAsync(model.Token, It.IsAny<GoogleJsonWebSignature.ValidationSettings>()))
+                .ReturnsAsync(new GoogleJsonWebSignature.Payload
+                {
+                    Subject = "9999"
+                });
+
+            // Act
+            var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalLogIn, model);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("User not exist");
+
+            _googleJsonWebSignatureWrapperMock.VerifyAll();
+        }
+
+        [Theory, AutoData]
+        public async Task ExternalLogInAsync_ModelIsValid_ReturnsAccessToken(ExternalLogInModel model)
+        {
+            // Arrange
+            _googleJsonWebSignatureWrapperMock
+                .Setup(x => x.ValidateAsync(model.Token, It.IsAny<GoogleJsonWebSignature.ValidationSettings>()))
+                .ReturnsAsync(new GoogleJsonWebSignature.Payload
+                {
+                    Subject = "1"
+                });
+
+            // Act
+            var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalLogIn, model);
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<string>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Data.Should().NotBeNullOrWhiteSpace();
+
+            _googleJsonWebSignatureWrapperMock.VerifyAll();
+        }
+
+        [Theory, AutoData]
+        public async Task ExternalLogInAsync_ModelIsValid_ReturnsRefreshTokenInCookie(ExternalLogInModel model)
+        {
+            // Arrange
+            _googleJsonWebSignatureWrapperMock
+                .Setup(x => x.ValidateAsync(model.Token, It.IsAny<GoogleJsonWebSignature.ValidationSettings>()))
+                .ReturnsAsync(new GoogleJsonWebSignature.Payload
+                {
+                    Subject = "1"
+                });
+
+            // Act
+            var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalLogIn, model);
+
+            var refreshToken = response.GetCookie(CookieName.RefreshToken);
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            refreshToken.Should().NotBeNullOrWhiteSpace();
+
+            _googleJsonWebSignatureWrapperMock.VerifyAll();
+        }
+
+        [Fact]
+        public async Task ExternalLogInAsync_ModelIsInvalid_ReturnsBadRequestWithMessageAndError()
+        {
+            // Arrange
+            var model = new ExternalLogInModel();
+
+            // Act
+            var response = await _httpClient.PostAsJsonAsync(ApiRoute.ExternalLogIn, model);
+
+            var content = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("One or more validation errors occurred");
+
+            content.Errors.Should().ContainSingle(x =>
+                    x.Property == "Token" &&
+                    x.Messages.Contains("'Token' is required")
+                );
+        }
+
+        #endregion
+
+        private static GoogleJsonWebSignature.Payload CreateGoogleJsonWebSignaturePayload()
+        {
+            return new Fixture().Create<GoogleJsonWebSignature.Payload>();
+        }
     }
 }

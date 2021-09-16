@@ -63,5 +63,32 @@ namespace ToDo.API.Controllers
 
             return Ok(ResponseMessage.LoggedOutSuccessfully);
         }
+
+        [AllowAnonymous]
+        [HttpPost("external-log-in")]
+        public async Task<IActionResult> ExternalLogInAsync(ExternalLogInModel model)
+        {
+            var externalLogInResult = await _authService.ExternalLogInAsync(model.Token, model.Provider);
+
+            switch (externalLogInResult.Message)
+            {
+                case ExternalLogInResultMessage.LoggedInSuccessfully:
+                    break;
+                case ExternalLogInResultMessage.InvalidToken:
+                    return BadRequest(nameof(model.Token), ValidationErrorMessage.IsInvalid);
+                case ExternalLogInResultMessage.UserNotExist:
+                    return Unauthorized(ResponseMessage.UserNotExist);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(model), externalLogInResult.Message, null);
+            }
+
+            var refreshToken = _tokenService.CreateRefreshToken(externalLogInResult.User.Id);
+            
+            _cookieService.Add(CookieName.RefreshToken, refreshToken);
+            
+            var accessToken = _tokenService.CreateAccessToken(externalLogInResult.User.Id);
+
+            return Ok(ResponseMessage.LoggedInSuccessfully, accessToken);
+        }
     }
 }

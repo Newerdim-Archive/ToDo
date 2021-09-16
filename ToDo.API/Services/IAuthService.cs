@@ -16,5 +16,16 @@ namespace ToDo.API.Services
         ///     <para>User is not null when signed up successfully</para>
         /// </returns>
         public Task<ExternalSignUpResult> ExternalSignUpAsync(string token, ExternalAuthProvider provider);
+
+        /// <summary>
+        ///     Log in using external provider
+        /// </summary>
+        /// <param name="token">Token from external provider</param>
+        /// <param name="provider">External provider</param>
+        /// <returns>
+        ///     Result with message and user
+        ///     <para>User is not null when logged in successfully</para>
+        /// </returns>
+        public Task<ExternalLogInResult> ExternalLogInAsync(string token, ExternalAuthProvider provider);
     }
 }
