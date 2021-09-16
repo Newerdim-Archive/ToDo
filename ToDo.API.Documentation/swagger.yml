@@ -54,6 +54,20 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "User already exists"
+  /log-out:
+    get:
+      tags:
+        - "Authentication"
+      summary: Log out user and remove refresh token from cookies
+      responses: 
+        200:
+          description: If logged out successfully returns 'Ok' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "Logged out successfully"
 
 components:
   schemas:
