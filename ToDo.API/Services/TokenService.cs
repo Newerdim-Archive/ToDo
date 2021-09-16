@@ -1,5 +1,6 @@
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.Extensions.Options;
@@ -33,6 +34,34 @@ namespace ToDo.API.Services
             var expiresTime = DateTime.UtcNow.AddDays(14);
 
             return CreateToken(userId, expiresTime, secret);
+        }
+
+        public int? GetUserIdFromRefreshToken(string token)
+        {
+            var key = Encoding.UTF8.GetBytes(_tokenSettings.RefreshTokenSecret);
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var validationParameters = new TokenValidationParameters
+            {
+                ValidateLifetime = false,
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                IssuerSigningKey = new SymmetricSecurityKey(key)
+            };
+
+            try
+            {
+                var principal = tokenHandler.ValidateToken(token, validationParameters, out _);
+
+                var userId = principal.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
+
+                return Convert.ToInt32(userId);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         /// <summary>
