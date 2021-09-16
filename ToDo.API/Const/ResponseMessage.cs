@@ -12,5 +12,6 @@ namespace ToDo.API.Const
         public const string RefreshedTokensSuccessfully = "Tokens have been refreshed successfully";
         public const string RefreshTokenNotExist = "Refresh token does not exist";
         public const string RefreshTokenIsInvalid = "Refresh token is invalid or expired";
+        public const string GotCurrentProfileSuccessfully = "Got current profile successfully";
     }
 }

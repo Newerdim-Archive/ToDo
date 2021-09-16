@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using ToDo.API.Dto;
 using ToDo.API.Enum;
@@ -28,5 +29,12 @@ namespace ToDo.API.Services
         /// <param name="user">User to create</param>
         /// <returns>Newly created user</returns>
         public Task<User> CreateAsync(CreateUser user);
+
+        /// <summary>
+        ///     Get current user id
+        /// </summary>
+        /// <returns>User id</returns>
+        /// <exception cref="Exception">Throws when current user does not have or has invalid user id</exception>
+        public int GetCurrentId();
     }
 }

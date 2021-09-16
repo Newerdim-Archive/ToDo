@@ -8,6 +8,7 @@ servers:
     description: Main (development) server
 tags:
   - name: Authentication
+  - name: Profile
 paths:
   /auth/external-sign-up:
     post:
@@ -54,7 +55,7 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "User already exists"
-  /log-out:
+  /auth/log-out:
     get:
       tags:
         - "Authentication"
@@ -68,7 +69,7 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "Logged out successfully"
-  /external-log-in:
+  /auth/external-log-in:
     post:
       tags:
         - "Authentication"
@@ -112,7 +113,7 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "User not exist"
-  /refresh-tokens:
+  /auth/refresh-tokens:
     get:
       tags:
         - "Authentication"
@@ -136,6 +137,33 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "Refresh token is invalid or expired"
+                
+  /profile/current:
+    get:
+      tags:
+        - "Profile"
+      summary: Get current profile
+      responses:
+        200:
+          description: If profile exists, returns 'Ok' with message and profile
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithProfileDataResponse"
+              example:
+                message: "Got current profile successfully"
+                data:
+                  username: "User1"
+                  email: "User1@mail.com"
+                  profilePictureUrl: "www.example.com/picture/1"
+        401:
+          description: If profile does not exist (user was deleted), returns 'Unauthorized' with message
+          content: 
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/BaseResponse"
+              example: 
+                message: "User not exist"
 
 components:
   schemas:
@@ -155,6 +183,22 @@ components:
         data:
           type: object
           nullable: true
+          
+    WithProfileDataResponse:
+      description: Response with profile data
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: object
+          properties: 
+            username:
+              type: string
+            email:
+              type: string
+            profilePictureUrl:
+              type: string
 
     ValidationErrorResponse:
       description: Validation error response
