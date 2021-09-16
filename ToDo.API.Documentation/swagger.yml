@@ -46,7 +46,7 @@ paths:
                       - "'Token' is required"
                       - "'Token' is invalid"
                       - "'Token' does not have profile information"
-        401:
+        409:
           description: If user exists returns 'Conflict' with message
           content:
             application/json:
@@ -68,7 +68,51 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "Logged out successfully"
-
+  /external-log-in:
+    post:
+      tags:
+        - "Authentication"
+      summary: Log in existing user using external provider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ExternalLogInModel"
+            example:
+              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+              provider: "Google"
+      responses:
+        200:
+          description: If request is valid returns 'Ok' with message and access token. Also adds refresh token to cookies
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithDataResponse"
+              example:
+                message: "Logged in successfully"
+                data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        400:
+          description: If request is invalid returns 'Bad Request' with message and errors
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+              example:
+                message: "One or more validation errors occurred"
+                validationErrors:
+                  - propertyName: "Token"
+                    messages:
+                      - "'Token' is required"
+                      - "'Token' is invalid"
+        401:
+          description: If user not exist returns 'Unauthorized' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "User not exist"
+  
 components:
   schemas:
     BaseResponse:
