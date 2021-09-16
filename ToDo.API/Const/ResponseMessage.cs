@@ -7,5 +7,7 @@ namespace ToDo.API.Const
         public const string UserAlreadyExists = "User already exists";
         public const string LoggedOutSuccessfully = "Logged out successfully";
         public const string Unauthorized = "You do not have permission. Please, log in first";
+        public const string LoggedInSuccessfully = "Logged in successfully";
+        public const string UserNotExist = "User not exist";
     }
 }
