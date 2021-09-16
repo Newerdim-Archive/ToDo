@@ -6,11 +6,10 @@ namespace ToDo.API.Models
 {
     public class ExternalSignUpModel
     {
-        [Display(Name = "Token")]
         [Required(ErrorMessage = ValidationErrorMessage.IsRequired)]
         public string Token { get; init; }
         
-        [Required]
+        [Required(ErrorMessage = ValidationErrorMessage.IsRequired)]
         public ExternalAuthProvider Provider { get; init; }
     }
 }
