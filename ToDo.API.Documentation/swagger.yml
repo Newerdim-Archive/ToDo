@@ -59,7 +59,7 @@ paths:
       tags:
         - "Authentication"
       summary: Log out user and remove refresh token from cookies
-      responses: 
+      responses:
         200:
           description: If logged out successfully returns 'Ok' with message
           content:
@@ -112,7 +112,31 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "User not exist"
-  
+  /refresh-tokens:
+    get:
+      tags:
+        - "Authentication"
+      summary: Refresh access and refresh tokens
+      responses:
+        200:
+          description: If tokens have been refreshed successfully, returns 'Ok' with message access token.
+            Also adds a new refresh token to cookies
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithDataResponse"
+              example:
+                message: "Tokens have been refreshed successfully"
+                data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+        401:
+          description: If token is invalid or does not exist, returns 'Unauthorized' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "Refresh token is invalid or expired"
+
 components:
   schemas:
     BaseResponse:
