@@ -5,5 +5,6 @@ namespace ToDo.IntegrationTests.Helpers
         public const string ExternalSignUp = "api/auth/external-sign-up";
         public const string LogOut = "api/auth/log-out";
         public const string ExternalLogIn = "api/auth/external-log-in";
+        public const string RefreshTokens = "api/auth/refresh-tokens";
     }
 }

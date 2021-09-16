@@ -1,6 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Net.Http.Headers;
 
 namespace ToDo.UnitTests.TestHelpers
 {
@@ -14,7 +17,7 @@ namespace ToDo.UnitTests.TestHelpers
         /// <returns>Cookie if exists; otherwise, null</returns>
         public static string GetCookieFromResponse(this HttpContext httpContext, string key)
         {
-            httpContext.Response.Headers.TryGetValue("Set-Cookie", out var cookies);
+            httpContext.Response.Headers.TryGetValue(HeaderNames.SetCookie, out var cookies);
 
             return cookies.FirstOrDefault(x => x.StartsWith(key));
         }
@@ -32,6 +35,13 @@ namespace ToDo.UnitTests.TestHelpers
             // Cookie looks like this: key=value; path=/; secure; samesite=none; httponly
             // This will get only the value from cookie
             return cookie?.Split(new[] {"=", ";"}, StringSplitOptions.None)[1];
+        }
+
+        public static void AddCookieToRequest(this HttpContext httpContext, string key, string value)
+        {
+            var cookie = $"{key}={value}";
+            
+            httpContext.Request.Headers.Add(HeaderNames.Cookie, cookie);
         }
     }
 }

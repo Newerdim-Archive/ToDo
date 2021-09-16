@@ -9,10 +9,14 @@ namespace ToDo.UnitTests.Services
 {
     public class CookieServiceTests
     {
-        private readonly HttpContext _httpContext = new DefaultHttpContext();
-        private readonly CookieService _sut;
+        private readonly HttpContext _httpContext;
 
         public CookieServiceTests()
+        {
+            _httpContext = new DefaultHttpContext();
+        }
+
+        private CookieService CreateService()
         {
             var httpContextAccessorMock = new Mock<IHttpContextAccessor>(MockBehavior.Strict);
 
@@ -20,7 +24,7 @@ namespace ToDo.UnitTests.Services
                 .SetupGet(x => x.HttpContext)
                 .Returns(_httpContext);
 
-            _sut = new CookieService(httpContextAccessorMock.Object);
+            return new CookieService(httpContextAccessorMock.Object);
         }
 
         #region Add
@@ -32,8 +36,10 @@ namespace ToDo.UnitTests.Services
             const string key = "key";
             const string value = "value";
 
+            var sut = CreateService();
+
             // Act
-            _sut.Add(key, value);
+            sut.Add(key, value);
 
             var cookieValueFromResponse = _httpContext.GetCookieValueFromResponse(key);
 
@@ -46,11 +52,12 @@ namespace ToDo.UnitTests.Services
         {
             // Arrange
             const string key = "key";
-
             const string expectedOptions = "Secure; SameSite=None; HttpOnly";
 
+            var sut = CreateService();
+
             // Act
-            _sut.Add(key, "value");
+            sut.Add(key, "value");
 
             var cookieFromResponse = _httpContext.GetCookieFromResponse(key);
 
@@ -68,8 +75,10 @@ namespace ToDo.UnitTests.Services
             // Arrange
             const string key = "key";
 
+            var sut = CreateService();
+
             // Act
-            _sut.Delete(key);
+            sut.Delete(key);
 
             var cookieFromResponse = _httpContext.GetCookieFromResponse(key);
 
@@ -84,11 +93,12 @@ namespace ToDo.UnitTests.Services
         {
             // Arrange
             const string key = "key";
-
             const string expectedOptions = "Secure; SameSite=None; HttpOnly";
 
+            var sut = CreateService();
+
             // Act
-            _sut.Delete(key);
+            sut.Delete(key);
 
             var cookieFromResponse = _httpContext.GetCookieFromResponse(key);
 
@@ -96,6 +106,41 @@ namespace ToDo.UnitTests.Services
             cookieFromResponse.Should()
                 .NotBeNullOrWhiteSpace().And
                 .EndWithEquivalentOf(expectedOptions);
+        }
+
+        #endregion
+
+        #region GetValue
+
+        [Fact]
+        public void GetValue_CookieExists_ReturnsCookieValue()
+        {
+            // Arrange
+            const string key = "key";
+            const string value = "value";
+
+            _httpContext.AddCookieToRequest(key, value);
+
+            var sut = CreateService();
+
+            // Act
+            var cookieValue = sut.GetValue(key);
+
+            // Assert
+            cookieValue.Should().Be(value);
+        }
+
+        [Fact]
+        public void GetValue_CookieNotExist_ReturnsNull()
+        {
+            // Arrange
+            var sut = CreateService();
+
+            // Act
+            var cookieValue = sut.GetValue("");
+
+            // Assert
+            cookieValue.Should().BeNull();
         }
 
         #endregion

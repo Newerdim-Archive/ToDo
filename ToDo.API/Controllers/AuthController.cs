@@ -90,5 +90,32 @@ namespace ToDo.API.Controllers
 
             return Ok(ResponseMessage.LoggedInSuccessfully, accessToken);
         }
+
+        [AllowAnonymous]
+        [HttpGet("refresh-tokens")]
+        public IActionResult RefreshTokens()
+        {
+            var refreshToken = _cookieService.GetValue(CookieName.RefreshToken);
+
+            if (refreshToken is null)
+            {
+                return Unauthorized(ResponseMessage.RefreshTokenNotExist);
+            }
+
+            var userIdFromToken = _tokenService.GetUserIdFromRefreshToken(refreshToken);
+
+            if (userIdFromToken is null)
+            {
+                return Unauthorized(ResponseMessage.RefreshTokenIsInvalid);
+            }
+
+            var newRefreshToken = _tokenService.CreateRefreshToken(userIdFromToken.Value);
+            
+            _cookieService.Add(CookieName.RefreshToken, newRefreshToken);
+
+            var accessToken = _tokenService.CreateAccessToken(userIdFromToken.Value);
+
+            return Ok(ResponseMessage.RefreshedTokensSuccessfully, accessToken);
+        }
     }
 }

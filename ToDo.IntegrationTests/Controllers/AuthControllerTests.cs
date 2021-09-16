@@ -467,6 +467,102 @@ namespace ToDo.IntegrationTests.Controllers
 
         #endregion
 
+        #region RefreshTokens
+
+        [Fact]
+        public async Task RefreshTokens_RefreshTokenIsValid_ReturnsOkWithMessage()
+        {
+            // Arrange
+            _httpClient.AddCookie(CookieName.RefreshToken, RefreshToken.Valid);
+            
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<string>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("Tokens have been refreshed successfully");
+        }
+        
+        [Fact]
+        public async Task RefreshTokens_RefreshTokenNotExist_ReturnsUnauthorizedWithMessage()
+        {
+            // Arrange
+            
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("Refresh token does not exist");
+        }
+
+        [Fact]
+        public async Task RefreshTokens_RefreshTokenIsInvalid_ReturnsUnauthorizedWithMessage()
+        {
+            // Arrange
+            _httpClient.AddCookie(CookieName.RefreshToken, RefreshToken.Invalid);
+            
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("Refresh token is invalid or expired");
+        }
+        
+        [Fact]
+        public async Task RefreshTokens_RefreshTokenIsValid_ReturnsNewRefreshTokenInCookies()
+        {
+            // Arrange
+            _httpClient.AddCookie(CookieName.RefreshToken, RefreshToken.Valid);
+            
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
+
+            var newRefreshToken = response.GetCookieValue(CookieName.RefreshToken);
+            
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            newRefreshToken.Should().NotBeNullOrWhiteSpace();
+        }
+        
+        [Fact]
+        public async Task RefreshTokens_RefreshTokenIsValid_ReturnsAccessToken()
+        {
+            // Arrange
+            _httpClient.AddCookie(CookieName.RefreshToken, RefreshToken.Valid);
+            
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<string>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Data.Should().NotBeNullOrWhiteSpace();
+        }
+
+        #endregion
+
         private static GoogleJsonWebSignature.Payload CreateGoogleJsonWebSignaturePayload()
         {
             return new Fixture().Create<GoogleJsonWebSignature.Payload>();

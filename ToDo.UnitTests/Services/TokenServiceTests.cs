@@ -155,6 +155,64 @@ namespace ToDo.UnitTests.Services
 
         #endregion
 
+        #region GetUserIdFromRefreshToken
+
+        [Fact]
+        public void GetUserIdFromRefreshToken_TokenIsValid_ReturnsUserId()
+        {
+            // Arrange
+            const string token =
+                "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiIxIiwibmJmIjoxNjMxNzE4MzY5LCJleHAiOjE3MzE3MTkyNjksImlhdCI6MTYzMTcxODM2OX0.T0R86A_cPKeGbGEdx6PTBTs5GkC2ce_qdUkno3GT6odOie-DRRJmXZJl9XssA-IpGlJC0SXgSJeNia2tL-yriQ";
+
+            // Act
+            var userId = _sut.GetUserIdFromRefreshToken(token);
+
+            // Assert
+            userId.Should().Be(1);
+        }
+
+        [Fact]
+        public void GetUserIdFromRefreshToken_TokenIsInvalid_ReturnsNull()
+        {
+            // Arrange
+
+            // Act
+            var userId = _sut.GetUserIdFromRefreshToken("invalid");
+
+            // Assert
+            userId.Should().BeNull();
+        }
+
+        [Fact]
+        public void GetUserIdFromRefreshToken_TokenNotHaveUserId_ReturnsNull()
+        {
+            // Arrange
+            const string token =
+                "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2MzE3MTgzNjksImV4cCI6MTczMTcxOTI2OSwiaWF0IjoxNjMxNzE4MzY5fQ.qT2e4EEtPVQXsY8i86IBWfctmmDojki6lwsZtm3vkBSp-_Jj0VWywLtkrk-2yl4d3UGCtKRWpw_17EIrzhRGBQ";
+
+            // Act
+            var userId = _sut.GetUserIdFromRefreshToken(token);
+
+            // Assert
+            userId.Should().BeNull();
+        }
+
+        [Fact]
+        public void GetUserIdFromRefreshToken_TokenNotHaveUserIdOfTypeInt_ReturnsNull()
+        {
+            // Arrange
+            const string token =
+                "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJkZGZkZiIsIm5iZiI6MTYzMTcxODM2OSwiZXhwIjoxNzMxNzE5MjY5LCJpYXQiOjE2MzE3MTgzNjl9.7l7NZ2BnsURxnIaM7k_meLGSfMS-2vnpe1I46vCRokYLJmDkvXmf2hott1SjHKj-2dxwQxRTgOckGUdVeiVe4Q";
+
+            // Act
+            var userId = _sut.GetUserIdFromRefreshToken(token);
+
+            // Assert
+            userId.Should().BeNull();
+        }
+
+        #endregion
+
         /// <summary>
         /// Get user id from token
         /// </summary>
@@ -171,7 +229,7 @@ namespace ToDo.UnitTests.Services
             }
 
             var (principal, _) = result.Value;
-            
+
             try
             {
                 var userId = principal.Claims.First(x => x.Type == ClaimTypes.NameIdentifier).Value;
@@ -239,10 +297,10 @@ namespace ToDo.UnitTests.Services
         private static bool IsTokenValid(string token, string secret)
         {
             var result = ValidateToken(token, secret);
-            
+
             return result is not null;
         }
-        
+
         /// <summary>
         /// Get token validation parameters
         /// </summary>
