@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using AutoFixture;
+using AutoFixture.Xunit2;
 using FluentAssertions;
 using Moq;
 using ToDo.API.Dto;
@@ -24,7 +25,7 @@ namespace ToDo.UnitTests.Services
             _sut = new AuthService(_externalTokenFactoryMock.Object, _userService.Object);
         }
 
-        #region ExternalSignUpAsync
+            #region ExternalSignUpAsync
 
         [Fact]
         public async Task ExternalSignUpAsync_TokenIsValid_ReturnsSuccessMessage()
@@ -184,6 +185,105 @@ namespace ToDo.UnitTests.Services
             _externalTokenFactoryMock.VerifyAll();
             _userService.VerifyAll();
         }
+
+        #endregion
+
+        #region ExternalLogInAsync
+
+        [Theory, AutoData]
+        public async Task ExternalLogInAsync_TokenIsValid_ReturnsSuccessfulMessage(
+            ExternalTokenPayload tokenPayload, User user)
+        {
+            // Arrange
+            const string token = "token";
+            const ExternalAuthProvider provider = ExternalAuthProvider.Google;
+
+            _externalTokenFactoryMock
+                .Setup(x => x.ValidateAsync(token, provider))
+                .ReturnsAsync(tokenPayload);
+            
+            _userService
+                .Setup(x => x.GetByExternalIdAsync(tokenPayload.UserId, provider))
+                .ReturnsAsync(user);
+            
+            // Act
+            var result = await _sut.ExternalLogInAsync(token, provider);
+
+            // Assert
+            result.Should().NotBeNull();
+
+            result.Message.Should().Be(ExternalLogInResultMessage.LoggedInSuccessfully);
+        }
+        
+        [Theory, AutoData]
+        public async Task ExternalLogInAsync_TokenIsValid_ReturnsCorrectUser(
+            ExternalTokenPayload tokenPayload, User user)
+        {
+            // Arrange
+            const string token = "token";
+            const ExternalAuthProvider provider = ExternalAuthProvider.Google;
+
+            _externalTokenFactoryMock
+                .Setup(x => x.ValidateAsync(token, provider))
+                .ReturnsAsync(tokenPayload);
+            
+            _userService
+                .Setup(x => x.GetByExternalIdAsync(tokenPayload.UserId, provider))
+                .ReturnsAsync(user);
+            
+            // Act
+            var result = await _sut.ExternalLogInAsync(token, provider);
+
+            // Assert
+            result.Should().NotBeNull();
+
+            result.User.Should().NotBeNull().And.Be(user);
+        }
+        
+        [Fact]
+        public async Task ExternalLogInAsync_TokenIsInvalid_ReturnsInvalidTokenMessage()
+        {
+            // Arrange
+            const string token = "invalid";
+            const ExternalAuthProvider provider = ExternalAuthProvider.Google;
+
+            _externalTokenFactoryMock
+                .Setup(x => x.ValidateAsync(token, provider))
+                .ReturnsAsync((ExternalTokenPayload) null);
+            
+            // Act
+            var result = await _sut.ExternalLogInAsync(token, provider);
+
+            // Assert
+            result.Should().NotBeNull();
+
+            result.Message.Should().Be(ExternalLogInResultMessage.InvalidToken);
+        }
+        
+        [Theory, AutoData]
+        public async Task ExternalLogInAsync_UserNotExist_ReturnsUserNotExistMessage(ExternalTokenPayload tokenPayload)
+        {
+            // Arrange
+            const string token = "invalid";
+            const ExternalAuthProvider provider = ExternalAuthProvider.Google;
+
+            _externalTokenFactoryMock
+                .Setup(x => x.ValidateAsync(token, provider))
+                .ReturnsAsync(tokenPayload);
+
+            _userService
+                .Setup(x => x.GetByExternalIdAsync(tokenPayload.UserId, provider))
+                .ReturnsAsync((User) null);
+            
+            // Act
+            var result = await _sut.ExternalLogInAsync(token, provider);
+
+            // Assert
+            result.Should().NotBeNull();
+
+            result.Message.Should().Be(ExternalLogInResultMessage.UserNotExist);
+        }
+
 
         #endregion
     }

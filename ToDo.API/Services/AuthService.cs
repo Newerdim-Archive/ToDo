@@ -62,5 +62,34 @@ namespace ToDo.API.Services
                 CreatedUser = createdUser
             };
         }
+
+        public async Task<ExternalLogInResult> ExternalLogInAsync(string token, ExternalAuthProvider provider)
+        {
+            var tokenPayload = await _externalTokenFactory.ValidateAsync(token, provider);
+
+            if (tokenPayload is null)
+            {
+                return new ExternalLogInResult
+                {
+                    Message = ExternalLogInResultMessage.InvalidToken
+                };
+            }
+
+            var userInDb = await _userService.GetByExternalIdAsync(tokenPayload.UserId, provider);
+
+            if (userInDb is null)
+            {
+                return new ExternalLogInResult
+                {
+                    Message = ExternalLogInResultMessage.UserNotExist
+                };
+            }
+            
+            return new ExternalLogInResult
+            {
+                Message = ExternalLogInResultMessage.LoggedInSuccessfully,
+                User = userInDb
+            };
+        }
     }
 }
