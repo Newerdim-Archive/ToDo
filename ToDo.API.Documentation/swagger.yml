@@ -170,6 +170,15 @@ paths:
       tags:
         - "To-Do"
       summary: Create new to-do
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateToDoModel"
+            example:
+              title: "Task 1"
+              description: "Description 1"
+              deadline: "2021-05-28T18:57:21.3249529+02:00"
       responses:
         200:
           description: If created successfully, returns 'Ok' with message and to-do
@@ -300,7 +309,6 @@ components:
               profilePictureUrl:
                 type: string
 
-
     ValidationErrorResponse:
       description: Validation error response
       type: object
@@ -331,6 +339,21 @@ components:
           nullable: false
           enum:
             - Google
+
+    CreateToDoModel:
+      type: object
+      properties:
+        title:
+          type: string
+          nullable: false
+          description: Valid token from external provider
+        description:
+          type: string
+          nullable: true
+        deadline:
+          type: string
+          description: Valid date
+          nullable: true
 
   securitySchemes:
     BearerAuth:
