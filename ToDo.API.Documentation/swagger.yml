@@ -9,6 +9,7 @@ servers:
 tags:
   - name: Authentication
   - name: Profile
+  - name: To-Do
 paths:
   /auth/external-sign-up:
     post:
@@ -164,6 +165,34 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example: 
                 message: "User not exist"
+  /todo:
+    post:
+      tags:
+        - "To-Do"
+      summary: Create new to-do
+      responses:
+        200:
+          description: If created successfully, returns 'Ok' with message and to-do
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithToDoDataResponse"
+              example:
+                message: "Created To-Do successfully"
+                data:
+                  id: 1
+                  title: "Task 1"
+                  description: "Description 1"
+                  deadline: "2021-05-28T18:57:21.3249529+02:00"
+                  completed: false
+        401:
+          description: If you are not authenticated, returns 'Unauthorized' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "You do not have permission. Please, log in first"
 
 components:
   schemas:
@@ -192,7 +221,27 @@ components:
           type: string
         data:
           type: object
-          properties: 
+          properties:
+            id: 
+              type: integer
+            title:
+              type: string
+            description:
+              type: string
+            deadline: 
+              type: string
+            completed:
+              type: boolean
+              
+    WithToDoDataResponse:
+      description: Response with to-do data
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: object
+          properties:
             username:
               type: string
             email:
