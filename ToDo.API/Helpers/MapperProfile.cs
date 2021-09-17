@@ -1,5 +1,4 @@
 using AutoMapper;
-using ToDo.API.Entities;
 
 namespace ToDo.API.Helpers
 {
@@ -7,7 +6,8 @@ namespace ToDo.API.Helpers
     {
         public MapperProfile()
         {
-            CreateMap<User, Dto.User>();
+            CreateMap<Entities.User, Dto.User>();
+            CreateMap<Entities.ToDo, Dto.ToDo>();
         }
     }
 }
