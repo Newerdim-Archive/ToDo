@@ -29,28 +29,21 @@ namespace ToDo.UnitTests.Services
 
         #region CreateAsync
 
-        [Fact]
-        public async Task CreateAsync_ReturnsCreatedToDo()
+        [Theory, AutoData]
+        public async Task CreateAsync_ReturnsCreatedToDo(ToDoToCreate toDoToCreate)
         {
             // Arrange
-            var todo = new CreateToDo
-            {
-                UserId = 1,
-                Title = "title",
-                Description = "description",
-                Deadline = DateTimeOffset.UtcNow.AddDays(1)
-            };
-            
+
             // Act
-            var createdToDo = await _sut.CreateAsync(todo);
+            var createdToDo = await _sut.CreateAsync(1, toDoToCreate);
 
             // Assert
             createdToDo.Should().NotBeNull();
 
             createdToDo.Id.Should().Be(2);
-            createdToDo.Title.Should().Be(todo.Title);
-            createdToDo.Description.Should().Be(todo.Description);
-            createdToDo.Deadline.Should().Be(todo.Deadline);
+            createdToDo.Title.Should().Be(toDoToCreate.Title);
+            createdToDo.Description.Should().Be(toDoToCreate.Description);
+            createdToDo.Deadline.Should().Be(toDoToCreate.Deadline);
             createdToDo.Completed.Should().BeFalse();
         }
 

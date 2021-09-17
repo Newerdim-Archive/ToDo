@@ -26,13 +26,16 @@ namespace ToDo.API.Controllers
         [HttpPost("")]
         public async Task<IActionResult> CreateAsync(CreateToDoModel model)
         {
-            var createdToDo = await _toDoService.CreateAsync(new CreateToDo
+            var currentUserId = _userService.GetCurrentId();
+            
+            var toDoToCreate = new ToDoToCreate
             {
-                UserId = _userService.GetCurrentId(),
                 Title = model.Title,
                 Description = model.Description,
                 Deadline = model.Deadline
-            });
+            };
+
+            var createdToDo = await _toDoService.CreateAsync(currentUserId, toDoToCreate);
             
             return Ok(ResponseMessage.CreatedToDoSuccessfully, createdToDo);
         }

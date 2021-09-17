@@ -16,15 +16,15 @@ namespace ToDo.API.Services
             _context = context;
             _mapper = mapper;
         }
-        
-        public async Task<Dto.ToDo> CreateAsync(CreateToDo createToDo)
+
+        public async Task<Dto.ToDo> CreateAsync(int userId, ToDoToCreate toDoToCreate)
         {
             var toDo = new Entities.ToDo
             {
-                UserId = createToDo.UserId,
-                Title = createToDo.Title,
-                Description = createToDo.Description,
-                Deadline = createToDo.Deadline,
+                UserId = userId,
+                Title = toDoToCreate.Title,
+                Description = toDoToCreate.Description,
+                Deadline = toDoToCreate.Deadline,
                 Completed = false,
                 CreatedAt = DateTimeOffset.UtcNow,
                 UpdatedAt = DateTimeOffset.UtcNow

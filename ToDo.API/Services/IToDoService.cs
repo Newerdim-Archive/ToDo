@@ -8,8 +8,9 @@ namespace ToDo.API.Services
         /// <summary>
         ///     Create to-do
         /// </summary>
-        /// <param name="createToDo">To-do</param>
+        /// <param name="userId">User id</param>
+        /// <param name="toDoToCreate">To-do</param>
         /// <returns>Created to-do</returns>
-        public Task<Dto.ToDo> CreateAsync(CreateToDo createToDo);
+        public Task<Dto.ToDo> CreateAsync(int userId, ToDoToCreate toDoToCreate);
     }
 }
