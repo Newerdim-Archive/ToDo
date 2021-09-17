@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -110,6 +111,66 @@ namespace ToDo.IntegrationTests.Controllers
                 x.Property == "Title" &&
                 x.Messages.Contains("'Title' is required")
             );
+        }
+
+        #endregion
+
+        #region GetAllUserTodosAsync
+
+        [Fact]
+        public async Task GetAllUserTodosAsync_IsAuthenticated_ReturnsOkWithMessage()
+        {
+            // Arrange
+            _httpClient.Authenticate();
+            
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.GetAllUserToDos);
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<List<API.Dto.ToDo>>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("Got all user to-do's successfully");
+        }
+        
+        [Fact]
+        public async Task GetAllUserTodosAsync_IsAuthenticated_ReturnsToDos()
+        {
+            // Arrange
+            _httpClient.Authenticate();
+            
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.GetAllUserToDos);
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<List<API.Dto.ToDo>>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Data.Should().HaveCountGreaterThan(0);
+        }
+        
+        [Fact]
+        public async Task GetAllUserTodosAsync_IsNotAuthenticated_ReturnsUnauthorizedWithMessage()
+        {
+            // Arrange
+
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.GetAllUserToDos);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("You do not have permission. Please, log in first");
         }
 
         #endregion

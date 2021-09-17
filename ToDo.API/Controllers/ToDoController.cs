@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +41,16 @@ namespace ToDo.API.Controllers
             var createdToDo = await _toDoService.CreateAsync(currentUserId, toDoToCreate);
             
             return Ok(ResponseMessage.CreatedToDoSuccessfully, createdToDo);
+        }
+
+        [HttpGet("")]
+        public async Task<IActionResult> GetAllUserTodosAsync()
+        {
+            var currentUserId = _userService.GetCurrentId();
+
+            var toDos = await _toDoService.GetAllUserToDosAsync(currentUserId);
+            
+            return Ok(ResponseMessage.GotAllUserToDosSuccessfully, toDos);
         }
     }
 }
