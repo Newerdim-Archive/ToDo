@@ -1,6 +1,10 @@
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using ToDo.API.Data;
 using ToDo.API.Dto;
 
@@ -34,6 +38,16 @@ namespace ToDo.API.Services
             await _context.SaveChangesAsync();
 
             return _mapper.Map<Dto.ToDo>(toDo);
+        }
+
+        public async Task<ICollection<Dto.ToDo>> GetAllUserToDosAsync(int userId)
+        {
+            var toDos = await _context.ToDos
+                .AsNoTracking()
+                .Where(t => t.UserId == userId)
+                .ToListAsync();
+
+            return _mapper.Map<ICollection<Dto.ToDo>>(toDos);
         }
     }
 }
