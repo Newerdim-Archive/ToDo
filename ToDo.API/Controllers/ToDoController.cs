@@ -39,5 +39,15 @@ namespace ToDo.API.Controllers
             
             return Ok(ResponseMessage.CreatedToDoSuccessfully, createdToDo);
         }
+
+        [HttpGet("")]
+        public async Task<IActionResult> GetAllUserTodosAsync()
+        {
+            var currentUserId = _userService.GetCurrentId();
+
+            var toDos = await _toDoService.GetAllUserToDosAsync(currentUserId);
+            
+            return Ok(ResponseMessage.GotAllUserToDosSuccessfully, toDos);
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using ToDo.API.Data;
 using ToDo.API.Entities;
 using ToDo.API.Enum;
@@ -20,7 +21,21 @@ namespace ToDo.IntegrationTests.Helpers
                     Provider = ExternalAuthProvider.Google,
                     ProfilePictureUrl = "www.example.com/picure/1",
                     CreatedAt = DateTimeOffset.UtcNow,
-                    UpdatedAt = DateTimeOffset.UtcNow
+                    UpdatedAt = DateTimeOffset.UtcNow,
+                    ToDos = new List<API.Entities.ToDo>
+                    {
+                        new()
+                        {
+                            Id = 1,
+                            Title = "Task 1",
+                            Description = "Description",
+                            Deadline = DateTimeOffset.UtcNow,
+                            Completed = false,
+                            UserId = 1,
+                            CreatedAt = DateTimeOffset.UtcNow,
+                            UpdatedAt = DateTimeOffset.UtcNow
+                        }
+                    }
                 },
                 new User
                 {
