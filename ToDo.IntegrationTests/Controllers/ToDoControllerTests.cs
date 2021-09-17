@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -60,7 +61,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content!.Message.Should().Be("You do not have permission. Please, log in first");
         }
-        
+
         [Theory, AutoData]
         public async Task CreateAsync_ModelIsValid_ReturnsCreatedToDo(CreateToDoModel model)
         {
@@ -84,6 +85,31 @@ namespace ToDo.IntegrationTests.Controllers
             content.Data.Description.Should().Be(model.Description);
             content.Data.Deadline.Should().Be(model.Deadline);
             content.Data.Completed.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task CreateAsync_ModelIsInvalid_ReturnsBadRequestWithMessageAndError()
+        {
+            // Arrange
+            var model = new CreateToDoModel();
+
+            _httpClient.Authenticate();
+
+            // Act
+            var response = await _httpClient.PostAsJsonAsync(ApiRoute.CreateToDo, model);
+
+            var content = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("One or more validation errors occurred");
+            content.Errors.Should().ContainSingle(x =>
+                x.Property == "Title" &&
+                x.Messages.Contains("'Title' is required")
+            );
         }
 
         #endregion
