@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using AutoMapper;
