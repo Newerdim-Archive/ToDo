@@ -150,7 +150,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WithProfileDataResponse"
+                $ref: "#/components/schemas/WithProfileResponse"
               example:
                 message: "Got current profile successfully"
                 data:
@@ -176,7 +176,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WithToDoDataResponse"
+                $ref: "#/components/schemas/WithToDoResponse"
               example:
                 message: "Created To-Do successfully"
                 data:
@@ -193,6 +193,39 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "You do not have permission. Please, log in first"
+    get:
+      tags:
+        - "To-Do"
+      summary: Get all user to-do's
+      responses:
+        200:
+          description: If got to-do's successfully, returns 'Ok' with message and to-do's
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithToDoListResponse"
+              example:
+                message: "Got all user to-do's successfully"
+                data:
+                  - id: 1
+                    title: "Task 1"
+                    description: "Description 1"
+                    deadline: "2021-05-28T18:57:21.3249529+02:00"
+                    completed: false
+                  - id: 2
+                    title: "Task 2"
+                    description: "Description 2"
+                    deadline: "2021-05-39T18:57:21.3249529+02:00"
+                    completed: true   
+        401:
+          description: If you are not authenticated, returns 'Unauthorized' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "You do not have permission. Please, log in first"              
+                
 
 components:
   schemas:
@@ -213,7 +246,7 @@ components:
           type: object
           nullable: true
           
-    WithProfileDataResponse:
+    WithProfileResponse:
       description: Response with profile data
       type: object
       properties:
@@ -233,7 +266,7 @@ components:
             completed:
               type: boolean
               
-    WithToDoDataResponse:
+    WithToDoResponse:
       description: Response with to-do data
       type: object
       properties:
@@ -248,6 +281,25 @@ components:
               type: string
             profilePictureUrl:
               type: string
+              
+    WithToDoListResponse:
+      description: Response with to-do's list
+      type: object
+      properties:
+        message:
+          type: string
+        data:
+          type: array
+          items: 
+            type: object
+            properties:
+              username:
+                type: string
+              email:
+                type: string
+              profilePictureUrl:
+                type: string
+
 
     ValidationErrorResponse:
       description: Validation error response
