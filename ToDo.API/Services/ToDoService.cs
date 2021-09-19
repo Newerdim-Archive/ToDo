@@ -48,5 +48,15 @@ namespace ToDo.API.Services
 
             return _mapper.Map<ICollection<Dto.ToDo>>(toDos);
         }
+
+        public async Task<Dto.ToDo> GetByIdFromUserAsync(int userId, int id)
+        {
+            var toDo = await _context.ToDos
+                .AsNoTracking()
+                .Where(t => t.UserId == userId)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            return _mapper.Map<Dto.ToDo>(toDo);
+        }
     }
 }

@@ -9,5 +9,6 @@ namespace ToDo.IntegrationTests.Helpers
         public const string GetCurrentProfile = "api/profile/current";
         public const string CreateToDo = "api/todo";
         public const string GetAllUserToDos = "api/todo";
+        public const string GetByIdFromUser = "api/todo/";
     }
 }

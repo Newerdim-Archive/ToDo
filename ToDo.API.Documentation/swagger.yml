@@ -138,7 +138,7 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "Refresh token is invalid or expired"
-                
+
   /profile/current:
     get:
       tags:
@@ -159,11 +159,11 @@ paths:
                   profilePictureUrl: "www.example.com/picture/1"
         401:
           description: If profile does not exist (user was deleted), returns 'Unauthorized' with message
-          content: 
+          content:
             application/json:
-              schema: 
+              schema:
                 $ref: "#/components/schemas/BaseResponse"
-              example: 
+              example:
                 message: "User not exist"
   /todo:
     post:
@@ -225,7 +225,7 @@ paths:
                     title: "Task 2"
                     description: "Description 2"
                     deadline: "2021-05-39T18:57:21.3249529+02:00"
-                    completed: true   
+                    completed: true
         401:
           description: If you are not authenticated, returns 'Unauthorized' with message
           content:
@@ -233,9 +233,43 @@ paths:
               schema:
                 $ref: "#/components/schemas/BaseResponse"
               example:
-                message: "You do not have permission. Please, log in first"              
-                
-
+                message: "You do not have permission. Please, log in first"
+  /todo/{id}:
+    get:
+      tags:
+        - "To-Do"
+      summary: Get to-do by id
+      responses:
+        200:
+          description: If got to-do successfully, returns 'Ok' with message and to-do
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WithToDoListResponse"
+              example:
+                message: "Got to-do successfully"
+                data:
+                  - id: 1
+                    title: "Task 1"
+                    description: "Description 1"
+                    deadline: "2021-05-28T18:57:21.3249529+02:00"
+                    completed: false
+        404:
+          description: If the to-do does not exist, returns 'Not Found' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "Resource not found"
+        401:
+          description: If you are not authenticated, returns 'Unauthorized' with message
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BaseResponse"
+              example:
+                message: "You do not have permission. Please, log in first"
 components:
   schemas:
     BaseResponse:
@@ -254,7 +288,7 @@ components:
         data:
           type: object
           nullable: true
-          
+
     WithProfileResponse:
       description: Response with profile data
       type: object
@@ -264,17 +298,17 @@ components:
         data:
           type: object
           properties:
-            id: 
+            id:
               type: integer
             title:
               type: string
             description:
               type: string
-            deadline: 
+            deadline:
               type: string
             completed:
               type: boolean
-              
+
     WithToDoResponse:
       description: Response with to-do data
       type: object
@@ -290,7 +324,7 @@ components:
               type: string
             profilePictureUrl:
               type: string
-              
+
     WithToDoListResponse:
       description: Response with to-do's list
       type: object
@@ -299,7 +333,7 @@ components:
           type: string
         data:
           type: array
-          items: 
+          items:
             type: object
             properties:
               username:

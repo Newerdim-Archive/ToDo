@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using FluentAssertions;
 using ToDo.API;
+using ToDo.API.Const;
 using ToDo.API.Models;
 using ToDo.API.Responses;
 using ToDo.IntegrationTests.Helpers;
@@ -122,7 +123,7 @@ namespace ToDo.IntegrationTests.Controllers
         {
             // Arrange
             _httpClient.Authenticate();
-            
+
             // Act
             var response = await _httpClient.GetAsync(ApiRoute.GetAllUserToDos);
 
@@ -135,13 +136,13 @@ namespace ToDo.IntegrationTests.Controllers
 
             content!.Message.Should().Be("Got all user to-do's successfully");
         }
-        
+
         [Fact]
         public async Task GetAllUserTodosAsync_IsAuthenticated_ReturnsToDos()
         {
             // Arrange
             _httpClient.Authenticate();
-            
+
             // Act
             var response = await _httpClient.GetAsync(ApiRoute.GetAllUserToDos);
 
@@ -154,7 +155,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content!.Data.Should().HaveCountGreaterThan(0);
         }
-        
+
         [Fact]
         public async Task GetAllUserTodosAsync_IsNotAuthenticated_ReturnsUnauthorizedWithMessage()
         {
@@ -171,6 +172,85 @@ namespace ToDo.IntegrationTests.Controllers
             content.Should().NotBeNull();
 
             content!.Message.Should().Be("You do not have permission. Please, log in first");
+        }
+
+        #endregion
+
+        #region GetByIdFromUserAsync
+
+        [Fact]
+        public async Task GetByIdFromUserAsync_Exists_ReturnsOkWithMessage()
+        {
+            // Arrange
+            _httpClient.Authenticate();
+
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.GetByIdFromUser + "1");
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<API.Dto.ToDo>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+            content!.Message.Should().Be("Got to-do successfully");
+        }
+
+        [Fact]
+        public async Task GetByIdFromUserAsync_Exists_ReturnsCorrectToDo()
+        {
+            // Arrange
+            const int id = 1;
+
+            _httpClient.Authenticate();
+
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.GetByIdFromUser + id);
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<API.Dto.ToDo>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Data.Should().NotBeNull();
+            content.Data.Id.Should().Be(id);
+        }
+
+        [Fact]
+        public async Task GetByIdFromUserAsync_NotExist_ReturnsNotFoundWithMessage()
+        {
+            // Arrange
+            _httpClient.Authenticate();
+
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.GetByIdFromUser + "99");
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            content.Should().NotBeNull();
+            content!.Message.Should().Be("Resource not found");
+        }
+
+        [Fact]
+        public async Task GetByIdFromUserAsync_NotAuthenticated_ReturnsUnauthorizedWithMessage()
+        {
+            // Arrange
+
+            // Act
+            var response = await _httpClient.GetAsync(ApiRoute.GetByIdFromUser + "1");
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+            content.Should().NotBeNull();
+            content!.Message.Should().Be(ResponseMessage.Unauthorized);
         }
 
         #endregion
