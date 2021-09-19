@@ -1,0 +1,19 @@
+get:
+  tags:
+    - "Profile"
+  summary: Get the current profile
+  responses:
+    200:
+      description: If the profile exists, returns 'Ok' with a message and a profile
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/profile/WithProfile.yml"
+    401:
+      description: If the profile does not exist (user was deleted), returns 'Unauthorized' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/Unauthorized.yml"
+          example:
+            message: "User not exist"

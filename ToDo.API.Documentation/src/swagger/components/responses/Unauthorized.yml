@@ -1,0 +1,5 @@
+description: If you are not authenticated, returns 'Unauthorized' with a message
+content:
+  application/json:
+    schema:
+      $ref: "../schemas/responses/Unauthorized.yml"
