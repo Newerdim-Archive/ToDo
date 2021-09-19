@@ -56,7 +56,7 @@ namespace ToDo.API.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("log-out")]
+        [HttpPost("log-out")]
         public IActionResult LogOut()
         {
             _cookieService.Delete(CookieName.RefreshToken);
