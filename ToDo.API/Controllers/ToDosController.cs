@@ -12,12 +12,12 @@ namespace ToDo.API.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class ToDoController : CustomControllerBase
+    public class ToDosController : CustomControllerBase
     {
         private readonly IUserService _userService;
         private readonly IToDoService _toDoService;
 
-        public ToDoController(IUserService userService, IToDoService toDoService)
+        public ToDosController(IUserService userService, IToDoService toDoService)
         {
             _userService = userService;
             _toDoService = toDoService;

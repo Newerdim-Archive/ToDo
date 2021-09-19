@@ -15,11 +15,11 @@ using Xunit;
 
 namespace ToDo.IntegrationTests.Controllers
 {
-    public class ToDoControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class ToDosControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
 
-        public ToDoControllerTests(CustomWebApplicationFactory<Startup> factory)
+        public ToDosControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             _httpClient = factory.CreateClient();
         }

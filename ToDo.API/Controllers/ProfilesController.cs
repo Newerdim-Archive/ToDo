@@ -10,12 +10,12 @@ namespace ToDo.API.Controllers
     [Route("api/[controller]")]
     [Authorize]
     [ApiController]
-    public class ProfileController : CustomControllerBase
+    public class ProfilesController : CustomControllerBase
     {
         private readonly IUserService _userService;
         private readonly IProfileService _profileService;
 
-        public ProfileController(IUserService userService, IProfileService profileService)
+        public ProfilesController(IUserService userService, IProfileService profileService)
         {
             _userService = userService;
             _profileService = profileService;
