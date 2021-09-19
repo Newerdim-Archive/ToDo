@@ -11,11 +11,11 @@ using Xunit;
 
 namespace ToDo.IntegrationTests.Controllers
 {
-    public class ProfileControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
+    public class ProfilesControllerTests : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly HttpClient _httpClient;
 
-        public ProfileControllerTests(CustomWebApplicationFactory<Startup> factory)
+        public ProfilesControllerTests(CustomWebApplicationFactory<Startup> factory)
         {
             _httpClient = factory.CreateClient();
         }

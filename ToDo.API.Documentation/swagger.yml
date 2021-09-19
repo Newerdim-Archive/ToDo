@@ -139,7 +139,7 @@ paths:
               example:
                 message: "Refresh token is invalid or expired"
 
-  /profile/current:
+  /profiles/current:
     get:
       tags:
         - "Profile"
@@ -165,7 +165,7 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "User not exist"
-  /todo:
+  /todos:
     post:
       tags:
         - "To-Do"
@@ -234,7 +234,7 @@ paths:
                 $ref: "#/components/schemas/BaseResponse"
               example:
                 message: "You do not have permission. Please, log in first"
-  /todo/{id}:
+  /todos/{id}:
     get:
       tags:
         - "To-Do"
