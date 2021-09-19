@@ -22,7 +22,7 @@ namespace ToDo.UnitTests.Services
             });
 
             var mapper = new Mapper(mapperConfiguration);
-            
+
             _sut = new ToDoService(fixture.Context, mapper);
         }
 
@@ -46,7 +46,6 @@ namespace ToDo.UnitTests.Services
             createdToDo.Completed.Should().BeFalse();
         }
 
-
         #endregion
 
         #region GetAllUserToDosAsync
@@ -55,7 +54,7 @@ namespace ToDo.UnitTests.Services
         public async Task GetAllUserToDosAsync_ToDosExist_ReturnsToDos()
         {
             // Arrange
-            
+
             // Act
             var toDos = await _sut.GetAllUserToDosAsync(1);
 
@@ -67,12 +66,53 @@ namespace ToDo.UnitTests.Services
         public async Task GetAllUserToDosAsync_ToDosNotExist_ReturnsEmptyList()
         {
             // Arrange
-            
+
             // Act
             var toDos = await _sut.GetAllUserToDosAsync(2);
 
             // Assert
             toDos.Should().NotBeNull().And.HaveCount(0);
+        }
+
+        #endregion
+
+        #region GetByIdFromUserAsync
+
+        [Fact]
+        public async Task GetByIdFromUserAsync_Exists_ReturnsToDo()
+        {
+            // Arrange
+
+            // Act
+            var toDo = await _sut.GetByIdFromUserAsync(1, 1);
+
+            // Assert
+            toDo.Should().NotBeNull();
+            toDo.Id.Should().Be(1);
+        }
+
+        [Fact]
+        public async Task GetByIdFromUserAsync_NotExist_ReturnsNull()
+        {
+            // Arrange
+
+            // Act
+            var toDo = await _sut.GetByIdFromUserAsync(1, 99);
+
+            // Assert
+            toDo.Should().BeNull();
+        }
+
+        [Fact]
+        public async Task GetByIdFromUserAsync_ExistsButWithDifferentUserId_ReturnsNull()
+        {
+            // Arrange
+
+            // Act
+            var toDo = await _sut.GetByIdFromUserAsync(2, 1);
+
+            // Assert
+            toDo.Should().BeNull();
         }
 
         #endregion
