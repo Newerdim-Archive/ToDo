@@ -1,398 +1,380 @@
-openapi: "3.0.2"
+openapi: 3.0.2
 info:
   title: ToDo API
-  description: Basic ToDo API
-  version: "1.0"
+  version: '1.0'
 servers:
-  - url: http://localhost:8080/api/
+  - url: 'http://localhost:8080/api/'
     description: Main (development) server
 tags:
   - name: Authentication
   - name: Profile
   - name: To-Do
 paths:
-  /auth/external-sign-up:
-    post:
-      tags:
-        - "Authentication"
-      summary: Sign up new user using external provider
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/ExternalSignUpModel"
-            example:
-              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-              provider: "Google"
-      responses:
-        200:
-          description: If request is valid returns 'Ok' with message and access token. Also adds refresh token to cookies
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/WithDataResponse"
-              example:
-                message: "Signed up successfully"
-                data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-        400:
-          description: If request is invalid returns 'Bad Request' with message and errors
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ValidationErrorResponse"
-              example:
-                message: "One or more validation errors occurred"
-                validationErrors:
-                  - propertyName: "Token"
-                    messages:
-                      - "'Token' is required"
-                      - "'Token' is invalid"
-                      - "'Token' does not have profile information"
-        409:
-          description: If user exists returns 'Conflict' with message
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseResponse"
-              example:
-                message: "User already exists"
-  /auth/log-out:
-    get:
-      tags:
-        - "Authentication"
-      summary: Log out user and remove refresh token from cookies
-      responses:
-        200:
-          description: If logged out successfully returns 'Ok' with message
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseResponse"
-              example:
-                message: "Logged out successfully"
   /auth/external-log-in:
     post:
       tags:
-        - "Authentication"
-      summary: Log in existing user using external provider
+        - Authentication
+      summary: Logs the existing user in with an external provider
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ExternalLogInModel"
-            example:
-              token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-              provider: "Google"
+              type: object
+              required:
+                - token
+                - provider
+              properties:
+                token:
+                  type: string
+                  description: Valid token from external provider
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                provider:
+                  type: string
+                  enum:
+                    - Google
+                  example: Google
       responses:
-        200:
-          description: If request is valid returns 'Ok' with message and access token. Also adds refresh token to cookies
+        '200':
+          description: 'If the request is valid, returns ''Ok'' with a message and an access token. Also adds a refresh token to the cookies'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WithDataResponse"
+                $ref: '#/paths/~1auth~1refresh-tokens/get/responses/200/content/application~1json/schema'
               example:
-                message: "Logged in successfully"
-                data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-        400:
-          description: If request is invalid returns 'Bad Request' with message and errors
+                message: Logged in successfully
+                data: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        '400':
+          description: 'If request is invalid, returns ''Bad Request'' with message and errors'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/ValidationErrorResponse"
-              example:
-                message: "One or more validation errors occurred"
-                validationErrors:
-                  - propertyName: "Token"
-                    messages:
-                      - "'Token' is required"
-                      - "'Token' is invalid"
-        401:
-          description: If user not exist returns 'Unauthorized' with message
+                description: Bad request with validation errors
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                  errors:
+                    type: array
+                    nullable: false
+                    items:
+                      type: object
+                      nullable: false
+                      properties:
+                        property:
+                          type: string
+                          nullable: false
+                        messages:
+                          type: array
+                          nullable: false
+                          items:
+                            type: string
+                            nullable: false
+                example:
+                  message: One or more validation errors occurred
+                  errors:
+                    - propertyName: Property 1
+                      messages:
+                        - '''Property 1'' is required'
+                    - propertyName: Property 2
+                      messages:
+                        - '''Property 2'' is invalid'
+        '401':
+          description: 'If the user does not exist, returns ''Unauthorized'' with a message'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BaseResponse"
+                $ref: '#/paths/~1profiles~1current/get/responses/401/content/application~1json/schema'
               example:
-                message: "User not exist"
+                message: User not exist
+  /auth/external-sign-up:
+    post:
+      tags:
+        - Authentication
+      summary: Signs a new user up with an external provider
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - token
+                - provider
+              properties:
+                token:
+                  type: string
+                  description: Valid token from external provider
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+                provider:
+                  type: string
+                  enum:
+                    - Google
+                  example: Google
+      responses:
+        '200':
+          description: 'If request is valid, returns ''Ok'' with a message and an access token. Also adds refresh token to cookies'
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1auth~1refresh-tokens/get/responses/200/content/application~1json/schema'
+              example:
+                message: Signed up successfully
+                data: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        '400':
+          $ref: '#/paths/~1auth~1external-log-in/post/responses/400'
+        '409':
+          description: 'If user already exists, returns ''Conflict'' with a message'
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1auth~1log-out/post/responses/200/content/application~1json/schema'
+              example:
+                message: User already exists
+  /auth/log-out:
+    post:
+      tags:
+        - Authentication
+      summary: Logs the user out and removes the refresh token from cookies
+      responses:
+        '200':
+          description: 'If logged out successfully, returns ''Ok'' with a message'
+          content:
+            application/json:
+              schema:
+                description: Base response with a message
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: Created resource successfully
+              example:
+                message: Logged out successfully
   /auth/refresh-tokens:
     get:
       tags:
-        - "Authentication"
-      summary: Refresh access and refresh tokens
+        - Authentication
+      summary: Refreshes the access token and the refresh token
       responses:
-        200:
-          description: If tokens have been refreshed successfully, returns 'Ok' with message access token.
-            Also adds a new refresh token to cookies
+        '200':
+          description: 'If tokens have been refreshed successfully, returns ''Ok'' with a message and a new access token. Also adds a new refresh token to cookies'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WithDataResponse"
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                  data:
+                    type: object
+                    nullable: true
               example:
-                message: "Tokens have been refreshed successfully"
-                data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
-        401:
-          description: If token is invalid or does not exist, returns 'Unauthorized' with message
+                message: Tokens have been refreshed successfully
+                data: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+        '401':
+          description: 'If the refresh token is invalid, expired or does not exist, returns ''Unauthorized'' with a message'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BaseResponse"
+                $ref: '#/paths/~1profiles~1current/get/responses/401/content/application~1json/schema'
               example:
-                message: "Refresh token is invalid or expired"
-
+                message: Refresh token is invalid or expired
   /profiles/current:
     get:
       tags:
-        - "Profile"
-      summary: Get current profile
+        - Profile
+      summary: Get the current profile
       responses:
-        200:
-          description: If profile exists, returns 'Ok' with message and profile
+        '200':
+          description: 'If the profile exists, returns ''Ok'' with a message and a profile'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/WithProfileResponse"
-              example:
-                message: "Got current profile successfully"
-                data:
-                  username: "User1"
-                  email: "User1@mail.com"
-                  profilePictureUrl: "www.example.com/picture/1"
-        401:
-          description: If profile does not exist (user was deleted), returns 'Unauthorized' with message
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                  data:
+                    type: object
+                    nullable: true
+                    properties:
+                      username:
+                        type: string
+                        nullable: false
+                      email:
+                        type: string
+                        nullable: false
+                      profilePictureUrl:
+                        type: string
+                        nullable: false
+                example:
+                  message: Got current profile successfully
+                  data:
+                    username: User1
+                    email: User1@mail.com
+                    profilePictureUrl: www.example.com/picture/1
+        '401':
+          description: 'If the profile does not exist (user was deleted), returns ''Unauthorized'' with a message'
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BaseResponse"
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                example:
+                  message: 'You do not have permission. Please, log in first'
               example:
-                message: "User not exist"
+                message: User not exist
   /todos:
     post:
       tags:
-        - "To-Do"
-      summary: Create new to-do
+        - To-Do
+      summary: Create a new to-do
+      security:
+        - BearerAuth: []
       requestBody:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CreateToDoModel"
-            example:
-              title: "Task 1"
-              description: "Description 1"
-              deadline: "2021-05-28T18:57:21.3249529+02:00"
-      responses:
-        200:
-          description: If created successfully, returns 'Ok' with message and to-do
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/WithToDoResponse"
-              example:
-                message: "Created To-Do successfully"
-                data:
-                  id: 1
-                  title: "Task 1"
-                  description: "Description 1"
-                  deadline: "2021-05-28T18:57:21.3249529+02:00"
-                  completed: false
-        401:
-          description: If you are not authenticated, returns 'Unauthorized' with message
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseResponse"
-              example:
-                message: "You do not have permission. Please, log in first"
-    get:
-      tags:
-        - "To-Do"
-      summary: Get all user to-do's
-      responses:
-        200:
-          description: If got to-do's successfully, returns 'Ok' with message and to-do's
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/WithToDoListResponse"
-              example:
-                message: "Got all user to-do's successfully"
-                data:
-                  - id: 1
-                    title: "Task 1"
-                    description: "Description 1"
-                    deadline: "2021-05-28T18:57:21.3249529+02:00"
-                    completed: false
-                  - id: 2
-                    title: "Task 2"
-                    description: "Description 2"
-                    deadline: "2021-05-39T18:57:21.3249529+02:00"
-                    completed: true
-        401:
-          description: If you are not authenticated, returns 'Unauthorized' with message
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseResponse"
-              example:
-                message: "You do not have permission. Please, log in first"
-  /todos/{id}:
-    get:
-      tags:
-        - "To-Do"
-      summary: Get to-do by id
-      responses:
-        200:
-          description: If got to-do successfully, returns 'Ok' with message and to-do
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/WithToDoListResponse"
-              example:
-                message: "Got to-do successfully"
-                data:
-                  - id: 1
-                    title: "Task 1"
-                    description: "Description 1"
-                    deadline: "2021-05-28T18:57:21.3249529+02:00"
-                    completed: false
-        404:
-          description: If the to-do does not exist, returns 'Not Found' with message
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseResponse"
-              example:
-                message: "Resource not found"
-        401:
-          description: If you are not authenticated, returns 'Unauthorized' with message
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/BaseResponse"
-              example:
-                message: "You do not have permission. Please, log in first"
-components:
-  schemas:
-    BaseResponse:
-      description: Basic response
-      type: object
-      properties:
-        message:
-          type: string
-
-    WithDataResponse:
-      description: Response with data
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          type: object
-          nullable: true
-
-    WithProfileResponse:
-      description: Response with profile data
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            id:
-              type: integer
-            title:
-              type: string
-            description:
-              type: string
-            deadline:
-              type: string
-            completed:
-              type: boolean
-
-    WithToDoResponse:
-      description: Response with to-do data
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            username:
-              type: string
-            email:
-              type: string
-            profilePictureUrl:
-              type: string
-
-    WithToDoListResponse:
-      description: Response with to-do's list
-      type: object
-      properties:
-        message:
-          type: string
-        data:
-          type: array
-          items:
-            type: object
-            properties:
-              username:
-                type: string
-              email:
-                type: string
-              profilePictureUrl:
-                type: string
-
-    ValidationErrorResponse:
-      description: Validation error response
-      type: object
-      properties:
-        message:
-          type: string
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              property:
-                type: string
-              messages:
-                type: array
-                items:
+              type: object
+              required:
+                - title
+              properties:
+                title:
                   type: string
-
-    ExternalSignUpModel:
-      type: object
-      properties:
-        Token:
-          type: string
-          nullable: false
-          description: Valid token from external provider
-        Provider:
-          type: string
-          nullable: false
-          enum:
-            - Google
-
-    CreateToDoModel:
-      type: object
-      properties:
-        title:
-          type: string
-          nullable: false
-          description: Valid token from external provider
-        description:
-          type: string
-          nullable: true
-        deadline:
-          type: string
-          description: Valid date
-          nullable: true
-
+                description:
+                  type: string
+                deadline:
+                  type: string
+                  description: Date
+              example:
+                title: Task 1
+                description: Description 1
+                deadline: '2021-05-28T18:57:21.3249529+02:00'
+      responses:
+        '200':
+          description: 'If created a to-do successfully, returns ''Ok'' with a message and a to-do'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                        nullable: false
+                      title:
+                        type: string
+                        nullable: false
+                      description:
+                        type: string
+                        nullable: true
+                      deadline:
+                        type: string
+                        description: Date
+                        nullable: true
+                      completed:
+                        type: boolean
+                        nullable: false
+                example:
+                  message: Got to-do successfully
+                  data:
+                    id: 1
+                    title: Task 1
+                    description: Description 1
+                    deadline: '2021-05-28T18:57:21.3249529+02:00'
+                    completed: false
+        '401':
+          $ref: '#/paths/~1todos/get/responses/401'
+    get:
+      tags:
+        - To-Do
+      summary: Get all to-do's from user
+      responses:
+        '200':
+          description: 'If got to-do''s successfully, returns ''Ok'' with message and to-do''s'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        username:
+                          type: string
+                        email:
+                          type: string
+                        profilePictureUrl:
+                          type: string
+                example:
+                  message: Got all user to-do's successfully
+                  data:
+                    - id: 1
+                      title: Task 1
+                      description: Description 1
+                      deadline: '2021-05-28T18:57:21.3249529+02:00'
+                      completed: false
+                    - id: 2
+                      title: Task 2
+                      description: Description 2
+                      deadline: '2021-05-39T18:57:21.3249529+02:00'
+                      completed: true
+        '401':
+          description: 'If you are not authenticated, returns ''Unauthorized'' with a message'
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1profiles~1current/get/responses/401/content/application~1json/schema'
+  '/todos/{id}':
+    get:
+      tags:
+        - To-Do
+      summary: Get a to-do by id from the user
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: integer
+          required: true
+          description: Id of the to-do
+      responses:
+        '200':
+          description: 'If got the to-do successfully, returns ''Ok'' with a message and a to-do'
+          content:
+            application/json:
+              schema:
+                $ref: '#/paths/~1todos/post/responses/200/content/application~1json/schema'
+        '401':
+          $ref: '#/paths/~1todos/get/responses/401'
+        '404':
+          description: 'If the to-do does not exist, returns ''Not Found'' with a message'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    nullable: false
+                example:
+                  message: Resource not found
+components:
   securitySchemes:
     BearerAuth:
       type: http
       scheme: bearer
-
 security:
-  - BearerAuth: [ ]
+  - BearerAuth: []

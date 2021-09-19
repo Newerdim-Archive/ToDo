@@ -1,0 +1,24 @@
+type: object
+properties:
+  message:
+    type: string
+    nullable: false
+  data:
+    type: object
+    nullable: true
+    properties:
+      username:
+        type: string
+        nullable: false
+      email:
+        type: string
+        nullable: false
+      profilePictureUrl:
+        type: string
+        nullable: false
+example:
+  message: "Got current profile successfully"
+  data:
+    username: "User1"
+    email: "User1@mail.com"
+    profilePictureUrl: "www.example.com/picture/1"

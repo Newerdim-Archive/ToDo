@@ -1,0 +1,7 @@
+type: object
+properties:
+  message:
+    type: string
+    nullable: false
+example:
+  message: "You do not have permission. Please, log in first"
