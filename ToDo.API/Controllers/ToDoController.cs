@@ -49,5 +49,20 @@ namespace ToDo.API.Controllers
             
             return Ok(ResponseMessage.GotAllUserToDosSuccessfully, toDos);
         }
+
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetByIdFromUser(int id)
+        {
+            var currentUserId = _userService.GetCurrentId();
+
+            var toDo = await _toDoService.GetByIdFromUserAsync(currentUserId, id);
+
+            if (toDo is null)
+            {
+                return NotFound(ResponseMessage.NotFound);
+            }
+            
+            return Ok(ResponseMessage.GotToDoByIdFromUserSuccessfully, toDo);
+        }
     }
 }
