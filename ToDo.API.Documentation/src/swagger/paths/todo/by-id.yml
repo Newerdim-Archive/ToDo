@@ -1,7 +1,7 @@
 get:
   tags:
     - "To-Do"
-  summary: Get a to-do by id from the user
+  summary: Get a to-do by id
   parameters:
     - in: path
       name: id

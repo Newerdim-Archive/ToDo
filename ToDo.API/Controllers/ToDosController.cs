@@ -41,21 +41,21 @@ namespace ToDo.API.Controllers
         }
 
         [HttpGet("")]
-        public async Task<IActionResult> GetAllUserTodosAsync()
+        public async Task<IActionResult> GetAllAsync()
         {
             var currentUserId = _userService.GetCurrentId();
 
-            var toDos = await _toDoService.GetAllFromUserAsync(currentUserId);
+            var toDos = await _toDoService.GetAllAsync(currentUserId);
             
             return Ok(ResponseMessage.GotAllUserToDosSuccessfully, toDos);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetByIdFromUser(int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var currentUserId = _userService.GetCurrentId();
 
-            var toDo = await _toDoService.GetByIdFromUserAsync(currentUserId, id);
+            var toDo = await _toDoService.GetByIdAsync(currentUserId, id);
 
             if (toDo is null)
             {

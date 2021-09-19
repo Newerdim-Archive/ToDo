@@ -22,7 +22,7 @@ post:
 get:
   tags:
     - "To-Do"
-  summary: Get all to-do's from user
+  summary: Get all to-do's
   responses:
     200:
       description: If got to-do's successfully, returns 'Ok' with message and to-do's

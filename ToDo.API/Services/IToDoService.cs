@@ -19,7 +19,7 @@ namespace ToDo.API.Services
         /// </summary>
         /// <param name="userId">User id</param>
         /// <returns>To-do's</returns>
-        public Task<ICollection<Dto.ToDo>> GetAllFromUserAsync(int userId);
+        public Task<ICollection<Dto.ToDo>> GetAllAsync(int userId);
 
         /// <summary>
         ///     Get to-do by id from user
@@ -27,6 +27,6 @@ namespace ToDo.API.Services
         /// <param name="userId">User id</param>
         /// <param name="id">To-do id</param>
         /// <returns>To-do if exists; otherwise, null</returns>
-        public Task<Dto.ToDo> GetByIdFromUserAsync(int userId, int id);
+        public Task<Dto.ToDo> GetByIdAsync(int userId, int id);
     }
 }

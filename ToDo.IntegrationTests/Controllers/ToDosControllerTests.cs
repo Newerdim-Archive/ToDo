@@ -116,10 +116,10 @@ namespace ToDo.IntegrationTests.Controllers
 
         #endregion
 
-        #region GetAllUserTodosAsync
+        #region GetAllAsync
 
         [Fact]
-        public async Task GetAllUserTodosAsync_IsAuthenticated_ReturnsOkWithMessage()
+        public async Task GetAllAsync_IsAuthenticated_ReturnsOkWithMessage()
         {
             // Arrange
             _httpClient.Authenticate();
@@ -138,7 +138,7 @@ namespace ToDo.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task GetAllUserTodosAsync_IsAuthenticated_ReturnsToDos()
+        public async Task GetAllAsync_IsAuthenticated_ReturnsToDos()
         {
             // Arrange
             _httpClient.Authenticate();
@@ -157,7 +157,7 @@ namespace ToDo.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task GetAllUserTodosAsync_IsNotAuthenticated_ReturnsUnauthorizedWithMessage()
+        public async Task GetAllAsync_IsNotAuthenticated_ReturnsUnauthorizedWithMessage()
         {
             // Arrange
 
@@ -176,10 +176,10 @@ namespace ToDo.IntegrationTests.Controllers
 
         #endregion
 
-        #region GetByIdFromUserAsync
+        #region GetByIdAsync
 
         [Fact]
-        public async Task GetByIdFromUserAsync_Exists_ReturnsOkWithMessage()
+        public async Task GetByIdAsync_Exists_ReturnsOkWithMessage()
         {
             // Arrange
             _httpClient.Authenticate();
@@ -197,7 +197,7 @@ namespace ToDo.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task GetByIdFromUserAsync_Exists_ReturnsCorrectToDo()
+        public async Task GetByIdAsync_Exists_ReturnsCorrectToDo()
         {
             // Arrange
             const int id = 1;
@@ -219,7 +219,7 @@ namespace ToDo.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task GetByIdFromUserAsync_NotExist_ReturnsNotFoundWithMessage()
+        public async Task GetByIdAsync_NotExist_ReturnsNotFoundWithMessage()
         {
             // Arrange
             _httpClient.Authenticate();
@@ -237,7 +237,7 @@ namespace ToDo.IntegrationTests.Controllers
         }
 
         [Fact]
-        public async Task GetByIdFromUserAsync_NotAuthenticated_ReturnsUnauthorizedWithMessage()
+        public async Task GetByIdAsync_NotAuthenticated_ReturnsUnauthorizedWithMessage()
         {
             // Arrange
 
