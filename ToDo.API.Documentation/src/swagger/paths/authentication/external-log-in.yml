@@ -1,0 +1,30 @@
+post:
+  tags:
+    - "Authentication"
+  summary: Logs the existing user in with an external provider
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/models/authentication/ExternalLogInModel.yml"
+  responses:
+    200:
+      description: If the request is valid, returns 'Ok' with a message and an access token.
+                   Also adds a refresh token to the cookies
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/WithData.yml"
+          example:
+            message: "Logged in successfully"
+            data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+    401:
+      description: If the user does not exist, returns 'Unauthorized' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/Unauthorized.yml"
+          example:
+            message: "User not exist"
+    400:
+      $ref: "../../components/responses/BadRequest.yml"

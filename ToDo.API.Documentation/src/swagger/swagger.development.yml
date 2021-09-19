@@ -1,0 +1,40 @@
+openapi: "3.0.2"
+info:
+  title: ToDo API
+  version: "1.0"
+servers:
+  - url: http://localhost:8080/api/
+    description: Main (development) server
+tags:
+  - name: Authentication
+  - name: Profile
+  - name: To-Do
+paths:
+  # Authentication
+  /auth/external-log-in:
+    $ref: "./paths/authentication/external-log-in.yml"
+  /auth/external-sign-up:
+    $ref: "./paths/authentication/external-sign-up.yml"
+  /auth/log-out:
+    $ref: "./paths/authentication/log-out.yml"
+  /auth/refresh-tokens:
+    $ref: "./paths/authentication/refresh-tokens.yml"
+
+  # Profile
+  /profiles/current:
+    $ref: "./paths/profile/current.yml"
+
+  # To-Do
+  /todos:
+    $ref: "./paths/todo/base.yml"
+  /todos/{id}:
+    $ref: "./paths/todo/by-id.yml"
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+
+security:
+  - BearerAuth: []

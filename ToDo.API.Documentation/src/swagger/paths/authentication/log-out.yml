@@ -1,0 +1,13 @@
+post:
+  tags:
+    - "Authentication"
+  summary: Logs the user out and removes the refresh token from cookies
+  responses:
+    200:
+      description: If logged out successfully, returns 'Ok' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/Base.yml"
+          example:
+            message: "Logged out successfully"

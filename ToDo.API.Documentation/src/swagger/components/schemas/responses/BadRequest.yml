@@ -1,0 +1,31 @@
+description: Bad request with validation errors
+type: object
+properties:
+  message:
+    type: string
+    nullable: false
+  errors:
+    type: array
+    nullable: false
+    items:
+      type: object
+      nullable: false
+      properties:
+        property:
+          type: string
+          nullable: false
+        messages:
+          type: array
+          nullable: false
+          items:
+            type: string
+            nullable: false
+example:
+  message: "One or more validation errors occurred"
+  errors:
+    - propertyName: "Property 1"
+      messages:
+        - "'Property 1' is required"
+    - propertyName: "Property 2"
+      messages:
+        - "'Property 2' is invalid"
