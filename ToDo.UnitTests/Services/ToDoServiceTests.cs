@@ -48,27 +48,27 @@ namespace ToDo.UnitTests.Services
 
         #endregion
 
-        #region GetAllFromUserAsync
+        #region GetAllAsync
 
         [Fact]
-        public async Task GetAllFromUserAsync_Exist_ReturnsToDos()
+        public async Task GetAllAsync_Exist_ReturnsToDos()
         {
             // Arrange
 
             // Act
-            var toDos = await _sut.GetAllFromUserAsync(1);
+            var toDos = await _sut.GetAllAsync(1);
 
             // Assert
             toDos.Should().NotBeNull().And.HaveCountGreaterThan(0);
         }
 
         [Fact]
-        public async Task GetAllFromUserAsync_NotExist_ReturnsEmptyList()
+        public async Task GetAllAsync_NotExist_ReturnsEmptyList()
         {
             // Arrange
 
             // Act
-            var toDos = await _sut.GetAllFromUserAsync(2);
+            var toDos = await _sut.GetAllAsync(2);
 
             // Assert
             toDos.Should().NotBeNull().And.HaveCount(0);
@@ -76,15 +76,15 @@ namespace ToDo.UnitTests.Services
 
         #endregion
 
-        #region GetByIdFromUserAsync
+        #region GetByIdAsync
 
         [Fact]
-        public async Task GetByIdFromUserAsync_Exists_ReturnsToDo()
+        public async Task GetByIdAsync_Exists_ReturnsToDo()
         {
             // Arrange
 
             // Act
-            var toDo = await _sut.GetByIdFromUserAsync(1, 1);
+            var toDo = await _sut.GetByIdAsync(1, 1);
 
             // Assert
             toDo.Should().NotBeNull();
@@ -92,24 +92,24 @@ namespace ToDo.UnitTests.Services
         }
 
         [Fact]
-        public async Task GetByIdFromUserAsync_NotExist_ReturnsNull()
+        public async Task GetByIdAsync_NotExist_ReturnsNull()
         {
             // Arrange
 
             // Act
-            var toDo = await _sut.GetByIdFromUserAsync(1, 99);
+            var toDo = await _sut.GetByIdAsync(1, 99);
 
             // Assert
             toDo.Should().BeNull();
         }
 
         [Fact]
-        public async Task GetByIdFromUserAsync_ExistsButWithDifferentUserId_ReturnsNull()
+        public async Task GetByIdAsync_ExistsButWithDifferentUserId_ReturnsNull()
         {
             // Arrange
 
             // Act
-            var toDo = await _sut.GetByIdFromUserAsync(2, 1);
+            var toDo = await _sut.GetByIdAsync(2, 1);
 
             // Assert
             toDo.Should().BeNull();

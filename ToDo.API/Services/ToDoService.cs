@@ -39,7 +39,7 @@ namespace ToDo.API.Services
             return _mapper.Map<Dto.ToDo>(toDo);
         }
 
-        public async Task<ICollection<Dto.ToDo>> GetAllFromUserAsync(int userId)
+        public async Task<ICollection<Dto.ToDo>> GetAllAsync(int userId)
         {
             var toDos = await _context.ToDos
                 .AsNoTracking()
@@ -49,7 +49,7 @@ namespace ToDo.API.Services
             return _mapper.Map<ICollection<Dto.ToDo>>(toDos);
         }
 
-        public async Task<Dto.ToDo> GetByIdFromUserAsync(int userId, int id)
+        public async Task<Dto.ToDo> GetByIdAsync(int userId, int id)
         {
             var toDo = await _context.ToDos
                 .AsNoTracking()
