@@ -39,7 +39,7 @@ namespace ToDo.API.Services
             return _mapper.Map<Dto.ToDo>(toDo);
         }
 
-        public async Task<ICollection<Dto.ToDo>> GetAllUserToDosAsync(int userId)
+        public async Task<ICollection<Dto.ToDo>> GetAllFromUserAsync(int userId)
         {
             var toDos = await _context.ToDos
                 .AsNoTracking()

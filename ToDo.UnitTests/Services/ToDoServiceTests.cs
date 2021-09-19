@@ -48,27 +48,27 @@ namespace ToDo.UnitTests.Services
 
         #endregion
 
-        #region GetAllUserToDosAsync
+        #region GetAllFromUserAsync
 
         [Fact]
-        public async Task GetAllUserToDosAsync_ToDosExist_ReturnsToDos()
+        public async Task GetAllFromUserAsync_Exist_ReturnsToDos()
         {
             // Arrange
 
             // Act
-            var toDos = await _sut.GetAllUserToDosAsync(1);
+            var toDos = await _sut.GetAllFromUserAsync(1);
 
             // Assert
             toDos.Should().NotBeNull().And.HaveCountGreaterThan(0);
         }
 
         [Fact]
-        public async Task GetAllUserToDosAsync_ToDosNotExist_ReturnsEmptyList()
+        public async Task GetAllFromUserAsync_NotExist_ReturnsEmptyList()
         {
             // Arrange
 
             // Act
-            var toDos = await _sut.GetAllUserToDosAsync(2);
+            var toDos = await _sut.GetAllFromUserAsync(2);
 
             // Assert
             toDos.Should().NotBeNull().And.HaveCount(0);
