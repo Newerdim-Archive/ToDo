@@ -11,29 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ToDo.IntegrationTests", "To
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{AA44C6B6-6BC4-4EFA-9660-B3CBBCC00E97}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ToDo.API.Documentation", "ToDo.API.Documentation", "{740CB1DF-725F-41B9-BDBD-ACCFB0D15B3F}"
-ProjectSection(SolutionItems) = preProject
-	ToDo.API.Documentation\oauth2-redirect.html = ToDo.API.Documentation\oauth2-redirect.html
-	ToDo.API.Documentation\swagger-ui.js.map = ToDo.API.Documentation\swagger-ui.js.map
-	ToDo.API.Documentation\Dockerfile = ToDo.API.Documentation\Dockerfile
-	ToDo.API.Documentation\swagger-ui-standalone-preset.js.map = ToDo.API.Documentation\swagger-ui-standalone-preset.js.map
-	ToDo.API.Documentation\index.html = ToDo.API.Documentation\index.html
-	ToDo.API.Documentation\swagger-ui-standalone-preset.js = ToDo.API.Documentation\swagger-ui-standalone-preset.js
-	ToDo.API.Documentation\swagger-ui.js = ToDo.API.Documentation\swagger-ui.js
-	ToDo.API.Documentation\favicon-32x32.png = ToDo.API.Documentation\favicon-32x32.png
-	ToDo.API.Documentation\swagger-ui-es-bundle.js.map = ToDo.API.Documentation\swagger-ui-es-bundle.js.map
-	ToDo.API.Documentation\swagger-ui-es-bundle.js = ToDo.API.Documentation\swagger-ui-es-bundle.js
-	ToDo.API.Documentation\swagger-ui-es-bundle-core.js.map = ToDo.API.Documentation\swagger-ui-es-bundle-core.js.map
-	ToDo.API.Documentation\swagger-ui.css = ToDo.API.Documentation\swagger-ui.css
-	ToDo.API.Documentation\swagger.yml = ToDo.API.Documentation\swagger.yml
-	ToDo.API.Documentation\swagger-ui-bundle.js = ToDo.API.Documentation\swagger-ui-bundle.js
-	ToDo.API.Documentation\swagger-ui.css.map = ToDo.API.Documentation\swagger-ui.css.map
-	ToDo.API.Documentation\swagger-ui-es-bundle-core.js = ToDo.API.Documentation\swagger-ui-es-bundle-core.js
-	ToDo.API.Documentation\.dockerignore = ToDo.API.Documentation\.dockerignore
-	ToDo.API.Documentation\swagger-ui-bundle.js.map = ToDo.API.Documentation\swagger-ui-bundle.js.map
-	ToDo.API.Documentation\favicon-16x16.png = ToDo.API.Documentation\favicon-16x16.png
-EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
