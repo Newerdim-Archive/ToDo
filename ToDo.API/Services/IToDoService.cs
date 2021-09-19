@@ -15,11 +15,11 @@ namespace ToDo.API.Services
         public Task<Dto.ToDo> CreateAsync(int userId, ToDoToCreate toDoToCreate);
 
         /// <summary>
-        ///     Get all user to-do's
+        ///     Get all to-do's from user
         /// </summary>
         /// <param name="userId">User id</param>
         /// <returns>To-do's</returns>
-        public Task<ICollection<Dto.ToDo>> GetAllUserToDosAsync(int userId);
+        public Task<ICollection<Dto.ToDo>> GetAllFromUserAsync(int userId);
 
         /// <summary>
         ///     Get to-do by id from user

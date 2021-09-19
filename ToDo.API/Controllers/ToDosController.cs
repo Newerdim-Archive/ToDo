@@ -45,7 +45,7 @@ namespace ToDo.API.Controllers
         {
             var currentUserId = _userService.GetCurrentId();
 
-            var toDos = await _toDoService.GetAllUserToDosAsync(currentUserId);
+            var toDos = await _toDoService.GetAllFromUserAsync(currentUserId);
             
             return Ok(ResponseMessage.GotAllUserToDosSuccessfully, toDos);
         }
