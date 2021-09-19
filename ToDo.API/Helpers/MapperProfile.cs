@@ -8,6 +8,8 @@ namespace ToDo.API.Helpers
         {
             CreateMap<Entities.User, Dto.User>();
             CreateMap<Entities.ToDo, Dto.ToDo>();
+            
+            CreateMap<Dto.ToDoToUpdate, Entities.ToDo>();
         }
     }
 }

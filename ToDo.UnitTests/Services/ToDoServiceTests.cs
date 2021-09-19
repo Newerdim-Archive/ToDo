@@ -1,7 +1,10 @@
+using System;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using AutoMapper;
 using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using ToDo.API.Data;
 using ToDo.API.Dto;
 using ToDo.API.Helpers;
 using ToDo.API.Services;
@@ -13,9 +16,12 @@ namespace ToDo.UnitTests.Services
     public class ToDoServiceTests : IClassFixture<SeededDataFixture>
     {
         private readonly ToDoService _sut;
+        private readonly DataContext _context;
 
         public ToDoServiceTests(SeededDataFixture fixture)
         {
+            _context = fixture.Context;
+            
             var mapperConfiguration = new MapperConfiguration(config =>
             {
                 config.AddProfile<MapperProfile>();
@@ -23,7 +29,7 @@ namespace ToDo.UnitTests.Services
 
             var mapper = new Mapper(mapperConfiguration);
 
-            _sut = new ToDoService(fixture.Context, mapper);
+            _sut = new ToDoService(_context, mapper);
         }
 
         #region CreateAsync
@@ -114,6 +120,101 @@ namespace ToDo.UnitTests.Services
             // Assert
             toDo.Should().BeNull();
         }
+
+        #endregion
+
+        #region UpdateAsync
+
+        [Fact]
+        public async Task UpdateAsync_Exists_ReturnsUpdatedToDo()
+        {
+            // Arrange
+            var toDoToUpdate = new ToDoToUpdate
+            {
+                Id = 1,
+                Title = "updated title",
+                Description = "updated description",
+                Deadline = DateTimeOffset.UtcNow,
+                Completed = true
+            };
+            
+            // Act
+            var updatedToDo = await _sut.UpdateAsync(1, toDoToUpdate);
+
+            // Assert
+            updatedToDo.Should().NotBeNull();
+        }
+        
+        [Fact]
+        public async Task UpdateAsync_Exists_UpdatesToDoInDb()
+        {
+            // Arrange
+            var toDoToUpdate = new ToDoToUpdate
+            {
+                Id = 1,
+                Title = "updated title 1",
+                Description = "updated description 1",
+                Deadline = DateTimeOffset.UtcNow,
+                Completed = true
+            };
+            
+            // Act
+            var updatedToDo = await _sut.UpdateAsync(1, toDoToUpdate);
+
+            var toDoInDb = await _context.ToDos.AsNoTracking().FirstAsync(t => t.Id == updatedToDo.Id);
+
+            // Assert
+            updatedToDo.Should().NotBeNull();
+
+            updatedToDo.Id.Should().Be(toDoInDb.Id);
+            updatedToDo.Title.Should().Be(toDoInDb.Title);
+            updatedToDo.Description.Should().Be(toDoInDb.Description);
+            updatedToDo.Deadline.Should().Be(toDoInDb.Deadline);
+            updatedToDo.Completed.Should().Be(toDoInDb.Completed);
+            
+            toDoInDb.UpdatedAt.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(10));
+        }
+        
+        [Fact]
+        public async Task UpdateAsync_NotExist_ReturnsNull()
+        {
+            // Arrange
+            var toDoToUpdate = new ToDoToUpdate
+            {
+                Id = 999,
+                Title = "updated title",
+                Description = "updated description",
+                Deadline = DateTimeOffset.UtcNow,
+                Completed = true
+            };
+            
+            // Act
+            var updatedToDo = await _sut.UpdateAsync(1, toDoToUpdate);
+
+            // Assert
+            updatedToDo.Should().BeNull();
+        }
+        
+        [Fact]
+        public async Task UpdateAsync_ExistButWithDifferentUserId_ReturnsNull()
+        {
+            // Arrange
+            var toDoToUpdate = new ToDoToUpdate
+            {
+                Id = 1,
+                Title = "updated title",
+                Description = "updated description",
+                Deadline = DateTimeOffset.UtcNow,
+                Completed = true
+            };
+            
+            // Act
+            var updatedToDo = await _sut.UpdateAsync(2, toDoToUpdate);
+
+            // Assert
+            updatedToDo.Should().BeNull();
+        }
+
 
         #endregion
     }
