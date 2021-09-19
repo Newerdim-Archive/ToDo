@@ -278,7 +278,7 @@ namespace ToDo.IntegrationTests.Controllers
             // Arrange
 
             // Act
-            var response = await _httpClient.GetAsync(ApiRoute.LogOut);
+            var response = await _httpClient.PostAsync(ApiRoute.LogOut, null!);
 
             var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
 
@@ -296,7 +296,7 @@ namespace ToDo.IntegrationTests.Controllers
             // Arrange
 
             // Act
-            var response = await _httpClient.GetAsync(ApiRoute.LogOut);
+            var response = await _httpClient.PostAsync(ApiRoute.LogOut, null!);
 
             var refreshToken = response.GetCookie(CookieName.RefreshToken);
 
