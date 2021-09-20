@@ -3,8 +3,8 @@ namespace ToDo.API.Const
     public static class ResponseMessage
     {
         // Common
-        public const string ActionPreformedSuccessfully = "Action preformed successfully";
-        public const string ResourceGottenSuccessfully = "Resource(s) obtained sucessfully";
+        public const string ActionPerformedSuccessfully = "Action performed successfully";
+        public const string ResourceGottenSuccessfully = "Resource(s) gotten successfully";
         public const string ResourceUpdatedSuccessfully = "Resource(s) updated sucessfully";
         public const string ResourceCreatedSuccessfully = "Resource(s) created sucessfully";
             

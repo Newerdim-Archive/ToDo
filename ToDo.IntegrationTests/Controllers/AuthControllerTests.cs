@@ -62,7 +62,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be(ResponseMessage.ActionPreformedSuccessfully);
+            content!.Message.Should().Be(ResponseMessage.ActionPerformedSuccessfully);
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
@@ -287,7 +287,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be(ResponseMessage.ActionPreformedSuccessfully);
+            content!.Message.Should().Be(ResponseMessage.ActionPerformedSuccessfully);
         }
 
         [Fact]
@@ -333,7 +333,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be(ResponseMessage.ActionPreformedSuccessfully);
+            content!.Message.Should().Be(ResponseMessage.ActionPerformedSuccessfully);
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
@@ -485,7 +485,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be(ResponseMessage.ActionPreformedSuccessfully);
+            content!.Message.Should().Be(ResponseMessage.ActionPerformedSuccessfully);
         }
         
         [Fact]
