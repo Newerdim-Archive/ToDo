@@ -8,7 +8,8 @@ namespace ToDo.IntegrationTests.Helpers
         public const string RefreshTokens = "api/auth/refresh-tokens";
         public const string GetCurrentProfile = "api/profiles/current";
         public const string CreateToDo = "api/todos";
-        public const string GetAllUserToDos = "api/todos";
-        public const string GetByIdFromUser = "api/todos/";
+        public const string GetAllToDos = "api/todos";
+        public const string GetToDoById = "api/todos/";
+        public const string UpdateToDo = "api/todos/";
     }
 }

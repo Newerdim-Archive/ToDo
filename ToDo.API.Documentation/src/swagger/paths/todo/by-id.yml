@@ -24,3 +24,43 @@ get:
             $ref: "../../components/schemas/responses/NotFound.yml"
     401:
       $ref: "../../components/responses/Unauthorized.yml"
+
+put:
+  tags:
+    - "To-Do"
+  summary: Update the to-do by ID
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+      description: ID of the to-do
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/models/todo/UpdateToDoModel.yml"
+  responses:
+    200:
+      description: If updated the to-do successfully, returns 'Ok' with a message and the updated to-do
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/todo/WithToDo.yml"
+          example: 
+            message: "Resource updated successfully"
+            data:
+              id: 1
+              title: "Task 156"
+              description: "Description 14"
+              deadline: "2021-05-29T18:57:21.3249529+02:00"
+              completed: true
+    404:
+      description: If the to-do does not exist, returns 'Not Found' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/NotFound.yml"
+    401:
+      $ref: "../../components/responses/Unauthorized.yml"

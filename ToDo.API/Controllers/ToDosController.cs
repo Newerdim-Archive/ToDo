@@ -64,5 +64,29 @@ namespace ToDo.API.Controllers
             
             return Ok(ResponseMessage.GotToDoByIdFromUserSuccessfully, toDo);
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<IActionResult> UpdateAsync(int id, UpdateToDoModel model)
+        {
+            var currentUserId = _userService.GetCurrentId();
+
+            var toDoToUpdate = new ToDoToUpdate
+            {
+                Id = id,
+                Title = model.Title,
+                Description = model.Description,
+                Deadline = model.Deadline,
+                Completed = model.Completed
+            };
+
+            var updatedToDo = await _toDoService.UpdateAsync(currentUserId, toDoToUpdate);
+
+            if (updatedToDo is null)
+            {
+                return NotFound(ResponseMessage.NotFound);
+            }
+
+            return Ok(ResponseMessage.ResourceUpdatedSuccessfully, updatedToDo);
+        }
     }
 }

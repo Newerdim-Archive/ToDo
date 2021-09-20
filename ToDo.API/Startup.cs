@@ -89,7 +89,10 @@ namespace ToDo.API
                     };
                 });
 
-            services.AddControllers(options => { options.Filters.Add(new ValidationFilter()); });
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new ValidationFilter());
+            }).AddNewtonsoftJson();
 
             services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
         }
