@@ -37,7 +37,7 @@ namespace ToDo.API.Controllers
 
             var createdToDo = await _toDoService.CreateAsync(currentUserId, toDoToCreate);
             
-            return Ok(ResponseMessage.CreatedToDoSuccessfully, createdToDo);
+            return Ok(ResponseMessage.ResourceCreatedSuccessfully, createdToDo);
         }
 
         [HttpGet("")]
@@ -47,7 +47,7 @@ namespace ToDo.API.Controllers
 
             var toDos = await _toDoService.GetAllAsync(currentUserId);
             
-            return Ok(ResponseMessage.GotAllUserToDosSuccessfully, toDos);
+            return Ok(ResponseMessage.ResourceGottenSuccessfully, toDos);
         }
 
         [HttpGet("{id:int}")]
@@ -62,7 +62,7 @@ namespace ToDo.API.Controllers
                 return NotFound(ResponseMessage.NotFound);
             }
             
-            return Ok(ResponseMessage.GotToDoByIdFromUserSuccessfully, toDo);
+            return Ok(ResponseMessage.ResourceGottenSuccessfully, toDo);
         }
 
         [HttpPut("{id:int}")]

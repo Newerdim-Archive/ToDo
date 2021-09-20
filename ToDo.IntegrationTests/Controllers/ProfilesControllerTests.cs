@@ -4,6 +4,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using FluentAssertions;
 using ToDo.API;
+using ToDo.API.Const;
 using ToDo.API.Dto;
 using ToDo.API.Responses;
 using ToDo.IntegrationTests.Helpers;
@@ -38,7 +39,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be("Got current profile successfully");
+            content!.Message.Should().Be(ResponseMessage.ResourceGottenSuccessfully);
         }
 
         [Fact]

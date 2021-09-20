@@ -52,7 +52,7 @@ namespace ToDo.API.Controllers
 
             var accessToken = _tokenService.CreateAccessToken(externalAuthResult.CreatedUser.Id);
 
-            return Ok(ResponseMessage.SignedUpSuccessfully, accessToken);
+            return Ok(ResponseMessage.ActionPreformedSuccessfully, accessToken);
         }
 
         [AllowAnonymous]
@@ -61,7 +61,7 @@ namespace ToDo.API.Controllers
         {
             _cookieService.Delete(CookieName.RefreshToken);
 
-            return Ok(ResponseMessage.LoggedOutSuccessfully);
+            return Ok(ResponseMessage.ActionPreformedSuccessfully);
         }
 
         [AllowAnonymous]
@@ -88,7 +88,7 @@ namespace ToDo.API.Controllers
             
             var accessToken = _tokenService.CreateAccessToken(externalLogInResult.User.Id);
 
-            return Ok(ResponseMessage.LoggedInSuccessfully, accessToken);
+            return Ok(ResponseMessage.ActionPreformedSuccessfully, accessToken);
         }
 
         [AllowAnonymous]
@@ -115,7 +115,7 @@ namespace ToDo.API.Controllers
 
             var accessToken = _tokenService.CreateAccessToken(userIdFromToken.Value);
 
-            return Ok(ResponseMessage.RefreshedTokensSuccessfully, accessToken);
+            return Ok(ResponseMessage.ActionPreformedSuccessfully, accessToken);
         }
     }
 }

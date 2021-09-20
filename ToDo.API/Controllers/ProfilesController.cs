@@ -33,7 +33,7 @@ namespace ToDo.API.Controllers
                 return Unauthorized(ResponseMessage.UserNotExist);
             }
 
-            return Ok(ResponseMessage.GotCurrentProfileSuccessfully, profile);
+            return Ok(ResponseMessage.ResourceGottenSuccessfully, profile);
         }
     }
 }
