@@ -7,6 +7,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
 using ToDo.API;
 using ToDo.API.Const;
 using ToDo.API.Models;
@@ -43,7 +44,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be("Created To-Do successfully");
+            content!.Message.Should().Be(ResponseMessage.ResourceCreatedSuccessfully);
         }
 
         [Fact]
@@ -135,7 +136,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be("Got all user to-do's successfully");
+            content!.Message.Should().Be(ResponseMessage.ResourceGottenSuccessfully);
         }
 
         [Fact]
@@ -194,7 +195,7 @@ namespace ToDo.IntegrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             content.Should().NotBeNull();
-            content!.Message.Should().Be("Got to-do successfully");
+            content!.Message.Should().Be(ResponseMessage.ResourceGottenSuccessfully);
         }
 
         [Fact]
@@ -284,7 +285,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be("Resource updated successfully");
+            content!.Message.Should().Be(ResponseMessage.ResourceUpdatedSuccessfully);
         }
 
         [Fact]

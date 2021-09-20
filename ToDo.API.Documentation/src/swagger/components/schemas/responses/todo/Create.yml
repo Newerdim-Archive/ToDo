@@ -22,7 +22,7 @@ properties:
         type: boolean
         nullable: false
 example:
-  message: "Created successfully"
+  message: "Resource(s) created successfully"
   data:
     id: 1
     title: "Task 1"

@@ -62,7 +62,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be(ResponseMessage.SignedUpSuccessfully);
+            content!.Message.Should().Be(ResponseMessage.ActionPerformedSuccessfully);
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
@@ -287,7 +287,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be("Logged out successfully");
+            content!.Message.Should().Be(ResponseMessage.ActionPerformedSuccessfully);
         }
 
         [Fact]
@@ -333,7 +333,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be("Logged in successfully");
+            content!.Message.Should().Be(ResponseMessage.ActionPerformedSuccessfully);
 
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
@@ -485,7 +485,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be("Tokens have been refreshed successfully");
+            content!.Message.Should().Be(ResponseMessage.ActionPerformedSuccessfully);
         }
         
         [Fact]
