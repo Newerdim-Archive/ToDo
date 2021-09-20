@@ -58,5 +58,18 @@ namespace ToDo.API.Services
 
             return _mapper.Map<Dto.ToDo>(toDo);
         }
+
+        public async Task<Dto.ToDo> UpdateAsync(int userId, ToDoToUpdate toDoToUpdate)
+        {
+            var toDoFromDb = await _context.ToDos
+                .Where(t => t.UserId == userId)
+                .FirstOrDefaultAsync(t => t.Id == toDoToUpdate.Id);
+
+            _mapper.Map(toDoToUpdate, toDoFromDb);
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<Dto.ToDo>(toDoFromDb);
+        }
     }
 }

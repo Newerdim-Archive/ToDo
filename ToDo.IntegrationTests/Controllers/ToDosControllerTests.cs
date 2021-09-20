@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -125,7 +126,7 @@ namespace ToDo.IntegrationTests.Controllers
             _httpClient.Authenticate();
 
             // Act
-            var response = await _httpClient.GetAsync(ApiRoute.GetAllUserToDos);
+            var response = await _httpClient.GetAsync(ApiRoute.GetAllToDos);
 
             var content = await response.Content.ReadFromJsonAsync<WithDataResponse<List<API.Dto.ToDo>>>();
 
@@ -144,7 +145,7 @@ namespace ToDo.IntegrationTests.Controllers
             _httpClient.Authenticate();
 
             // Act
-            var response = await _httpClient.GetAsync(ApiRoute.GetAllUserToDos);
+            var response = await _httpClient.GetAsync(ApiRoute.GetAllToDos);
 
             var content = await response.Content.ReadFromJsonAsync<WithDataResponse<List<API.Dto.ToDo>>>();
 
@@ -162,7 +163,7 @@ namespace ToDo.IntegrationTests.Controllers
             // Arrange
 
             // Act
-            var response = await _httpClient.GetAsync(ApiRoute.GetAllUserToDos);
+            var response = await _httpClient.GetAsync(ApiRoute.GetAllToDos);
 
             var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
 
@@ -185,7 +186,7 @@ namespace ToDo.IntegrationTests.Controllers
             _httpClient.Authenticate();
 
             // Act
-            var response = await _httpClient.GetAsync(ApiRoute.GetByIdFromUser + "1");
+            var response = await _httpClient.GetAsync(ApiRoute.GetToDoById + "1");
 
             var content = await response.Content.ReadFromJsonAsync<WithDataResponse<API.Dto.ToDo>>();
 
@@ -205,7 +206,7 @@ namespace ToDo.IntegrationTests.Controllers
             _httpClient.Authenticate();
 
             // Act
-            var response = await _httpClient.GetAsync(ApiRoute.GetByIdFromUser + id);
+            var response = await _httpClient.GetAsync(ApiRoute.GetToDoById + id);
 
             var content = await response.Content.ReadFromJsonAsync<WithDataResponse<API.Dto.ToDo>>();
 
@@ -225,7 +226,7 @@ namespace ToDo.IntegrationTests.Controllers
             _httpClient.Authenticate();
 
             // Act
-            var response = await _httpClient.GetAsync(ApiRoute.GetByIdFromUser + "99");
+            var response = await _httpClient.GetAsync(ApiRoute.GetToDoById + "99");
 
             var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
 
@@ -242,7 +243,7 @@ namespace ToDo.IntegrationTests.Controllers
             // Arrange
 
             // Act
-            var response = await _httpClient.GetAsync(ApiRoute.GetByIdFromUser + "1");
+            var response = await _httpClient.GetAsync(ApiRoute.GetToDoById + "1");
 
             var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
 
@@ -251,6 +252,152 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
             content!.Message.Should().Be(ResponseMessage.Unauthorized);
+        }
+
+        #endregion
+
+        #region UpdateAsync
+
+        [Fact]
+        public async Task UpdateAsync_ValidModel_ReturnsOkWithMessage()
+        {
+            // Arrange
+            const int id = 1;
+
+            var model = new UpdateToDoModel
+            {
+                Title = "updated title",
+                Description = "updated description",
+                Completed = false,
+                Deadline = DateTimeOffset.UtcNow
+            };
+
+            _httpClient.Authenticate();
+
+            // Act
+            var response = await _httpClient.PutAsJsonAsync(ApiRoute.UpdateToDo + id, model);
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<API.Dto.ToDo>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("Resource updated successfully");
+        }
+
+        [Fact]
+        public async Task UpdateAsync_ValidModel_ReturnsUpdatedToDo()
+        {
+            // Arrange
+            const int id = 1;
+
+            var model = new UpdateToDoModel
+            {
+                Title = "updated title",
+                Description = "updated description",
+                Completed = false,
+                Deadline = DateTimeOffset.UtcNow
+            };
+            
+            _httpClient.Authenticate();
+
+            // Act
+            var response = await _httpClient.PutAsJsonAsync(ApiRoute.UpdateToDo + id, model);
+
+            var content = await response.Content.ReadFromJsonAsync<WithDataResponse<API.Dto.ToDo>>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+
+            content!.Data.Should().NotBeNull();
+
+            content.Data.Id.Should().Be(id);
+            content.Data.Title.Should().Be(model.Title);
+            content.Data.Description.Should().Be(model.Description);
+            content.Data.Completed.Should().Be(model.Completed);
+            content.Data.Deadline.Should().Be(model.Deadline);
+        }
+
+        [Fact]
+        public async Task UpdateAsync_InvalidModel_ReturnsBadRequestWithMessageAndErrors()
+        {
+            // Arrange
+            const int id = 1;
+
+            var model = new UpdateToDoModel();
+
+            _httpClient.Authenticate();
+
+            // Act
+            var response = await _httpClient.PutAsJsonAsync(ApiRoute.UpdateToDo + id, model);
+
+            var content = await response.Content.ReadFromJsonAsync<ValidationErrorResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be("One or more validation errors occurred");
+
+            content.Errors.Should().ContainSingle(e =>
+                e.Property == "Title" &&
+                e.Messages.Contains("'Title' is required")
+            );
+        }
+        
+        [Fact]
+        public async Task UpdateAsync_NotAuthenticated_ReturnsUnauthorizedWithMessage()
+        {
+            // Arrange
+            const int id = 1;
+
+            var model = new UpdateToDoModel();
+
+            // Act
+            var response = await _httpClient.PutAsJsonAsync(ApiRoute.UpdateToDo + id, model);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be(ResponseMessage.Unauthorized);
+        }
+        
+        [Fact]
+        public async Task UpdateAsync_ToDoNotExist_ReturnsUnauthorizedWithMessage()
+        {
+            // Arrange
+            const int id = 99;
+
+            var model = new UpdateToDoModel
+            {
+                Title = "updated title",
+                Description = "updated description",
+                Completed = false,
+                Deadline = DateTimeOffset.UtcNow
+            };
+            
+            _httpClient.Authenticate();
+
+            // Act
+            var response = await _httpClient.PutAsJsonAsync(ApiRoute.UpdateToDo + id, model);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            content.Should().NotBeNull();
+
+            content!.Message.Should().Be(ResponseMessage.NotFound);
         }
 
         #endregion

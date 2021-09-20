@@ -5,7 +5,7 @@
   "main": "swagger-ui-bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "swagger-cli bundle src/swagger/swagger.development.yml -o swagger.yml -t yaml && webpack-cli"
+    "build": "swagger-cli bundle src/swagger/swagger.development.yml -o src/swagger/swagger.yml -t yaml && webpack-cli"
   },
   "author": "",
   "license": "ISC",
