@@ -6,7 +6,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: "../../components/schemas/models/authentication/ExternalSignUpModel.yml"
+          $ref: "../../components/schemas/models/authentication/ExternalSignUp.yml"
   responses:
     200:
       description: If request is valid, returns 'Ok' with a message and an access token.
@@ -14,16 +14,13 @@ post:
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/responses/WithData.yml"
-          example:
-            message: "Signed up successfully"
-            data: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+            $ref: "../../components/schemas/responses/authentication/ExternalSignUp.yml"
     409:
       description: If user already exists, returns 'Conflict' with a message
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/responses/Base.yml"
+            $ref: "../../components/schemas/responses/Conflict.yml"
           example:
             message: "User already exists"
     400:
