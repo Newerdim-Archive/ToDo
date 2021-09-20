@@ -1,7 +1,6 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +32,10 @@ namespace ToDo.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(opt => { opt.UseNpgsql(Configuration.GetConnectionString("Default")); });
+            services.AddDbContext<DataContext>(opt =>
+            {
+                opt.UseNpgsql(Configuration.GetConnectionString("Default"));
+            });
 
             services.Configure<TokenSettings>(Configuration.GetSection("TokenSettings"));
             services.AddTransient<ITokenService, TokenService>();
@@ -95,7 +97,10 @@ namespace ToDo.API
                 options.Filters.Add(new ValidationFilter());
             }).AddNewtonsoftJson();
 
-            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
@@ -117,7 +122,10 @@ namespace ToDo.API
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
