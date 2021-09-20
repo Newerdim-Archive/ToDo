@@ -1,7 +1,0 @@
-description: Base response with a message
-type: object
-properties:
-  message:
-    type: string
-example:
-  message: "Created resource successfully"

@@ -8,6 +8,6 @@ post:
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/responses/Base.yml"
+            $ref: "../../components/schemas/responses/Ok.yml"
           example:
             message: "Logged out successfully"

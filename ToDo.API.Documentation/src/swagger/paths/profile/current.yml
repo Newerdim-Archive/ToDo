@@ -4,11 +4,11 @@ get:
   summary: Get the current profile
   responses:
     200:
-      description: If the profile exists, returns 'Ok' with a message and a profile
+      description: If the profile exists, returns 'Ok' with a message and the profile
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/responses/profile/WithProfile.yml"
+            $ref: "../../components/schemas/responses/profile/GetCurrent.yml"
     401:
       description: If the profile does not exist (user was deleted), returns 'Unauthorized' with a message
       content:

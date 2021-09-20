@@ -9,8 +9,7 @@ properties:
   deadline:
     type: string
     description: Date
-
 example:
   title: "Task 1"
   description: "Description 1"
-  deadline: "2021-05-28T18:57:21.3249529+02:00"
+  deadline: "2021-05-29T18:57:21.3249529+02:00"

@@ -3,19 +3,19 @@ post:
     - "To-Do"
   summary: Create a new to-do
   security:
-    - BearerAuth: []
+    - BearerAuth: [ ]
   requestBody:
     content:
       application/json:
         schema:
-          $ref: "../../components/schemas/models/todo/CreateToDoModel.yml"
+          $ref: "../../components/schemas/models/todo/Create.yml"
   responses:
     200:
       description: If created a to-do successfully, returns 'Ok' with a message and a to-do
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/responses/todo/WithToDo.yml"
+            $ref: "../../components/schemas/responses/todo/Create.yml"
     401:
       $ref: "../../components/responses/Unauthorized.yml"
 
@@ -23,12 +23,14 @@ get:
   tags:
     - "To-Do"
   summary: Get all to-do's
+  security:
+    - BearerAuth: [ ]
   responses:
     200:
       description: If got to-do's successfully, returns 'Ok' with message and to-do's
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/responses/todo/WithToDoList.yml"
+            $ref: "../../components/schemas/responses/todo/GetAll.yml"
     401:
       $ref: "../../components/responses/Unauthorized.yml"

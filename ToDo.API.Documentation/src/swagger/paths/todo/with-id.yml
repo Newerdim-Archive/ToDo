@@ -1,7 +1,7 @@
 get:
   tags:
     - "To-Do"
-  summary: Get a to-do by id
+  summary: Get the to-do by id
   parameters:
     - in: path
       name: id
@@ -11,11 +11,11 @@ get:
       description: Id of the to-do
   responses:
     200:
-      description: If got the to-do successfully, returns 'Ok' with a message and a to-do
+      description: If got the to-do successfully, returns 'Ok' with a message and the to-do
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/responses/todo/WithToDo.yml"
+            $ref: "../../components/schemas/responses/todo/GetById.yml"
     404:
       description: If the to-do does not exist, returns 'Not Found' with a message
       content:
@@ -40,22 +40,14 @@ put:
     content:
       application/json:
         schema:
-          $ref: "../../components/schemas/models/todo/UpdateToDoModel.yml"
+          $ref: "../../components/schemas/models/todo/Update.yml"
   responses:
     200:
       description: If updated the to-do successfully, returns 'Ok' with a message and the updated to-do
       content:
         application/json:
           schema:
-            $ref: "../../components/schemas/responses/todo/WithToDo.yml"
-          example: 
-            message: "Resource updated successfully"
-            data:
-              id: 1
-              title: "Task 156"
-              description: "Description 14"
-              deadline: "2021-05-29T18:57:21.3249529+02:00"
-              completed: true
+            $ref: "../../components/schemas/responses/todo/Update.yml"
     404:
       description: If the to-do does not exist, returns 'Not Found' with a message
       content:

@@ -1,0 +1,31 @@
+type: object
+properties:
+  message:
+    type: string
+  data:
+    type: object
+    properties:
+      id:
+        type: number
+        nullable: false
+      title:
+        type: string
+        nullable: false
+      description:
+        type: string
+        nullable: true
+      deadline:
+        type: string
+        description: Date
+        nullable: true
+      completed:
+        type: boolean
+        nullable: false
+example:
+  message: "Updated the to-do successfully"
+  data:
+    id: 1
+    title: "Task 156"
+    description: "Description 14"
+    deadline: "2021-05-29T18:57:21.3249529+02:00"
+    completed: true

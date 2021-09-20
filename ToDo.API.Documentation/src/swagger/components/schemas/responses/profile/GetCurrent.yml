@@ -17,7 +17,7 @@ properties:
         type: string
         nullable: false
 example:
-  message: "Got current profile successfully"
+  message: "Got the current profile successfully"
   data:
     username: "User1"
     email: "User1@mail.com"

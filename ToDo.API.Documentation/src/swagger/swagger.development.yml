@@ -28,7 +28,7 @@ paths:
   /todos:
     $ref: "./paths/todo/base.yml"
   /todos/{id}:
-    $ref: "./paths/todo/by-id.yml"
+    $ref: "./paths/todo/with-id.yml"
 
 components:
   securitySchemes:
