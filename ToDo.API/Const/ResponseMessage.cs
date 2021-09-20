@@ -7,6 +7,7 @@ namespace ToDo.API.Const
         public const string Unauthorized = "You do not have permission. Please, log in first";
         public const string NotFound = "Resource not found";
         public const string ResourceUpdatedSuccessfully = "Resource updated successfully";
+        public const string UnexpectedError = "Unexpected error occurred, try again later";
         
         // Authentication
         public const string SignedUpSuccessfully = "Signed up successfully";
