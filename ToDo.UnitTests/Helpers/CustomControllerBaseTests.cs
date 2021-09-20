@@ -137,5 +137,25 @@ namespace ToDo.UnitTests.Helpers
         }
 
         #endregion
+
+        #region InternalServerError
+
+        [Fact]
+        public void InternalServerError_ReturnsInternalServerErrorWithCorrectErrorResponse()
+        {
+            // Arrange
+            const string message = "message";
+
+            // Act
+            var result = InternalServerError(message);
+            var response = result.Value as BaseResponse;
+
+            // Assert
+            response.Should().NotBeNull();
+
+            response!.Message.Should().Be(message);
+        }
+
+        #endregion
     }
 }
