@@ -56,3 +56,30 @@ put:
             $ref: "../../components/schemas/responses/NotFound.yml"
     401:
       $ref: "../../components/responses/Unauthorized.yml"
+      
+delete:
+  tags:
+    - "To-Do"
+  summary: Delete the to-do by ID
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+      description: ID of the to-do
+  responses:
+    200:
+      description: If deleted the to-do successfully, returns 'Ok' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/todo/Delete.yml"
+    404:
+      description: If the to-do does not exist, returns 'Not Found' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/NotFound.yml"
+    401:
+      $ref: "../../components/responses/Unauthorized.yml"
