@@ -1,14 +1,21 @@
 version: '3.4'
 
 services:
-  todo-api:
+  to-do-api:
+    ports:
+      - "8080:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
-
-  todo-db:
+  to-do-db:
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_PASSWORD: UltimateSecretPasswordForDb
+      
+  to-do-api-documentation:
+    ports:
+      - "8081:80"
