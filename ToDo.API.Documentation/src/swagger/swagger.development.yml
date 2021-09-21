@@ -3,6 +3,8 @@ info:
   title: ToDo API
   version: "1.0"
 servers:
+  - url: https://to-do-api.newerdim.pl/api/
+    description: Main (production) server
   - url: http://localhost:8080/api/
     description: Main (development) server
 tags:
