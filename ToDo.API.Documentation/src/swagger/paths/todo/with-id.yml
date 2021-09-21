@@ -2,6 +2,8 @@ get:
   tags:
     - "To-Do"
   summary: Get the to-do by id
+  security:
+    - BearerAuth: [ ]
   parameters:
     - in: path
       name: id
@@ -29,6 +31,8 @@ put:
   tags:
     - "To-Do"
   summary: Update the to-do by ID
+  security:
+    - BearerAuth: [ ]
   parameters:
     - in: path
       name: id
@@ -61,6 +65,8 @@ delete:
   tags:
     - "To-Do"
   summary: Delete the to-do by ID
+  security:
+    - BearerAuth: [ ]
   parameters:
     - in: path
       name: id

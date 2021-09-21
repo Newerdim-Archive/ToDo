@@ -2,6 +2,8 @@ get:
   tags:
     - "Profile"
   summary: Get the current profile
+  security:
+    - BearerAuth: [ ]
   responses:
     200:
       description: If the profile exists, returns 'Ok' with a message and the profile
