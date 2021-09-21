@@ -6,7 +6,7 @@
 - API - **completed**
 - API Documentation - **completed**
 - SPA (Angular) - **not started yet**
-- MVC (ASP .NET Core) - **not started yet**
+- MVC (ASP.NET Core) - **not started yet**
 
 ### API Documentation
 All information are on the [Website](https://to-do-api-documentation.newerdim.pl/)
