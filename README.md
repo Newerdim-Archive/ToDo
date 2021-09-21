@@ -4,6 +4,7 @@
 
 ### Progress
 - API - **completed**
+- API Documentation - **completed**
 - SPA (Angular) - **not started yet**
 - MVC (ASP .NET Core) - **not started yet**
 
