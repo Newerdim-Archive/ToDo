@@ -5,6 +5,8 @@ info:
 servers:
   - url: 'http://localhost:8080/api/'
     description: Main (development) server
+  - url: 'https://to-do-api.newerdim.pl/api/'
+    description: Main (production) server
 tags:
   - name: Authentication
   - name: Profile
