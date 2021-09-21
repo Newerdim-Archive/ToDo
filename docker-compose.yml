@@ -32,3 +32,13 @@ services:
     restart: always
     networks:
       - to-do-network
+
+  to-do-web-spa:
+    container_name: to-do-web-spa
+    image: ${DOCKER_REGISTRY-}to-do-web-spa
+    build:
+      context: .
+      dockerfile: ToDo.Web.SPA/Dockerfile
+    restart: always
+    networks:
+      - to-do-network
