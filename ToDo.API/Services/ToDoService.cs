@@ -71,5 +71,23 @@ namespace ToDo.API.Services
 
             return _mapper.Map<Dto.ToDo>(toDoFromDb);
         }
+
+        public async Task<bool> DeleteAsync(int userId, int toDoId)
+        {
+            var toDoInDb = await _context.ToDos
+                .Where(t => t.UserId == userId)
+                .FirstOrDefaultAsync(t => t.Id == toDoId);
+
+            if (toDoInDb is null)
+            {
+                return false;
+            }
+
+            _context.ToDos.Remove(toDoInDb);
+
+            await _context.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

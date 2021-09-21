@@ -34,6 +34,28 @@ namespace ToDo.UnitTests.TestHelpers
                             UserId = 1,
                             CreatedAt = DateTimeOffset.UtcNow,
                             UpdatedAt = DateTimeOffset.UtcNow
+                        },
+                        new()
+                        {
+                            Id = 2,
+                            Title = "Task 2",
+                            Description = "Description",
+                            Deadline = DateTimeOffset.UtcNow,
+                            Completed = false,
+                            UserId = 1,
+                            CreatedAt = DateTimeOffset.UtcNow,
+                            UpdatedAt = DateTimeOffset.UtcNow
+                        },
+                        new()
+                        {
+                            Id = 3,
+                            Title = "Task 3",
+                            Description = "Description",
+                            Deadline = DateTimeOffset.UtcNow,
+                            Completed = true,
+                            UserId = 1,
+                            CreatedAt = DateTimeOffset.UtcNow,
+                            UpdatedAt = DateTimeOffset.UtcNow
                         }
                     }
                 },
