@@ -9,10 +9,5 @@ namespace ToDo.API.Helpers
         {
             StatusCode = StatusCodes.Status500InternalServerError;
         }
-
-        public InternalServerErrorObjectResult() : this(null)
-        {
-            StatusCode = StatusCodes.Status500InternalServerError;
-        }
     }
 }
