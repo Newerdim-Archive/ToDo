@@ -83,9 +83,9 @@ namespace ToDo.API.Controllers
             }
 
             var refreshToken = _tokenService.CreateRefreshToken(externalLogInResult.User.Id);
-            
+
             _cookieService.Add(CookieName.RefreshToken, refreshToken);
-            
+
             var accessToken = _tokenService.CreateAccessToken(externalLogInResult.User.Id);
 
             return Ok(ResponseMessage.ActionPerformedSuccessfully, accessToken);
@@ -110,7 +110,7 @@ namespace ToDo.API.Controllers
             }
 
             var newRefreshToken = _tokenService.CreateRefreshToken(userIdFromToken.Value);
-            
+
             _cookieService.Add(CookieName.RefreshToken, newRefreshToken);
 
             var accessToken = _tokenService.CreateAccessToken(userIdFromToken.Value);

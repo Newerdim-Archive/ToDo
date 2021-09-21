@@ -12,8 +12,8 @@ namespace ToDo.API.Controllers
     [ApiController]
     public class ProfilesController : CustomControllerBase
     {
-        private readonly IUserService _userService;
         private readonly IProfileService _profileService;
+        private readonly IUserService _userService;
 
         public ProfilesController(IUserService userService, IProfileService profileService)
         {

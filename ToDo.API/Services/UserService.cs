@@ -14,8 +14,8 @@ namespace ToDo.API.Services
     public class UserService : IUserService
     {
         private readonly DataContext _context;
-        private readonly IMapper _mapper;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IMapper _mapper;
 
         public UserService(DataContext context, IMapper mapper, IHttpContextAccessor httpContextAccessor)
         {

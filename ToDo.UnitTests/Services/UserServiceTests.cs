@@ -18,8 +18,8 @@ namespace ToDo.UnitTests.Services
 {
     public class UserServiceTests : IClassFixture<SeededDataFixture>
     {
-        private readonly UserService _sut;
         private readonly HttpContext _httpContext = new DefaultHttpContext();
+        private readonly UserService _sut;
 
         public UserServiceTests(SeededDataFixture fixture)
         {
@@ -165,7 +165,7 @@ namespace ToDo.UnitTests.Services
             // Assert
             act.Should().Throw<Exception>();
         }
-        
+
         [Fact]
         public void GetCurrentId_UserIdIsNotOfTypeInt_ThrowsException()
         {

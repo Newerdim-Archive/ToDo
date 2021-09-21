@@ -56,7 +56,7 @@ put:
             $ref: "../../components/schemas/responses/NotFound.yml"
     401:
       $ref: "../../components/responses/Unauthorized.yml"
-      
+
 delete:
   tags:
     - "To-Do"

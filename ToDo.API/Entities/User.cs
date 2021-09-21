@@ -22,7 +22,7 @@ namespace ToDo.API.Entities
         [Required]
         [Column(TypeName = "varchar(20)")]
         public ExternalAuthProvider Provider { get; init; }
-        
+
         public virtual ICollection<ToDo> ToDos { get; set; }
     }
 }

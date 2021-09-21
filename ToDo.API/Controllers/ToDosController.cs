@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,8 +14,8 @@ namespace ToDo.API.Controllers
     [ApiController]
     public class ToDosController : CustomControllerBase
     {
-        private readonly IUserService _userService;
         private readonly IToDoService _toDoService;
+        private readonly IUserService _userService;
 
         public ToDosController(IUserService userService, IToDoService toDoService)
         {
@@ -94,7 +93,7 @@ namespace ToDo.API.Controllers
         public async Task<IActionResult> DeleteAsync(int id)
         {
             var currentUserId = _userService.GetCurrentId();
-            
+
             var isDeleted = await _toDoService.DeleteAsync(currentUserId, id);
 
             if (!isDeleted)

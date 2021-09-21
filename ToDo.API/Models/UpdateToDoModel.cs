@@ -9,11 +9,11 @@ namespace ToDo.API.Models
     {
         [Required(ErrorMessage = ValidationErrorMessage.IsRequired)]
         public string Title { get; init; }
-        
+
         public string Description { get; init; }
-        
+
         public DateTimeOffset? Deadline { get; init; }
-        
+
         [JsonProperty(Required = Required.Always)]
         [Required(ErrorMessage = ValidationErrorMessage.IsRequired)]
         public bool Completed { get; init; }

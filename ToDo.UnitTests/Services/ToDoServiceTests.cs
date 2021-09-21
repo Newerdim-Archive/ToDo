@@ -15,8 +15,8 @@ namespace ToDo.UnitTests.Services
 {
     public class ToDoServiceTests : IClassFixture<SeededDataFixture>
     {
-        private readonly ToDoService _sut;
         private readonly DataContext _context;
+        private readonly ToDoService _sut;
 
         public ToDoServiceTests(SeededDataFixture fixture)
         {
@@ -34,7 +34,8 @@ namespace ToDo.UnitTests.Services
 
         #region CreateAsync
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task CreateAsync_ReturnsCreatedToDo(ToDoToCreate toDoToCreate)
         {
             // Arrange
@@ -138,14 +139,14 @@ namespace ToDo.UnitTests.Services
                 Deadline = DateTimeOffset.UtcNow,
                 Completed = true
             };
-            
+
             // Act
             var updatedToDo = await _sut.UpdateAsync(1, toDoToUpdate);
 
             // Assert
             updatedToDo.Should().NotBeNull();
         }
-        
+
         [Fact]
         public async Task UpdateAsync_Exists_UpdatesToDoInDb()
         {
@@ -158,7 +159,7 @@ namespace ToDo.UnitTests.Services
                 Deadline = DateTimeOffset.UtcNow,
                 Completed = true
             };
-            
+
             // Act
             var updatedToDo = await _sut.UpdateAsync(1, toDoToUpdate);
 
@@ -172,10 +173,10 @@ namespace ToDo.UnitTests.Services
             updatedToDo.Description.Should().Be(toDoInDb.Description);
             updatedToDo.Deadline.Should().Be(toDoInDb.Deadline);
             updatedToDo.Completed.Should().Be(toDoInDb.Completed);
-            
+
             toDoInDb.UpdatedAt.Should().BeCloseTo(DateTimeOffset.UtcNow, TimeSpan.FromSeconds(10));
         }
-        
+
         [Fact]
         public async Task UpdateAsync_NotExist_ReturnsNull()
         {
@@ -188,14 +189,14 @@ namespace ToDo.UnitTests.Services
                 Deadline = DateTimeOffset.UtcNow,
                 Completed = true
             };
-            
+
             // Act
             var updatedToDo = await _sut.UpdateAsync(1, toDoToUpdate);
 
             // Assert
             updatedToDo.Should().BeNull();
         }
-        
+
         [Fact]
         public async Task UpdateAsync_ExistButWithDifferentUserId_ReturnsNull()
         {
@@ -208,14 +209,13 @@ namespace ToDo.UnitTests.Services
                 Deadline = DateTimeOffset.UtcNow,
                 Completed = true
             };
-            
+
             // Act
             var updatedToDo = await _sut.UpdateAsync(2, toDoToUpdate);
 
             // Assert
             updatedToDo.Should().BeNull();
         }
-
 
         #endregion
 
@@ -225,7 +225,7 @@ namespace ToDo.UnitTests.Services
         public async Task DeleteAsync_ToDoExists_ReturnsTrue()
         {
             // Arrange
-            
+
             // Act
             var result = await _sut.DeleteAsync(1, 3);
 
@@ -239,7 +239,7 @@ namespace ToDo.UnitTests.Services
             // Arrange
             const int userId = 1;
             const int toDoId = 2;
-            
+
             // Act
             var result = await _sut.DeleteAsync(userId, toDoId);
 
@@ -250,7 +250,7 @@ namespace ToDo.UnitTests.Services
 
             exists.Should().BeFalse();
         }
-        
+
         [Fact]
         public async Task DeleteAsync_ToDoNotExist_ReturnsFalse()
         {

@@ -4,8 +4,8 @@ namespace ToDo.API.Services
 {
     public class CookieService : ICookieService
     {
-        private readonly IResponseCookies _responseCookies;
         private readonly IRequestCookieCollection _requestCookies;
+        private readonly IResponseCookies _responseCookies;
 
         public CookieService(IHttpContextAccessor httpContextAccessor)
         {

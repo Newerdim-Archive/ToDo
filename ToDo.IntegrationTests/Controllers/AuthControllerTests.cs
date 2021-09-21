@@ -312,7 +312,8 @@ namespace ToDo.IntegrationTests.Controllers
 
         #region ExternalLogInAsync
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task ExternalLogInAsync_ModelIsValid_ReturnsOkWithMessage(ExternalLogInModel model)
         {
             // Arrange
@@ -338,7 +339,8 @@ namespace ToDo.IntegrationTests.Controllers
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task ExternalLogInAsync_InvalidToken_ReturnsBadRequestWithMessageAndError(ExternalLogInModel model)
         {
             // Arrange
@@ -365,7 +367,8 @@ namespace ToDo.IntegrationTests.Controllers
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task ExternalLogInAsync_UserNotExist_ReturnsUnauthorizedWithMessage(ExternalLogInModel model)
         {
             // Arrange
@@ -391,7 +394,8 @@ namespace ToDo.IntegrationTests.Controllers
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task ExternalLogInAsync_ModelIsValid_ReturnsAccessToken(ExternalLogInModel model)
         {
             // Arrange
@@ -417,7 +421,8 @@ namespace ToDo.IntegrationTests.Controllers
             _googleJsonWebSignatureWrapperMock.VerifyAll();
         }
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task ExternalLogInAsync_ModelIsValid_ReturnsRefreshTokenInCookie(ExternalLogInModel model)
         {
             // Arrange
@@ -460,9 +465,9 @@ namespace ToDo.IntegrationTests.Controllers
             content!.Message.Should().Be("One or more validation errors occurred");
 
             content.Errors.Should().ContainSingle(x =>
-                    x.Property == "Token" &&
-                    x.Messages.Contains("'Token' is required")
-                );
+                x.Property == "Token" &&
+                x.Messages.Contains("'Token' is required")
+            );
         }
 
         #endregion
@@ -474,7 +479,7 @@ namespace ToDo.IntegrationTests.Controllers
         {
             // Arrange
             _httpClient.AddCookie(CookieName.RefreshToken, RefreshToken.Valid);
-            
+
             // Act
             var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
 
@@ -487,12 +492,12 @@ namespace ToDo.IntegrationTests.Controllers
 
             content!.Message.Should().Be(ResponseMessage.ActionPerformedSuccessfully);
         }
-        
+
         [Fact]
         public async Task RefreshTokens_RefreshTokenNotExist_ReturnsUnauthorizedWithMessage()
         {
             // Arrange
-            
+
             // Act
             var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
 
@@ -511,7 +516,7 @@ namespace ToDo.IntegrationTests.Controllers
         {
             // Arrange
             _httpClient.AddCookie(CookieName.RefreshToken, RefreshToken.Invalid);
-            
+
             // Act
             var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
 
@@ -524,30 +529,30 @@ namespace ToDo.IntegrationTests.Controllers
 
             content!.Message.Should().Be("Refresh token is invalid or expired");
         }
-        
+
         [Fact]
         public async Task RefreshTokens_RefreshTokenIsValid_ReturnsNewRefreshTokenInCookies()
         {
             // Arrange
             _httpClient.AddCookie(CookieName.RefreshToken, RefreshToken.Valid);
-            
+
             // Act
             var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
 
             var newRefreshToken = response.GetCookieValue(CookieName.RefreshToken);
-            
+
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
             newRefreshToken.Should().NotBeNullOrWhiteSpace();
         }
-        
+
         [Fact]
         public async Task RefreshTokens_RefreshTokenIsValid_ReturnsAccessToken()
         {
             // Arrange
             _httpClient.AddCookie(CookieName.RefreshToken, RefreshToken.Valid);
-            
+
             // Act
             var response = await _httpClient.GetAsync(ApiRoute.RefreshTokens);
 

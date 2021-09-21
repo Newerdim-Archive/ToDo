@@ -7,7 +7,6 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using AutoFixture.Xunit2;
 using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.Resources;
 using ToDo.API;
 using ToDo.API.Const;
 using ToDo.API.Models;
@@ -28,7 +27,8 @@ namespace ToDo.IntegrationTests.Controllers
 
         #region CreateAsync
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task CreateAsync_ModelIsValid_ReturnsOkWithMessage(CreateToDoModel model)
         {
             // Arrange
@@ -66,7 +66,8 @@ namespace ToDo.IntegrationTests.Controllers
             content!.Message.Should().Be("You do not have permission. Please, log in first");
         }
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task CreateAsync_ModelIsValid_ReturnsCreatedToDo(CreateToDoModel model)
         {
             // Arrange
@@ -301,7 +302,7 @@ namespace ToDo.IntegrationTests.Controllers
                 Completed = false,
                 Deadline = DateTimeOffset.UtcNow
             };
-            
+
             _httpClient.Authenticate();
 
             // Act
@@ -350,7 +351,7 @@ namespace ToDo.IntegrationTests.Controllers
                 e.Messages.Contains("'Title' is required")
             );
         }
-        
+
         [Fact]
         public async Task UpdateAsync_NotAuthenticated_ReturnsUnauthorizedWithMessage()
         {
@@ -371,7 +372,7 @@ namespace ToDo.IntegrationTests.Controllers
 
             content!.Message.Should().Be(ResponseMessage.Unauthorized);
         }
-        
+
         [Fact]
         public async Task UpdateAsync_ToDoNotExist_ReturnsUnauthorizedWithMessage()
         {
@@ -385,7 +386,7 @@ namespace ToDo.IntegrationTests.Controllers
                 Completed = false,
                 Deadline = DateTimeOffset.UtcNow
             };
-            
+
             _httpClient.Authenticate();
 
             // Act
@@ -412,7 +413,7 @@ namespace ToDo.IntegrationTests.Controllers
             const int id = 3;
 
             _httpClient.Authenticate();
-            
+
             // Act
             var response = await _httpClient.DeleteAsync(ApiRoute.DeleteToDo + id);
 
@@ -424,13 +425,13 @@ namespace ToDo.IntegrationTests.Controllers
             content.Should().NotBeNull();
             content!.Message.Should().Be(ResponseMessage.ResourceDeletedSuccessfully);
         }
-        
+
         [Fact]
         public async Task DeleteAsync_IsNotAuthenticated_ReturnsUnauthorizedWithMessage()
         {
             // Arrange
             const int id = 3;
-            
+
             // Act
             var response = await _httpClient.DeleteAsync(ApiRoute.DeleteToDo + id);
 
@@ -442,15 +443,15 @@ namespace ToDo.IntegrationTests.Controllers
             content.Should().NotBeNull();
             content!.Message.Should().Be(ResponseMessage.Unauthorized);
         }
-        
+
         [Fact]
         public async Task DeleteAsync_ToDoNotExist_ReturnsNotFoundWithMessage()
         {
             // Arrange
             const int id = 999;
-            
+
             _httpClient.Authenticate();
-            
+
             // Act
             var response = await _httpClient.DeleteAsync(ApiRoute.DeleteToDo + id);
 

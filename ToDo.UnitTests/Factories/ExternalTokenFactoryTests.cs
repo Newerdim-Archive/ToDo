@@ -78,7 +78,7 @@ namespace ToDo.UnitTests.Factories
             // Assert
             await act.Should().ThrowAsync<NullReferenceException>();
         }
-        
+
         [Fact]
         public async Task ValidateAsync_ProviderNotExist_ThrowsNullReferenceExceptionException()
         {
@@ -87,7 +87,7 @@ namespace ToDo.UnitTests.Factories
             var sut = new ExternalTokenFactory(serviceProvider);
 
             // Act
-            Func<Task> act = async () => await sut.ValidateAsync("token", (ExternalAuthProvider)999);
+            Func<Task> act = async () => await sut.ValidateAsync("token", (ExternalAuthProvider) 999);
 
             // Assert
             await act.Should().ThrowAsync<ArgumentOutOfRangeException>();

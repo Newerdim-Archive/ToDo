@@ -54,9 +54,9 @@ namespace ToDo.API
             services.AddTransient<IUserService, UserService>();
 
             services.AddTransient<IAuthService, AuthService>();
-            
+
             services.AddTransient<IProfileService, ProfileService>();
-            
+
             services.AddTransient<IToDoService, ToDoService>();
 
             var accessTokenSecret = Configuration.GetSection("TokenSettings:AccessTokenSecret").Value;

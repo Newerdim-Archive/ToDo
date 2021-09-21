@@ -235,7 +235,7 @@ paths:
         - To-Do
       summary: Create a new to-do
       security:
-        - BearerAuth: []
+        - BearerAuth: [ ]
       requestBody:
         content:
           application/json:
@@ -377,4 +377,4 @@ components:
       type: http
       scheme: bearer
 security:
-  - BearerAuth: []
+  - BearerAuth: [ ]

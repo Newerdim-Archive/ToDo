@@ -26,19 +26,18 @@ namespace ToDo.IntegrationTests.Controllers
         public async Task Error_ReturnsInternalServerErrorWithMessage()
         {
             // Arrange
-            
+
             // Act
             var response = await _httpClient.GetAsync("api/error");
 
             var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
-            
+
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
 
             content.Should().NotBeNull();
             content!.Message.Should().Be(ResponseMessage.UnexpectedError);
         }
-
 
         #endregion
     }

@@ -9,7 +9,7 @@ namespace ToDo.API.Models
     {
         [Required(ErrorMessage = ValidationErrorMessage.IsRequired)]
         public string Token { get; init; }
-        
+
         [JsonProperty(Required = Required.Always)]
         [Required(ErrorMessage = ValidationErrorMessage.IsRequired)]
         public ExternalAuthProvider Provider { get; init; }

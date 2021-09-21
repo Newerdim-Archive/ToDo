@@ -35,10 +35,16 @@ namespace ToDo.UnitTests.TestHelpers
             return cookie?.Split(new[] {"=", ";"}, StringSplitOptions.None)[1];
         }
 
+        /// <summary>
+        ///     Adds cookie to request
+        /// </summary>
+        /// <param name="httpContext"><Http context/param>
+        /// <param name="key">Cookie key</param>
+        /// <param name="value">Cookie value</param>
         public static void AddCookieToRequest(this HttpContext httpContext, string key, string value)
         {
             var cookie = $"{key}={value}";
-            
+
             httpContext.Request.Headers.Add(HeaderNames.Cookie, cookie);
         }
     }
