@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using ToDo.API.Entities;
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
 
@@ -11,6 +10,7 @@ namespace ToDo.API.Data
         {
         }
 
-        public DbSet<User> Users { get; init; }
+        public DbSet<Entities.User> Users { get; init; }
+        public DbSet<Entities.ToDo> ToDos { get; init; }
     }
 }

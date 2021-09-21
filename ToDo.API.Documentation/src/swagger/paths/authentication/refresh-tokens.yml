@@ -1,0 +1,20 @@
+get:
+  tags:
+    - "Authentication"
+  summary: Refreshes the access token and the refresh token
+  responses:
+    200:
+      description: If tokens have been refreshed successfully, returns 'Ok' with a message and a new access token.
+                   Also adds a new refresh token to cookies
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/authentication/RefreshTokens.yml"
+    401:
+      description: If the refresh token is invalid, expired or does not exist, returns 'Unauthorized' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/Unauthorized.yml"
+          example:
+            message: "Refresh token is invalid or expired"

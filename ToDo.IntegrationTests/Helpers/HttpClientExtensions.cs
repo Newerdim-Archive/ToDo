@@ -14,5 +14,10 @@ namespace ToDo.IntegrationTests.Helpers
         {
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
+
+        public static void Authenticate(this HttpClient httpClient)
+        {
+            AddAuthenticationToken(httpClient, AccessToken.Valid);
+        }
     }
 }

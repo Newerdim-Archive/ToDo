@@ -1,0 +1,14 @@
+type: object
+required:
+  - token
+  - provider
+properties:
+  token:
+    type: string
+    description: Valid token from external provider
+    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
+  provider:
+    type: string
+    enum:
+      - Google
+    example: "Google"

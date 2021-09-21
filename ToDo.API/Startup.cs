@@ -17,6 +17,7 @@ using ToDo.API.Filters;
 using ToDo.API.Helpers;
 using ToDo.API.Responses;
 using ToDo.API.Services;
+using ToDo.API.Services.Implementations;
 using ToDo.API.Wrappers;
 
 namespace ToDo.API
@@ -32,7 +33,10 @@ namespace ToDo.API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(opt => { opt.UseNpgsql(Configuration.GetConnectionString("Default")); });
+            services.AddDbContext<DataContext>(opt =>
+            {
+                opt.UseNpgsql(Configuration.GetConnectionString("Default"));
+            });
 
             services.Configure<TokenSettings>(Configuration.GetSection("TokenSettings"));
             services.AddTransient<ITokenService, TokenService>();
@@ -51,8 +55,10 @@ namespace ToDo.API
             services.AddTransient<IUserService, UserService>();
 
             services.AddTransient<IAuthService, AuthService>();
-            
+
             services.AddTransient<IProfileService, ProfileService>();
+
+            services.AddTransient<IToDoService, ToDoService>();
 
             var accessTokenSecret = Configuration.GetSection("TokenSettings:AccessTokenSecret").Value;
             var accessTokenSecretKey = Encoding.UTF8.GetBytes(accessTokenSecret);
@@ -87,9 +93,15 @@ namespace ToDo.API
                     };
                 });
 
-            services.AddControllers(options => { options.Filters.Add(new ValidationFilter()); });
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new ValidationFilter());
+            }).AddNewtonsoftJson();
 
-            services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
@@ -103,13 +115,18 @@ namespace ToDo.API
             {
                 app.UseDeveloperExceptionPage();
             }
+            
+            app.UseExceptionHandler("/api/error");
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

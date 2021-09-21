@@ -52,16 +52,16 @@ namespace ToDo.API.Controllers
 
             var accessToken = _tokenService.CreateAccessToken(externalAuthResult.CreatedUser.Id);
 
-            return Ok(ResponseMessage.SignedUpSuccessfully, accessToken);
+            return Ok(ResponseMessage.ActionPerformedSuccessfully, accessToken);
         }
 
         [AllowAnonymous]
-        [HttpGet("log-out")]
+        [HttpPost("log-out")]
         public IActionResult LogOut()
         {
             _cookieService.Delete(CookieName.RefreshToken);
 
-            return Ok(ResponseMessage.LoggedOutSuccessfully);
+            return Ok(ResponseMessage.ActionPerformedSuccessfully);
         }
 
         [AllowAnonymous]
@@ -83,12 +83,12 @@ namespace ToDo.API.Controllers
             }
 
             var refreshToken = _tokenService.CreateRefreshToken(externalLogInResult.User.Id);
-            
+
             _cookieService.Add(CookieName.RefreshToken, refreshToken);
-            
+
             var accessToken = _tokenService.CreateAccessToken(externalLogInResult.User.Id);
 
-            return Ok(ResponseMessage.LoggedInSuccessfully, accessToken);
+            return Ok(ResponseMessage.ActionPerformedSuccessfully, accessToken);
         }
 
         [AllowAnonymous]
@@ -110,12 +110,12 @@ namespace ToDo.API.Controllers
             }
 
             var newRefreshToken = _tokenService.CreateRefreshToken(userIdFromToken.Value);
-            
+
             _cookieService.Add(CookieName.RefreshToken, newRefreshToken);
 
             var accessToken = _tokenService.CreateAccessToken(userIdFromToken.Value);
 
-            return Ok(ResponseMessage.RefreshedTokensSuccessfully, accessToken);
+            return Ok(ResponseMessage.ActionPerformedSuccessfully, accessToken);
         }
     }
 }

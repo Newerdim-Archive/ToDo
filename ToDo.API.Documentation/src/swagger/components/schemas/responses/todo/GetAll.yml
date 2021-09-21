@@ -1,0 +1,28 @@
+type: object
+properties:
+  message:
+    type: string
+  data:
+    type: array
+    items:
+      type: object
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        profilePictureUrl:
+          type: string
+example:
+  message: "Resource(s) gotten successfully"
+  data:
+    - id: 1
+      title: "Task 1"
+      description: "Description 1"
+      deadline: "2021-05-28T18:57:21.3249529+02:00"
+      completed: false
+    - id: 2
+      title: "Task 2"
+      description: "Description 2"
+      deadline: "2021-05-39T18:57:21.3249529+02:00"
+      completed: true

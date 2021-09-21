@@ -1,0 +1,91 @@
+get:
+  tags:
+    - "To-Do"
+  summary: Get the to-do by id
+  security:
+    - BearerAuth: [ ]
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+      description: Id of the to-do
+  responses:
+    200:
+      description: If got the to-do successfully, returns 'Ok' with a message and the to-do
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/todo/GetById.yml"
+    404:
+      description: If the to-do does not exist, returns 'Not Found' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/NotFound.yml"
+    401:
+      $ref: "../../components/responses/Unauthorized.yml"
+
+put:
+  tags:
+    - "To-Do"
+  summary: Update the to-do by ID
+  security:
+    - BearerAuth: [ ]
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+      description: ID of the to-do
+  requestBody:
+    content:
+      application/json:
+        schema:
+          $ref: "../../components/schemas/models/todo/Update.yml"
+  responses:
+    200:
+      description: If updated the to-do successfully, returns 'Ok' with a message and the updated to-do
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/todo/Update.yml"
+    404:
+      description: If the to-do does not exist, returns 'Not Found' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/NotFound.yml"
+    401:
+      $ref: "../../components/responses/Unauthorized.yml"
+
+delete:
+  tags:
+    - "To-Do"
+  summary: Delete the to-do by ID
+  security:
+    - BearerAuth: [ ]
+  parameters:
+    - in: path
+      name: id
+      schema:
+        type: integer
+      required: true
+      description: ID of the to-do
+  responses:
+    200:
+      description: If deleted the to-do successfully, returns 'Ok' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/todo/Delete.yml"
+    404:
+      description: If the to-do does not exist, returns 'Not Found' with a message
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/schemas/responses/NotFound.yml"
+    401:
+      $ref: "../../components/responses/Unauthorized.yml"

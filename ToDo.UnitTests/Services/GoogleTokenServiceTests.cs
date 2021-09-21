@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 using Moq;
 using ToDo.API.Helpers;
 using ToDo.API.Services;
+using ToDo.API.Services.Implementations;
 using ToDo.API.Wrappers;
 using Xunit;
 

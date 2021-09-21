@@ -9,6 +9,7 @@ using ToDo.API.Enum;
 using ToDo.API.Factories;
 using ToDo.API.Helpers;
 using ToDo.API.Services;
+using ToDo.API.Services.Implementations;
 using ToDo.API.Wrappers;
 using Xunit;
 
@@ -78,7 +79,7 @@ namespace ToDo.UnitTests.Factories
             // Assert
             await act.Should().ThrowAsync<NullReferenceException>();
         }
-        
+
         [Fact]
         public async Task ValidateAsync_ProviderNotExist_ThrowsNullReferenceExceptionException()
         {
@@ -87,7 +88,7 @@ namespace ToDo.UnitTests.Factories
             var sut = new ExternalTokenFactory(serviceProvider);
 
             // Act
-            Func<Task> act = async () => await sut.ValidateAsync("token", (ExternalAuthProvider)999);
+            Func<Task> act = async () => await sut.ValidateAsync("token", (ExternalAuthProvider) 999);
 
             // Assert
             await act.Should().ThrowAsync<ArgumentOutOfRangeException>();

@@ -1,0 +1,5 @@
+description: If request is invalid, returns 'Bad Request' with message and errors
+content:
+  application/json:
+    schema:
+      $ref: "../schemas/responses/BadRequest.yml"

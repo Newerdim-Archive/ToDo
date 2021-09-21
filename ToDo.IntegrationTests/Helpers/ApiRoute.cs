@@ -6,6 +6,11 @@ namespace ToDo.IntegrationTests.Helpers
         public const string LogOut = "api/auth/log-out";
         public const string ExternalLogIn = "api/auth/external-log-in";
         public const string RefreshTokens = "api/auth/refresh-tokens";
-        public const string GetCurrentProfile = "api/profile/current";
+        public const string GetCurrentProfile = "api/profiles/current";
+        public const string CreateToDo = "api/todos";
+        public const string GetAllToDos = "api/todos";
+        public const string GetToDoById = "api/todos/";
+        public const string UpdateToDo = "api/todos/";
+        public const string DeleteToDo = "api/todos/";
     }
 }

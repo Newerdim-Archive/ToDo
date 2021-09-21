@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Moq;
 using ToDo.API.Helpers;
 using ToDo.API.Services;
+using ToDo.API.Services.Implementations;
 using Xunit;
 
 namespace ToDo.UnitTests.Services

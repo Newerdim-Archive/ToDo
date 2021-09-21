@@ -7,6 +7,7 @@ using ToDo.API.Dto;
 using ToDo.API.Enum;
 using ToDo.API.Factories;
 using ToDo.API.Services;
+using ToDo.API.Services.Implementations;
 using Xunit;
 
 namespace ToDo.UnitTests.Services
@@ -25,7 +26,7 @@ namespace ToDo.UnitTests.Services
             _sut = new AuthService(_externalTokenFactoryMock.Object, _userService.Object);
         }
 
-            #region ExternalSignUpAsync
+        #region ExternalSignUpAsync
 
         [Fact]
         public async Task ExternalSignUpAsync_TokenIsValid_ReturnsSuccessMessage()
@@ -190,7 +191,8 @@ namespace ToDo.UnitTests.Services
 
         #region ExternalLogInAsync
 
-        [Theory, AutoData]
+        [Theory]
+        [AutoData]
         public async Task ExternalLogInAsync_TokenIsValid_ReturnsSuccessfulMessage(
             ExternalTokenPayload tokenPayload, User user)
         {
@@ -201,11 +203,11 @@ namespace ToDo.UnitTests.Services
             _externalTokenFactoryMock
                 .Setup(x => x.ValidateAsync(token, provider))
                 .ReturnsAsync(tokenPayload);
-            
+
             _userService
                 .Setup(x => x.GetByExternalIdAsync(tokenPayload.UserId, provider))
                 .ReturnsAsync(user);
-            
+
             // Act
             var result = await _sut.ExternalLogInAsync(token, provider);
 
@@ -214,8 +216,9 @@ namespace ToDo.UnitTests.Services
 
             result.Message.Should().Be(ExternalLogInResultMessage.LoggedInSuccessfully);
         }
-        
-        [Theory, AutoData]
+
+        [Theory]
+        [AutoData]
         public async Task ExternalLogInAsync_TokenIsValid_ReturnsCorrectUser(
             ExternalTokenPayload tokenPayload, User user)
         {
@@ -226,11 +229,11 @@ namespace ToDo.UnitTests.Services
             _externalTokenFactoryMock
                 .Setup(x => x.ValidateAsync(token, provider))
                 .ReturnsAsync(tokenPayload);
-            
+
             _userService
                 .Setup(x => x.GetByExternalIdAsync(tokenPayload.UserId, provider))
                 .ReturnsAsync(user);
-            
+
             // Act
             var result = await _sut.ExternalLogInAsync(token, provider);
 
@@ -239,7 +242,7 @@ namespace ToDo.UnitTests.Services
 
             result.User.Should().NotBeNull().And.Be(user);
         }
-        
+
         [Fact]
         public async Task ExternalLogInAsync_TokenIsInvalid_ReturnsInvalidTokenMessage()
         {
@@ -250,7 +253,7 @@ namespace ToDo.UnitTests.Services
             _externalTokenFactoryMock
                 .Setup(x => x.ValidateAsync(token, provider))
                 .ReturnsAsync((ExternalTokenPayload) null);
-            
+
             // Act
             var result = await _sut.ExternalLogInAsync(token, provider);
 
@@ -259,8 +262,9 @@ namespace ToDo.UnitTests.Services
 
             result.Message.Should().Be(ExternalLogInResultMessage.InvalidToken);
         }
-        
-        [Theory, AutoData]
+
+        [Theory]
+        [AutoData]
         public async Task ExternalLogInAsync_UserNotExist_ReturnsUserNotExistMessage(ExternalTokenPayload tokenPayload)
         {
             // Arrange
@@ -274,7 +278,7 @@ namespace ToDo.UnitTests.Services
             _userService
                 .Setup(x => x.GetByExternalIdAsync(tokenPayload.UserId, provider))
                 .ReturnsAsync((User) null);
-            
+
             // Act
             var result = await _sut.ExternalLogInAsync(token, provider);
 
@@ -283,7 +287,6 @@ namespace ToDo.UnitTests.Services
 
             result.Message.Should().Be(ExternalLogInResultMessage.UserNotExist);
         }
-
 
         #endregion
     }

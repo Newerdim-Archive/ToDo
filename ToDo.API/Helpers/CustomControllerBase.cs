@@ -98,5 +98,20 @@ namespace ToDo.API.Helpers
                 Message = message
             });
         }
+
+        /// <summary>
+        ///     Creates internal server error with message
+        /// </summary>
+        /// <param name="message">Error message</param>
+        /// <returns>Internal server error</returns>
+        protected InternalServerErrorObjectResult InternalServerError(string message)
+        {
+            var response = new BaseResponse
+            {
+                Message = message
+            };
+
+            return new InternalServerErrorObjectResult(response);
+        }
     }
 }
