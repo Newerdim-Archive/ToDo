@@ -11,5 +11,6 @@ namespace ToDo.IntegrationTests.Helpers
         public const string GetAllToDos = "api/todos";
         public const string GetToDoById = "api/todos/";
         public const string UpdateToDo = "api/todos/";
+        public const string DeleteToDo = "api/todos/";
     }
 }
