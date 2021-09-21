@@ -13,8 +13,6 @@ services:
     restart: always
     depends_on:
       - todo-db
-    ports:
-      - "8080:80"
     networks:
       - todo-network
 
@@ -22,10 +20,6 @@ services:
     container_name: todo-db
     image: postgres
     restart: always
-    environment:
-      POSTGRES_PASSWORD: UltimateSecretPasswordForDb
-    ports:
-      - "5432:5432"
     networks:
       - todo-network
 
@@ -36,5 +30,3 @@ services:
       context: .
       dockerfile: ToDo.API.Documentation/Dockerfile
     restart: always
-    ports:
-      - "8081:80"
