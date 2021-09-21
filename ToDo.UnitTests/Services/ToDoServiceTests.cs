@@ -21,7 +21,7 @@ namespace ToDo.UnitTests.Services
         public ToDoServiceTests(SeededDataFixture fixture)
         {
             _context = fixture.Context;
-            
+
             var mapperConfiguration = new MapperConfiguration(config =>
             {
                 config.AddProfile<MapperProfile>();
@@ -38,6 +38,7 @@ namespace ToDo.UnitTests.Services
         public async Task CreateAsync_ReturnsCreatedToDo(ToDoToCreate toDoToCreate)
         {
             // Arrange
+            var expectedId = await _context.ToDos.CountAsync() + 1;
 
             // Act
             var createdToDo = await _sut.CreateAsync(1, toDoToCreate);
@@ -45,7 +46,7 @@ namespace ToDo.UnitTests.Services
             // Assert
             createdToDo.Should().NotBeNull();
 
-            createdToDo.Id.Should().Be(2);
+            createdToDo.Id.Should().Be(expectedId);
             createdToDo.Title.Should().Be(toDoToCreate.Title);
             createdToDo.Description.Should().Be(toDoToCreate.Description);
             createdToDo.Deadline.Should().Be(toDoToCreate.Deadline);
@@ -215,6 +216,52 @@ namespace ToDo.UnitTests.Services
             updatedToDo.Should().BeNull();
         }
 
+
+        #endregion
+
+        #region DeleteAsync
+
+        [Fact]
+        public async Task DeleteAsync_ToDoExists_ReturnsTrue()
+        {
+            // Arrange
+            
+            // Act
+            var result = await _sut.DeleteAsync(1, 3);
+
+            // Assert
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task DeleteAsync_ToDoExists_DeletedToDoFromDb()
+        {
+            // Arrange
+            const int userId = 1;
+            const int toDoId = 2;
+            
+            // Act
+            var result = await _sut.DeleteAsync(userId, toDoId);
+
+            var exists = await _context.ToDos.AnyAsync(t => t.Id == toDoId);
+
+            // Assert
+            result.Should().BeTrue();
+
+            exists.Should().BeFalse();
+        }
+        
+        [Fact]
+        public async Task DeleteAsync_ToDoNotExist_ReturnsFalse()
+        {
+            // Arrange
+
+            // Act
+            var result = await _sut.DeleteAsync(1, 999);
+
+            // Assert
+            result.Should().BeFalse();
+        }
 
         #endregion
     }

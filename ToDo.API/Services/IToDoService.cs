@@ -36,5 +36,13 @@ namespace ToDo.API.Services
         /// <param name="toDoToUpdate">To-do to update</param>
         /// <returns>Updated to-do if exists; otherwise, null</returns>
         public Task<Dto.ToDo> UpdateAsync(int userId, ToDoToUpdate toDoToUpdate);
+
+        /// <summary>
+        ///     Delete the to-do
+        /// </summary>
+        /// <param name="userId">User ID</param>
+        /// <param name="toDoId">To-do ID</param>
+        /// <returns>True if deleted successfully; otherwise, false</returns>
+        public Task<bool> DeleteAsync(int userId, int toDoId);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -27,7 +28,7 @@ namespace ToDo.API.Controllers
         public async Task<IActionResult> CreateAsync(CreateToDoModel model)
         {
             var currentUserId = _userService.GetCurrentId();
-            
+
             var toDoToCreate = new ToDoToCreate
             {
                 Title = model.Title,
@@ -36,7 +37,7 @@ namespace ToDo.API.Controllers
             };
 
             var createdToDo = await _toDoService.CreateAsync(currentUserId, toDoToCreate);
-            
+
             return Ok(ResponseMessage.ResourceCreatedSuccessfully, createdToDo);
         }
 
@@ -46,7 +47,7 @@ namespace ToDo.API.Controllers
             var currentUserId = _userService.GetCurrentId();
 
             var toDos = await _toDoService.GetAllAsync(currentUserId);
-            
+
             return Ok(ResponseMessage.ResourceGottenSuccessfully, toDos);
         }
 
@@ -59,9 +60,9 @@ namespace ToDo.API.Controllers
 
             if (toDo is null)
             {
-                return NotFound(ResponseMessage.NotFound);
+                return NotFound(ResponseMessage.ResourceNotFound);
             }
-            
+
             return Ok(ResponseMessage.ResourceGottenSuccessfully, toDo);
         }
 
@@ -83,10 +84,25 @@ namespace ToDo.API.Controllers
 
             if (updatedToDo is null)
             {
-                return NotFound(ResponseMessage.NotFound);
+                return NotFound(ResponseMessage.ResourceNotFound);
             }
 
             return Ok(ResponseMessage.ResourceUpdatedSuccessfully, updatedToDo);
+        }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> DeleteAsync(int id)
+        {
+            var currentUserId = _userService.GetCurrentId();
+            
+            var isDeleted = await _toDoService.DeleteAsync(currentUserId, id);
+
+            if (!isDeleted)
+            {
+                return NotFound(ResponseMessage.ResourceNotFound);
+            }
+
+            return Ok(ResponseMessage.ResourceDeletedSuccessfully);
         }
     }
 }

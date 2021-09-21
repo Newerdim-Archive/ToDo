@@ -235,7 +235,7 @@ namespace ToDo.IntegrationTests.Controllers
             response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
             content.Should().NotBeNull();
-            content!.Message.Should().Be("Resource not found");
+            content!.Message.Should().Be(ResponseMessage.ResourceNotFound);
         }
 
         [Fact]
@@ -398,7 +398,69 @@ namespace ToDo.IntegrationTests.Controllers
 
             content.Should().NotBeNull();
 
-            content!.Message.Should().Be(ResponseMessage.NotFound);
+            content!.Message.Should().Be(ResponseMessage.ResourceNotFound);
+        }
+
+        #endregion
+
+        #region DeleteAsync
+
+        [Fact]
+        public async Task DeleteAsync_ToDoExists_ReturnsOkWithMessage()
+        {
+            // Arrange
+            const int id = 3;
+
+            _httpClient.Authenticate();
+            
+            // Act
+            var response = await _httpClient.DeleteAsync(ApiRoute.DeleteToDo + id);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+            content.Should().NotBeNull();
+            content!.Message.Should().Be(ResponseMessage.ResourceDeletedSuccessfully);
+        }
+        
+        [Fact]
+        public async Task DeleteAsync_IsNotAuthenticated_ReturnsUnauthorizedWithMessage()
+        {
+            // Arrange
+            const int id = 3;
+            
+            // Act
+            var response = await _httpClient.DeleteAsync(ApiRoute.DeleteToDo + id);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
+
+            content.Should().NotBeNull();
+            content!.Message.Should().Be(ResponseMessage.Unauthorized);
+        }
+        
+        [Fact]
+        public async Task DeleteAsync_ToDoNotExist_ReturnsNotFoundWithMessage()
+        {
+            // Arrange
+            const int id = 999;
+            
+            _httpClient.Authenticate();
+            
+            // Act
+            var response = await _httpClient.DeleteAsync(ApiRoute.DeleteToDo + id);
+
+            var content = await response.Content.ReadFromJsonAsync<BaseResponse>();
+
+            // Assert
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+            content.Should().NotBeNull();
+            content!.Message.Should().Be(ResponseMessage.ResourceNotFound);
         }
 
         #endregion
