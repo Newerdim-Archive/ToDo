@@ -2,6 +2,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const RemovePlugin = require('remove-files-webpack-plugin');
 
 const outputPath = path.resolve(__dirname, 'dist');
 
@@ -42,6 +43,18 @@ module.exports = {
         }),
         new HtmlWebpackPlugin({
             template: './src/index.html'
+        }),
+        new RemovePlugin({
+            before: {
+                include: [
+                    './dist'
+                ],
+            },
+            after: {
+                include: [
+                    './src/swagger/swagger.yml'
+                ]
+            }
         })
     ],
 };
