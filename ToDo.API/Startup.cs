@@ -102,6 +102,18 @@ namespace ToDo.API
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+            
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", builder =>
+                {
+                    builder
+                        .SetIsOriginAllowed(_ => true)
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, DataContext context)
@@ -119,6 +131,8 @@ namespace ToDo.API
             app.UseExceptionHandler("/api/error");
 
             app.UseRouting();
+            
+            app.UseCors("AllowAll");
 
             app.UseAuthentication();
             app.UseAuthorization();
