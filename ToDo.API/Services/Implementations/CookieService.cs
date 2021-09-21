@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Http;
 
-namespace ToDo.API.Services
+namespace ToDo.API.Services.Implementations
 {
     public class CookieService : ICookieService
     {

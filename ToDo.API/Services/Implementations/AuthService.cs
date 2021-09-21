@@ -4,7 +4,7 @@ using ToDo.API.Enum;
 using ToDo.API.Extensions;
 using ToDo.API.Factories;
 
-namespace ToDo.API.Services
+namespace ToDo.API.Services.Implementations
 {
     public class AuthService : IAuthService
     {

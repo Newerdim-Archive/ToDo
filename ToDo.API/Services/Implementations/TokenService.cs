@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using ToDo.API.Helpers;
 
-namespace ToDo.API.Services
+namespace ToDo.API.Services.Implementations
 {
     public class TokenService : ITokenService
     {

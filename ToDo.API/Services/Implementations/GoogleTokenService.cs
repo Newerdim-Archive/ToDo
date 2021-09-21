@@ -5,7 +5,7 @@ using ToDo.API.Dto;
 using ToDo.API.Helpers;
 using ToDo.API.Wrappers;
 
-namespace ToDo.API.Services
+namespace ToDo.API.Services.Implementations
 {
     public class GoogleTokenService : IExternalTokenService
     {

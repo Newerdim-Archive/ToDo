@@ -9,7 +9,7 @@ using ToDo.API.Data;
 using ToDo.API.Dto;
 using ToDo.API.Enum;
 
-namespace ToDo.API.Services
+namespace ToDo.API.Services.Implementations
 {
     public class UserService : IUserService
     {

@@ -7,6 +7,7 @@ using ToDo.API.Dto;
 using ToDo.API.Enum;
 using ToDo.API.Factories;
 using ToDo.API.Services;
+using ToDo.API.Services.Implementations;
 using Xunit;
 
 namespace ToDo.UnitTests.Services

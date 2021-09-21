@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ToDo.API.Data;
 using ToDo.API.Dto;
 
-namespace ToDo.API.Services
+namespace ToDo.API.Services.Implementations
 {
     public class ProfileService : IProfileService
     {
