@@ -12,10 +12,14 @@ services:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
   to-do-db:
     ports:
-      - "5432:5432"
+      - "8083:5432"
     environment:
       POSTGRES_PASSWORD: UltimateSecretPasswordForDb
       
   to-do-api-documentation:
     ports:
       - "8081:80"
+
+  to-do-web-spa:
+    ports:
+      - "8084:80"
