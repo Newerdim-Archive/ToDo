@@ -7,6 +7,8 @@ import { HomeComponent } from './components/home/home.component';
 import { IconComponent } from './components/icon/icon.component';
 import { NavComponent } from './components/nav/nav.component';
 import { ToggleMenuIconComponent } from './components/toggle-menu-icon/toggle-menu-icon.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,13 @@ import { ToggleMenuIconComponent } from './components/toggle-menu-icon/toggle-me
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
