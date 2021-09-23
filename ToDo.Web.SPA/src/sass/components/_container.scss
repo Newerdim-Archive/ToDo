@@ -1,0 +1,10 @@
+[class^='container'] {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin: auto;
+  padding: var(--container-padding);
+}
+
+[class^='container'][class*='--flex'] {
+  display: flex;
+}

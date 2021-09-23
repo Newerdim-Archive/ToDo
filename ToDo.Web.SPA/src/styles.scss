@@ -1,1 +1,12 @@
-/* You can add global styles to this file, and also import other style files */
+@use "core/reset";
+@use "core/css-variables";
+@use "core/typography";
+
+@use "components/buttons";
+@use "components/icon";
+@use "components/container";
+
+body {
+  background-color: var(--color-light-darker);
+  color: var(--color-light-darker-text);
+}

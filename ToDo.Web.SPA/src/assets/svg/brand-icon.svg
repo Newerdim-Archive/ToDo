@@ -1,0 +1,5 @@
+<svg class="icon" id="brand-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+  <rect x="2" y="2" width="20" height="20" rx="1" fill="var(--color-primary-lighter)"/>
+  <path d="m6 13 3.629 3.628a1 1 0 0 0 1.544-.16L18 6" stroke="var(--color-light)" stroke-width="2"
+        stroke-linecap="round"/>
+</svg>
