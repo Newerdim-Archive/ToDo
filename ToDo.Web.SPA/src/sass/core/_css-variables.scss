@@ -1,5 +1,15 @@
 :root {
-  /* Colors */
+  --border-rounded: 0.25rem;
+
+  --container-max-width: 62.5rem;
+  --container-padding: 0 1rem;
+
+  --icon-size: 1.5rem;
+
+  --nav-height: 3.75rem;
+}
+
+:root {
   --color-primary: hsl(162, 62%, 24%);
   --color-primary-text: var(--color-light);
   --color-primary-lighter: hsl(162, 62%, 35%);
@@ -9,15 +19,5 @@
   --color-light: hsl(0, 0%, 100%);
   --color-light-text: var(--color-dark);
   --color-light-darker: hsl(0, 0%, 94%);
-  --color-light-darker-text: --color-dark;
-
-  /* Utilities */
-  --border-rounded: 0.25rem;
-
-  --container-max-width: 62.5rem;
-  --container-padding: 0 1rem;
-
-  --icon-size: 1.5rem;
-
-  --nav-height: 3.75rem;
+  --color-light-darker-text: var(--color-dark);
 }
