@@ -1,0 +1,110 @@
+@use "utilities/mixins/media";
+
+.nav {
+  width: 100%;
+  height: var(--nav-height);
+  z-index: 100;
+  background-color: var(--color-light);
+  position: sticky;
+  top: 0;
+
+  [class^='container'] {
+    height: 100%;
+    // This is for hiding navbar on mobile
+    background-color: var(--color-light);
+    align-items: center;
+  }
+
+  &__link--brand {
+    display: flex;
+    align-items: center;
+    color: var(--color-primary);
+    font-weight: bold;
+
+    app-icon {
+      margin-right: 0.5rem;
+    }
+  }
+
+  &__button--toggle {
+    margin-left: auto;
+  }
+}
+
+.navbar {
+  width: 100%;
+  padding: 1.4rem 0;
+  position: fixed;
+  left: 0;
+  top: var(--nav-height);
+  transform: translateY(-101%);
+  z-index: -1;
+  background-color: var(--color-primary);
+  color: var(--color-primary-text);
+  transition: transform 300ms;
+
+  &.active {
+    transform: translateY(0);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__item {
+    margin-bottom: 1rem;
+
+    [class*="button--link"] {
+      --text-color: var(--color-primary-text);
+    }
+
+    [class*="button--outline"] {
+      --bg-color: var(--color-primary-text);
+      --text-color: var(--color-primary);
+    }
+  }
+}
+
+@include media.s {
+  .nav {
+    &__button--toggle {
+      display: none;
+      font-size: 30rem;
+    }
+  }
+
+  .navbar {
+    position: static;
+    z-index: 0;
+    transform: translateY(0);
+    padding: 0;
+    width: auto;
+    margin-left: auto;
+    background-color: transparent;
+    color: inherit;
+
+    &__list {
+      flex-direction: row;
+
+      [class*="button--link"] {
+        --text-color: var(--color-light-text);
+      }
+
+      [class*="button--outline"] {
+        --bg-color: var(--color-primary);
+        --text-color: var(--color-primary-text);
+      }
+    }
+
+    &__item {
+      margin-bottom: 0;
+      margin-right: 1rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}

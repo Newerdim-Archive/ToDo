@@ -1,0 +1,24 @@
+<nav class="nav">
+  <div class="container--flex">
+    <a routerLink="/" class="nav__link--brand">
+      <app-icon name="brand"></app-icon>
+      Tododim
+    </a>
+    <button class="nav__button--toggle" aria-label="Show navbar button" (click)="toggleNavbar()">
+      <app-toggle-menu-icon [isMenuOpen]="isNavbarShown"></app-toggle-menu-icon>
+    </button>
+    <section class="navbar" [class.active]="isNavbarShown">
+      <ul class="navbar__list">
+        <li class="navbar__item">
+          <button class="item__button--link">Log In</button>
+        </li>
+        <li class="navbar__item">
+          <button class="item__button--link">Sign Up</button>
+        </li>
+        <li class="navbar__item">
+          <button class="item__button--outline--rounded">Try it now</button>
+        </li>
+      </ul>
+    </section>
+  </div>
+</nav>
