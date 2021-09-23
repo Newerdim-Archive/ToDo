@@ -16,6 +16,9 @@
   }
 
   &__link--brand {
+    --color-icon: var(--color-primary);
+    --color-icon-accent: var(--color-primary-text);
+
     display: flex;
     align-items: center;
     color: var(--color-primary);
