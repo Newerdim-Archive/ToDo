@@ -4,19 +4,23 @@
       <app-icon name="brand"></app-icon>
       Tododim
     </a>
-    <button (click)="toggleNavbar()" aria-label="Show navbar button" class="nav__button--toggle">
+    <button
+      (click)="toggleNavbar()"
+      aria-label="Show navbar button"
+      class="nav__button--toggle"
+    >
       <app-toggle-menu-icon [isMenuOpen]="isNavbarShown"></app-toggle-menu-icon>
     </button>
     <section [class.active]="isNavbarShown" class="navbar">
       <ul class="navbar__list">
         <li class="navbar__item">
-          <button class="item__button--link">Log In</button>
+          <button class="button--link">Log In</button>
         </li>
         <li class="navbar__item">
-          <button class="item__button--link">Sign Up</button>
+          <button class="button--link">Sign Up</button>
         </li>
         <li class="navbar__item">
-          <button class="item__button--outline--rounded">Try it now</button>
+          <button class="button--outline--rounded">Try it now</button>
         </li>
       </ul>
     </section>

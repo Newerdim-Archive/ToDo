@@ -1,11 +1,11 @@
-import {ComponentFixture, TestBed} from '@angular/core/testing';
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import {HomeComponent} from './home.component';
-import {NavComponent} from "../nav/nav.component";
-import {IconComponent} from "../icon/icon.component";
-import {ToggleMenuIconComponent} from "../toggle-menu-icon/toggle-menu-icon.component";
+import { HomeComponent } from "./home.component";
+import { NavComponent } from "../nav/nav.component";
+import { IconComponent } from "../icon/icon.component";
+import { ToggleMenuIconComponent } from "../toggle-menu-icon/toggle-menu-icon.component";
 
-describe('HomeComponent', () => {
+describe("HomeComponent", () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
@@ -15,10 +15,9 @@ describe('HomeComponent', () => {
         HomeComponent,
         NavComponent,
         IconComponent,
-        ToggleMenuIconComponent
-      ]
-    })
-      .compileComponents();
+        ToggleMenuIconComponent,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -27,7 +26,7 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

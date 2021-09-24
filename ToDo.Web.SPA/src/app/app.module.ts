@@ -1,14 +1,15 @@
-import {NgModule} from '@angular/core';
-import {BrowserModule} from '@angular/platform-browser';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
 
-import {AppRoutingModule} from './app-routing.module';
-import {AppComponent} from './app.component';
-import {HomeComponent} from './components/home/home.component';
-import {IconComponent} from './components/icon/icon.component';
-import {NavComponent} from './components/nav/nav.component';
-import {ToggleMenuIconComponent} from './components/toggle-menu-icon/toggle-menu-icon.component';
-import {ServiceWorkerModule} from '@angular/service-worker';
-import {environment} from '../environments/environment';
+import { AppRoutingModule } from "./app-routing.module";
+import { ServiceWorkerModule } from "@angular/service-worker";
+import { environment } from "../environments/environment";
+
+import { AppComponent } from "./app.component";
+import { HomeComponent } from "./components/home/home.component";
+import { IconComponent } from "./components/icon/icon.component";
+import { NavComponent } from "./components/nav/nav.component";
+import { ToggleMenuIconComponent } from "./components/toggle-menu-icon/toggle-menu-icon.component";
 
 @NgModule({
   declarations: [
@@ -16,20 +17,19 @@ import {environment} from '../environments/environment';
     HomeComponent,
     IconComponent,
     NavComponent,
-    ToggleMenuIconComponent
+    ToggleMenuIconComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', {
+    ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
-    })
+      registrationStrategy: "registerWhenStable:30000",
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule {
-}
+export class AppModule {}

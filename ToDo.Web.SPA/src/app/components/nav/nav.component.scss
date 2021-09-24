@@ -8,7 +8,7 @@
   position: sticky;
   top: 0;
 
-  [class^='container'] {
+  [class^="container"] {
     height: 100%;
     // This is for hiding navbar on mobile
     background-color: var(--color-light);
@@ -59,11 +59,11 @@
   &__item {
     margin-bottom: 1rem;
 
-    [class*="button--link"] {
+    [class^="button"][class*="link"] {
       --text-color: var(--color-primary-text);
     }
 
-    [class*="button--outline"] {
+    [class^="button"][class*="outline"] {
       --bg-color: var(--color-primary-text);
       --text-color: var(--color-primary);
     }
@@ -91,11 +91,11 @@
     &__list {
       flex-direction: row;
 
-      [class*="button--link"] {
+      [class^="button"][class*="link"] {
         --text-color: var(--color-light-text);
       }
 
-      [class*="button--outline"] {
+      [class^="button"][class*="outline"] {
         --bg-color: var(--color-primary);
         --text-color: var(--color-primary-text);
       }
