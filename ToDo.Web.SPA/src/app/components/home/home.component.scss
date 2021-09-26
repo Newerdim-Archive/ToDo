@@ -1,0 +1,29 @@
+@use "utilities/mixins/media";
+
+.header {
+  min-height: calc(100vh - var(--nav-height));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__title {
+    text-align: center;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+  }
+
+  &__buttons {
+    max-width: 20rem;
+    margin: auto;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}
+
+@include media.md {
+  .header__section {
+    font-size: 1.4rem;
+  }
+}

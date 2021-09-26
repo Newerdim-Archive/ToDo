@@ -1,0 +1,22 @@
+<app-home-nav></app-home-nav>
+
+<header class="header padding-y-6">
+  <div class="container">
+    <h1 class="header__title">
+      Organise your tasks <br/>
+      with <span class="text--primary">Tododim</span>
+    </h1>
+    <section class="header__buttons">
+      <button class="button button--primary" (click)="showSignUpModal()">
+        Create an account
+      </button>
+      <span class="margin-y-4">or</span>
+      <a routerLink="app" class="button button--primary button-outline">
+        Try without an account
+      </a>
+    </section>
+  </div>
+</header>
+
+<app-sign-up-modal></app-sign-up-modal>
+<app-log-in-modal></app-log-in-modal>

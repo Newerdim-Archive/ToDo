@@ -1,0 +1,3 @@
+<svg class="icon" fill="none" id="close-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+  <path d="M5 19 19 5M5 5l14 14" stroke="var(--color-icon)" stroke-linecap="round" stroke-width="2"/>
+</svg>

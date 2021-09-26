@@ -1,0 +1,29 @@
+@use "utilities/mixins/media";
+
+.log-in-modal {
+  &__title {
+    font-size: 3rem;
+  }
+
+  &__subtitle {
+    color: var(--color-muted);
+    margin-bottom: 1.6rem;
+  }
+
+  &__divider {
+    height: 0.06rem;
+    background-color: hsla(var(--color-dark-hsl), 0.2);
+    width: 100%;
+    margin: 1.6rem 0;
+  }
+
+  &__text--log-in {
+    margin-bottom: 0.4rem;
+  }
+}
+
+@include media.md {
+  .log-in-modal {
+    padding: 2.5rem;
+  }
+}

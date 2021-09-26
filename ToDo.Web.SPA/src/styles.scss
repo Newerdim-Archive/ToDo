@@ -1,1 +1,19 @@
-/* You can add global styles to this file, and also import other style files */
+@use "core/reset";
+@use "core/css-variables";
+@use "core/typography";
+@use "core/text";
+@use "core/padding";
+@use "core/margin";
+@use "core/opacity";
+@use "core/link";
+
+@use "components/buttons";
+@use "components/icon";
+@use "components/container";
+@use "components/modal";
+@use "components/divider";
+
+body {
+  background-color: var(--color-light-darker);
+  color: var(--color-light-darker-text);
+}

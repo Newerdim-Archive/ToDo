@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://to-do-api.newerdim.pl/api/',
+  googleClientId: ''
 };
