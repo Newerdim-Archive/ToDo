@@ -5,6 +5,9 @@ import {AppRoutingModule} from "./app-routing.module";
 import {ServiceWorkerModule} from "@angular/service-worker";
 import {environment} from "../environments/environment";
 import {ReactiveFormsModule} from "@angular/forms";
+import {GoogleLoginProvider, SocialAuthServiceConfig, SocialLoginModule} from "angularx-social-login";
+import {HttpClientModule} from "@angular/common/http";
+import {JwtModule} from "@auth0/angular-jwt";
 
 import {AppComponent} from "./app.component";
 import {HomeComponent} from "./components/home/home.component";
@@ -36,8 +39,30 @@ import { LogInModalComponent } from './components/log-in-modal/log-in-modal.comp
       registrationStrategy: "registerWhenStable:30000",
     }),
     ReactiveFormsModule,
+    SocialLoginModule,
+    HttpClientModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: () => {
+          return localStorage.getItem('access_token');
+        },
+      },
+    }),
   ],
-  providers: [],
+  providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(environment.googleClientId)
+          }
+        ]
+      } as SocialAuthServiceConfig,
+    }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {
