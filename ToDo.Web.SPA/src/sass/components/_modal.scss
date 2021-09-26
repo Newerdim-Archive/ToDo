@@ -1,0 +1,50 @@
+.modal-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 3;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 300ms;
+
+  &.is-active {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  &__dimmer {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: hsla(var(--color-dark-hsl), 0.3);
+    width: 100%;
+    height: 100vh;
+    z-index: -1;
+  }
+}
+
+.modal {
+  --bg-color: transparent;
+  --text-color: transparent;
+
+  padding: 1.4rem;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  overflow-y: auto;
+  max-height: 100%;
+  border-radius: var(--border-radius-rounded);
+
+}
+
+// Colors
+.modal-light {
+  --bg-color: var(--color-light);
+  --text-color: var(--color-dark);
+}

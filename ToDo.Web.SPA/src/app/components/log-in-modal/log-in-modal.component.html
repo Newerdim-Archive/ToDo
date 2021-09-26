@@ -1,0 +1,13 @@
+<div class="modal-wrapper" id="log-in-modal">
+  <section class="modal modal-light log-in-modal">
+    <h2 class="log-in-modal__title margin-bottom-2">Log In</h2>
+    <p class="text-muted margin-bottom-5">Log in into existing account</p>
+    <app-google-button text="Sign Up with Google"></app-google-button>
+    <div class="divider divider-dark opacity-3 margin-y-5"></div>
+    <p>Not a member?</p>
+    <button class="button button-link button--primary text--bold" (click)="showSignUpModal()">
+      Sign up now
+    </button>
+  </section>
+  <div class="modal-wrapper__dimmer" (click)="hide()"></div>
+</div>

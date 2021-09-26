@@ -1,5 +1,5 @@
 :root {
-  --border-rounded: 0.25rem;
+  --border-radius-rounded: 0.25rem;
 
   --container-max-width: 62.5rem;
   --container-padding: 0 1rem;
@@ -11,17 +11,35 @@
 
 :root {
   --color-primary: hsl(162, 62%, 24%);
-  --color-primary-text: hsl(0, 0%, 100%);
   --color-primary-lighter: hsl(162, 62%, 35%);
   --color-primary-darker: hsl(162, 62%, 16%);
 
   --color-dark: hsl(0, 0%, 15%);
+  --color-dark-hsl: 0, 0%, 15%;
 
   --color-light: hsl(0, 0%, 100%);
-  --color-light-text: var(--color-dark);
   --color-light-darker: hsl(0, 0%, 94%);
-  --color-light-darker-text: var(--color-dark);
 
   --color-icon: var(--color-dark);
   --color-icon-accent: var(--color-primary);
+
+  --color-muted: hsl(0, 0%, 36%);
+}
+
+:root {
+  --padding-0: 0;
+  --padding-1: 0.125rem;
+  --padding-2: 0.25rem;
+  --padding-3: 0.5rem;
+  --padding-4: 1rem;
+  --padding-5: 1.5rem;
+  --padding-6: 3rem;
+
+  --margin-0: 0;
+  --margin-1: 0.125rem;
+  --margin-2: 0.25rem;
+  --margin-3: 0.5rem;
+  --margin-4: 1rem;
+  --margin-5: 1.5rem;
+  --margin-6: 3rem;
 }

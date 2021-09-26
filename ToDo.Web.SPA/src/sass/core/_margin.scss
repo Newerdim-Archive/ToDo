@@ -1,0 +1,53 @@
+@for $i from 0 through 6 {
+  .margin-left-#{$i} {
+    margin-left: var(--margin-#{$i});
+  }
+
+  .margin-top-#{$i} {
+    margin-top: var(--margin-#{$i});
+  }
+
+  .margin-right-#{$i} {
+    margin-right: var(--margin-#{$i});
+  }
+
+  .margin-bottom-#{$i} {
+    margin-bottom: var(--margin-#{$i});
+  }
+
+  .margin-x-#{$i} {
+    margin-left: var(--margin-#{$i});
+    margin-right: var(--margin-#{$i});
+  }
+
+  .margin-y-#{$i} {
+    margin-top: var(--margin-#{$i});
+    margin-bottom: var(--margin-#{$i});
+  }
+}
+
+.margin-left-auto {
+  margin-left: auto;
+}
+
+.margin-top-auto {
+  margin-top: auto;
+}
+
+.margin-right-auto {
+  margin-right: auto;
+}
+
+.margin-bottom-auto {
+  margin-bottom: auto;
+}
+
+.margin-x-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.margin-y-auto {
+  margin-top: auto;
+  margin-bottom: auto;
+}

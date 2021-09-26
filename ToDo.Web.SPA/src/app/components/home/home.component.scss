@@ -5,30 +5,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3rem 0;
 
   &__title {
     text-align: center;
     font-size: clamp(2.4rem, 6vw, 4rem);
   }
 
-  &__section {
+  &__buttons {
+    max-width: 20rem;
+    margin: auto;
     display: flex;
     align-items: stretch;
     flex-direction: column;
     font-size: 1.2rem;
     text-align: center;
   }
-
-  &__divider {
-    margin: 1rem 0;
-  }
 }
 
 @include media.md {
-  .header {
-    &__section {
-      font-size: 1.4rem;
-    }
+  .header__section {
+    font-size: 1.4rem;
   }
 }

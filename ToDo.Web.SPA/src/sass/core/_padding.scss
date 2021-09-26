@@ -1,0 +1,27 @@
+@for $i from 0 through 6 {
+  .padding-left-#{$i} {
+    padding-left: var(--padding-#{$i});
+  }
+
+  .padding-top-#{$i} {
+    padding-top: var(--padding-#{$i});
+  }
+
+  .padding-right-#{$i} {
+    padding-right: var(--padding-#{$i});
+  }
+
+  .padding-bottom-#{$i} {
+    padding-bottom: var(--padding-#{$i});
+  }
+
+  .padding-x-#{$i} {
+    padding-left: var(--padding-#{$i});
+    padding-right: var(--padding-#{$i});
+  }
+
+  .padding-y-#{$i} {
+    padding-top: var(--padding-#{$i});
+    padding-bottom: var(--padding-#{$i});
+  }
+}

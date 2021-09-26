@@ -1,26 +1,30 @@
 <nav class="nav">
-  <div class="container--flex">
-    <a class="nav__link--brand" routerLink="/">
+  <div class="container">
+    <a class="nav__link--brand link link--primary link-with-icon text--bold" routerLink="/">
       <app-icon name="brand"></app-icon>
       Tododim
     </a>
     <button
       (click)="toggleNavbar()"
       aria-label="Show navbar button"
-      class="nav__button--toggle"
+      class="nav__button--toggle margin-left-auto"
     >
       <app-toggle-menu-icon [isMenuOpen]="isNavbarShown"></app-toggle-menu-icon>
     </button>
     <section [class.active]="isNavbarShown" class="navbar">
       <ul class="navbar__list">
         <li class="navbar__item">
-          <button class="button--link">Log In</button>
+          <button class="button button-link" (click)="showLogInModal()">
+            Log In
+          </button>
         </li>
         <li class="navbar__item">
-          <button class="button--link">Sign Up</button>
+          <button class="button button-link" (click)="showSignUpModal()">
+            Sign Up
+          </button>
         </li>
         <li class="navbar__item">
-          <button class="button--outline--rounded">Try it now</button>
+          <a routerLink="app" class="button button-outline"> Try it now </a>
         </li>
       </ul>
     </section>
