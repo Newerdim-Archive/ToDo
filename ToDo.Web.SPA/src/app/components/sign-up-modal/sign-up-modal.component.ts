@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {ModalService} from '../../services/modal.service';
+import {ModalId} from "../../enums/ModalId";
 
 @Component({
   selector: 'app-sign-up-modal',
@@ -15,11 +16,11 @@ export class SignUpModalComponent implements OnInit {
   }
 
   hideModal(): void {
-    this.modalService.hide('sign-up-modal');
+    this.modalService.hide(ModalId.SignUp);
   }
 
   showLogInModal(): void {
     this.modalService.hideAll();
-    this.modalService.show('log-in-modal')
+    this.modalService.show(ModalId.LogIn)
   }
 }

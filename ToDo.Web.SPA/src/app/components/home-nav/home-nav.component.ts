@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {ModalService} from "../../services/modal.service";
+import {ModalId} from "../../enums/ModalId";
 
 @Component({
   selector: "app-home-nav",
@@ -20,10 +21,10 @@ export class HomeNavComponent implements OnInit {
   }
 
   showLogInModal() {
-    this.modalService.show("log-in-modal");
+    this.modalService.show(ModalId.LogIn);
   }
 
   showSignUpModal() {
-    this.modalService.show("sign-up-modal");
+    this.modalService.show(ModalId.SignUp);
   }
 }

@@ -1,5 +1,6 @@
 import {Component, OnInit} from "@angular/core";
 import {ModalService} from "../../services/modal.service";
+import {ModalId} from "../../enums/ModalId";
 
 @Component({
   selector: "app-home",
@@ -14,6 +15,6 @@ export class HomeComponent implements OnInit {
   }
 
   showSignUpModal() {
-    this.modalService.show("sign-up-modal");
+    this.modalService.show(ModalId.SignUp);
   }
 }

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ModalId} from "../types/ModalId";
+import {ModalId} from "../enums/ModalId";
 
 @Injectable({
   providedIn: 'root'
