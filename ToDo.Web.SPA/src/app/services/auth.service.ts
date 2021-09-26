@@ -71,7 +71,9 @@ export class AuthService {
   logOut(): Observable<string> {
     const url = environment.apiUrl + 'auth/log-out';
 
-    return this.httpClient.post<string>(url, null);
+    return this.httpClient.post<any>(url, null).pipe(
+      map(response => response.message)
+    );
   }
 
   /**
