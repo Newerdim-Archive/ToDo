@@ -14,12 +14,12 @@ export class LogInModalComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  hide(): void {
+  hideModal(): void {
     this.modalService.hide("log-in-modal");
   }
 
   showSignUpModal(): void {
-    this.modalService.hide('log-in-modal')
+    this.modalService.hideAll();
     this.modalService.show('sign-up-modal');
   }
 }

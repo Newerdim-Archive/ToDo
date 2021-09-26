@@ -35,4 +35,10 @@ export class ModalService {
 
     this.shownModalsIds = this.shownModalsIds.filter(modalId => modalId == id);
   }
+
+  hideAll(): void {
+    this.shownModalsIds.forEach(modalId => {
+      document.getElementById(modalId)!.classList.remove('is-active');
+    })
+  }
 }
