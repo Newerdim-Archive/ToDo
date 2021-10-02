@@ -21,6 +21,11 @@
     --color-icon: var(--color-primary);
     --color-icon-accent: var(--color-light);
   }
+
+  &__button--toggle {
+    margin-left: auto;
+    width: auto;
+  }
 }
 
 .navbar {
@@ -33,11 +38,12 @@
   top: var(--nav-height);
   transform: translateY(-101%);
   z-index: -1;
-  background-color: var(--color-primary);
-  color: var(--color-primary-text);
+  background-color: var(--color-light);
+  color: var(--color-dark);
   transition: transform 300ms;
+  border-top: 0.05rem solid var(--color-light-darker);
 
-  &.active {
+  &.is-active {
     transform: translateY(0);
   }
 
@@ -54,18 +60,6 @@
     &:last-child {
       margin-bottom: 0;
     }
-
-    .button-link {
-      --text-color: var(--color-light);
-      --text-color-hover: var(--color-light-darker);
-    }
-
-    .button-outline {
-      --bg-color: var(--color-light);
-      --bg-color-hover: var(--color-light-darker);
-      --text-color: var(--color-primary);
-      --text-color-hover: var(--color-primary-darker);
-    }
   }
 }
 
@@ -78,28 +72,18 @@
 
   .navbar {
     position: static;
-    z-index: 0;
+    z-index: initial;
     transform: translateY(0);
     padding: 0;
     width: auto;
     margin-left: auto;
     background-color: transparent;
     color: inherit;
+    overflow: visible;
+    border: none;
 
     &__list {
       flex-direction: row;
-
-      .button-link {
-        --text-color: var(--color-dark);
-        --text-color-hover: var(--color-dark-darker);
-      }
-
-      .button-outline {
-        --bg-color: var(--color-primary);
-        --bg-color-hover: var(--color-primary-darker);
-        --text-color: var(--color-light);
-        --text-color-hover: var(--color-light-darker);
-      }
     }
 
     &__item {

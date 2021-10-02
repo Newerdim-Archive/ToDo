@@ -28,13 +28,18 @@ input,
 textarea {
   font-family: inherit;
   font-size: inherit;
-  line-height: 1;
-  background-color: transparent;
-  border: none;
   color: inherit;
   padding: 0;
   margin: 0;
   font-weight: inherit;
+}
+
+button {
+  width: 100%;
+  border: none;
+  line-height: 1;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 h1,

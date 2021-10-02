@@ -3,11 +3,17 @@
 .log-in-modal {
   &__title {
     font-size: 3rem;
+    margin-bottom: 0;
   }
 
   &__subtitle {
+    font-weight: normal;
     color: var(--color-muted);
     margin-bottom: 1.6rem;
+  }
+
+  &__provider-button {
+    margin-bottom: 1rem;
   }
 
   &__divider {
@@ -17,8 +23,8 @@
     margin: 1.6rem 0;
   }
 
-  &__text--log-in {
-    margin-bottom: 0.4rem;
+  &__sign-up {
+    margin-bottom: 0.3rem;
   }
 }
 

@@ -1,8 +1,12 @@
-[class^="button"] {
+:host {
+  display: block;
+}
+
+.google-button {
   padding: 0.6rem 1rem;
   border: 0.06rem solid var(--text-color);
 
-  .icon {
+  &__icon {
     margin-right: 0.7rem;
   }
 }

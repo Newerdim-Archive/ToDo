@@ -11,20 +11,23 @@
 
 :root {
   --color-primary: hsl(162, 62%, 24%);
+  --color-primary-hsl: 162, 62%, 24%;
   --color-primary-lighter: hsl(162, 62%, 35%);
   --color-primary-darker: hsl(162, 62%, 16%);
 
   --color-dark: hsl(0, 0%, 15%);
   --color-dark-hsl: 0, 0%, 15%;
+  --color-dark-darker: 0, 0%, 5%;
 
   --color-light: hsl(0, 0%, 100%);
+  --color-light-hsl: 0, 0%, 100%;
   --color-light-darker: hsl(0, 0%, 94%);
 
   --color-icon: var(--color-dark);
   --color-icon-accent: var(--color-primary);
 
   --color-muted: hsl(0, 0%, 36%);
-  
+
   --color-danger: hsl(0, 100%, 50%);
 }
 

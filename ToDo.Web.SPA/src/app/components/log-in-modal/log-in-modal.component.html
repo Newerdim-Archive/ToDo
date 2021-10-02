@@ -1,14 +1,17 @@
-<div class="modal-wrapper" id="log-in-modal">
-  <section class="modal modal-light log-in-modal">
-    <h2 class="log-in-modal__title margin-bottom-2">Log In</h2>
-    <p class="text-muted margin-bottom-5">Log in into existing account</p>
-    <app-google-button (click)="logInWithGoogle()" text="Log In with Google"></app-google-button>
-    <p class="margin-top-4 text--danger text--bold">{{errorMessage}}</p>
-    <div class="divider divider-dark opacity-3 margin-y-5"></div>
-    <p>Not a member?</p>
-    <button class="button button-link button--primary text--bold" (click)="showSignUpModal()">
-      Sign up now
+<div class="modal-wrapper" id="logInModal">
+  <div class="modal-wrapper__dimmer" (click)="hideModal()"></div>
+  <section class="modal modal--light log-in-modal">
+    <h2 class="log-in-modal__title">Log In</h2>
+    <h3 class="log-in-modal__subtitle">Log in into existing account</h3>
+    <app-google-button class="log-in-modal__provider-button" (click)="logInWithGoogle()"
+                       text="Log In with Google"></app-google-button>
+    <div *ngIf="errorMessage" class="text--error">Error message: {{errorMessage}}</div>
+    <div class="log-in-modal__divider"></div>
+    <p class="log-in-modal__sign-up">
+      Not a member?
+    </p>
+    <button class="button button-link--primary text--bold" (click)="showSignUpModal()">
+      Sign up
     </button>
   </section>
-  <div class="modal-wrapper__dimmer" (click)="hideModal()"></div>
 </div>

@@ -1,30 +1,26 @@
 <nav class="nav">
   <div class="container">
-    <a class="nav__link--brand link link--primary link-with-icon text--bold" routerLink="/">
-      <app-icon name="brand"></app-icon>
+    <a class="nav__link--brand link--primary text--bold" routerLink="/">
+      <app-icon class="margin-right-2" name="brand"></app-icon>
       Tododim
     </a>
-    <button
-      (click)="toggleNavbar()"
-      aria-label="Show navbar button"
-      class="nav__button--toggle margin-left-auto"
-    >
+    <button class="nav__button--toggle" (click)="toggleNavbar()" aria-label="Show navbar">
       <app-toggle-menu-icon [isMenuOpen]="isNavbarShown"></app-toggle-menu-icon>
     </button>
-    <section [class.active]="isNavbarShown" class="navbar">
+    <section class="navbar" [class.is-active]="isNavbarShown">
       <ul class="navbar__list">
         <li class="navbar__item">
-          <button class="button button-link" (click)="showLogInModal()">
+          <button class="button button-link--dark" (click)="showLogInModal()">
             Log In
           </button>
         </li>
         <li class="navbar__item">
-          <button class="button button-link" (click)="showSignUpModal()">
+          <button class="button button-link--dark" (click)="showSignUpModal()">
             Sign Up
           </button>
         </li>
         <li class="navbar__item">
-          <a routerLink="app" class="button button-outline"> Try it now </a>
+          <a routerLink="app" class="button button-outline--primary"> Try it now </a>
         </li>
       </ul>
     </section>

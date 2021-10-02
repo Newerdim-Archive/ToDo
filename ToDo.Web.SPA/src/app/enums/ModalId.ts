@@ -1,4 +1,4 @@
 export enum ModalId {
-  SignUp = 'sign-up-modal',
-  LogIn = 'log-in-modal'
+  SignUp = 'signUpModal',
+  LogIn = 'logInModal'
 }

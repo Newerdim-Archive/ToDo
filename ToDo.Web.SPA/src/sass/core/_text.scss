@@ -13,3 +13,8 @@
 .text--bold {
   font-weight: bold;
 }
+
+.text--error {
+  color: var(--color-danger);
+  font-weight: bold;
+}
