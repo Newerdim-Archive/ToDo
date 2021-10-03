@@ -11,8 +11,8 @@
     font-size: clamp(2.4rem, 6vw, 4rem);
   }
 
-  &__buttons {
-    max-width: 20rem;
+  &__content {
+    max-width: 17.5rem;
     margin: auto;
     display: flex;
     align-items: stretch;
@@ -20,10 +20,8 @@
     font-size: 1.2rem;
     text-align: center;
   }
-}
 
-@include media.md {
-  .header__section {
-    font-size: 1.4rem;
+  &__divider {
+    margin: 1rem 0;
   }
 }

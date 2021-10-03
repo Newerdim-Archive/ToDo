@@ -15,8 +15,7 @@ import {IconComponent} from "./components/icon/icon.component";
 import {HomeNavComponent} from "./components/home-nav/home-nav.component";
 import {ToggleMenuIconComponent} from "./components/toggle-menu-icon/toggle-menu-icon.component";
 import {GoogleButtonComponent} from "./components/google-button/google-button.component";
-import {SignUpModalComponent} from './components/sign-up-modal/sign-up-modal.component';
-import { LogInModalComponent } from './components/log-in-modal/log-in-modal.component';
+import {AuthModalsComponent} from './components/auth-modals/auth-modals.component';
 
 @NgModule({
   declarations: [
@@ -26,8 +25,7 @@ import { LogInModalComponent } from './components/log-in-modal/log-in-modal.comp
     HomeNavComponent,
     ToggleMenuIconComponent,
     GoogleButtonComponent,
-    SignUpModalComponent,
-    LogInModalComponent,
+    AuthModalsComponent,
   ],
   imports: [
     BrowserModule,

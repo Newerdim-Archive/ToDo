@@ -5,13 +5,13 @@
 @use "core/padding";
 @use "core/margin";
 @use "core/opacity";
-@use "core/link";
+@use "core/a";
 
+@use "components/link";
 @use "components/buttons";
 @use "components/icon";
 @use "components/container";
 @use "components/modal";
-@use "components/divider";
 
 body {
   background-color: var(--color-light-darker);

@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'http://localhost:8080/api/',
-  googleClientId: ''
+  googleClientId: '355577170066-tnir9cl1ioc1e4o01hba547prcl827h1.apps.googleusercontent.com'
 };
 
 /*

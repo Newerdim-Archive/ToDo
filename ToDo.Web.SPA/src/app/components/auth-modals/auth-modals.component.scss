@@ -1,13 +1,19 @@
 @use "utilities/mixins/media";
 
-.log-in-modal {
+.auth-modal {
   &__title {
     font-size: 3rem;
+    margin-bottom: 0;
   }
 
   &__subtitle {
+    font-weight: normal;
     color: var(--color-muted);
     margin-bottom: 1.6rem;
+  }
+
+  &__provider-button {
+    margin-bottom: 1rem;
   }
 
   &__divider {
@@ -17,13 +23,13 @@
     margin: 1.6rem 0;
   }
 
-  &__text--log-in {
-    margin-bottom: 0.4rem;
+  &__footer .button {
+    margin-top: 0.5rem;
   }
 }
 
 @include media.md {
-  .log-in-modal {
+  .auth-modal {
     padding: 2.5rem;
   }
 }
