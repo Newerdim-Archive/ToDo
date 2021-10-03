@@ -5,40 +5,39 @@ import {ModalId} from "../enums/ModalId";
   providedIn: 'root'
 })
 export class ModalService {
-  private _shownModalsIds: string[] = [];
+  private _currentShown: ModalId | null = null;
 
   constructor() {
   }
 
   show(id: ModalId): void {
+    this.hideCurrent();
+
     const modal = document.getElementById(id);
 
     if (!modal) {
-      console.error(`Modal with id '${id}' not exist`);
       return;
     }
 
-    modal!.classList.add('is-active');
+    modal.classList.add('is-active');
 
-    this._shownModalsIds.push(id);
+    this._currentShown = id;
   }
 
-  hide(id: ModalId): void {
-    const modal = document.getElementById(id);
+  hideCurrent(): void {
+    if (!this._currentShown) {
+      return;
+    }
+
+    const modal = document.getElementById(this._currentShown);
 
     if (!modal) {
-      console.error(`Modal with id '${id}' not exist`);
+      this._currentShown = null;
       return;
     }
 
-    modal!.classList.remove('is-active');
+    modal.classList.remove('is-active');
 
-    this._shownModalsIds = this._shownModalsIds.filter(modalId => modalId == id);
-  }
-
-  hideAll(): void {
-    this._shownModalsIds.forEach(modalId => {
-      document.getElementById(modalId)!.classList.remove('is-active');
-    })
+    this._currentShown = null;
   }
 }

@@ -1,0 +1,106 @@
+@use "components/link";
+@use "utilities/mixins/media";
+
+.nav {
+  width: 100%;
+  height: var(--nav-height);
+  z-index: 1;
+  background-color: var(--color-light);
+  position: sticky;
+  top: 0;
+
+  .nav__container {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    // This is for hiding navbar on mobile
+    background-color: var(--color-light);
+  }
+
+  &__link--brand {
+    --color-icon: var(--color-primary);
+    --color-icon-accent: var(--color-light);
+
+    @extend .link--primary;
+
+    font-weight: bold;
+  }
+
+  &__button--toggle {
+    margin-left: auto;
+    width: auto;
+    padding: 0.2rem;
+  }
+}
+
+@include media.s {
+  .nav__button--toggle {
+    display: none;
+  }
+}
+
+.navbar {
+  width: 100%;
+  max-height: calc(100vh - var(--nav-height));
+  overflow-y: auto;
+  padding: 1.6rem 0;
+  position: fixed;
+  left: 0;
+  top: var(--nav-height);
+  transform: translateY(-101%);
+  z-index: -1;
+  background-color: var(--color-light);
+  color: var(--color-dark);
+  transition: transform 300ms;
+  border-top: 0.05rem solid var(--color-light-darker);
+
+  &.is-active {
+    transform: translateY(0);
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__item {
+    margin-bottom: 1.4rem;
+    font-size: 1.2rem;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+@include media.s {
+  .navbar {
+    position: static;
+    z-index: initial;
+    transform: translateY(0);
+    padding: 0;
+    width: auto;
+    margin-left: auto;
+    background-color: transparent;
+    color: inherit;
+    overflow: visible;
+    border: none;
+
+    &__list {
+      flex-direction: row;
+    }
+
+    &__item {
+      margin-bottom: 0;
+      margin-right: 1.6rem;
+      font-size: 1rem;
+
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+

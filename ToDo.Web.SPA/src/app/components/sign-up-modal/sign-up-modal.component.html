@@ -1,0 +1,27 @@
+<div class="modal-wrapper" id="signUpModal">
+  <div class="modal-wrapper__dimmer" (click)="hide()"></div>
+
+  <section class="modal modal--light auth-modal">
+    <h2 class="auth-modal__title">Sign Up</h2>
+    <h3 class="auth-modal__subtitle">Create an account</h3>
+
+    <app-google-button
+      class="auth-modal__provider-button"
+      [class.loading]="isLoading"
+      (click)="signUpWithGoogle()"
+      text="Sign Up with Google"
+    ></app-google-button>
+
+    <div *ngIf="errorMessage" class="text--error">Error message: {{errorMessage}}</div>
+
+    <div class="auth-modal__divider"></div>
+
+    <footer class="auth-modal__footer">
+      <span>Already have an account?</span>
+      <button class="button button-link--primary text--bold" (click)="showLogInModal()">
+        Log In
+      </button>
+    </footer>
+
+  </section>
+</div>

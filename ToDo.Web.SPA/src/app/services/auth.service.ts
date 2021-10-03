@@ -15,15 +15,7 @@ export class AuthService {
   constructor(private httpClient: HttpClient, private jwtHelperService: JwtHelperService) {
   }
 
-  /**
-   *  External log in
-   *
-   *  @param token - Token from external provider
-   *  @param provider - External authentication provider
-   *
-   *  @return Success message
-   */
-  externalLogIn(token: string, provider: ExternalAuthProvider): Observable<string> {
+  externalLogIn(token: string, provider: ExternalAuthProvider): Observable<void> {
     const url = environment.apiUrl + 'auth/external-log-in';
 
     const model = {
@@ -32,22 +24,11 @@ export class AuthService {
     };
 
     return this.httpClient.post<any>(url, model).pipe(
-      map(response => {
-        localStorage.setItem('access_token', response.data);
-        return response.message
-      })
+      map(response => localStorage.setItem('access_token', response.data))
     );
   }
 
-  /**
-   *  External sign up
-   *
-   *  @param token - Token from external provider
-   *  @param provider - External authentication provider
-   *
-   *  @return Success message
-   */
-  externalSignUp(token: string, provider: ExternalAuthProvider): Observable<string> {
+  externalSignUp(token: string, provider: ExternalAuthProvider): Observable<void> {
     const url = environment.apiUrl + 'auth/external-sign-up';
 
     const model = {
@@ -56,40 +37,22 @@ export class AuthService {
     };
 
     return this.httpClient.post<any>(url, model).pipe(
-      map(response => {
-        localStorage.setItem('access_token', response.data);
-        return response.message
-      })
+      map(response => localStorage.setItem('access_token', response.data))
     );
   }
 
-  /**
-   *  Log out
-   *
-   *  @return Success message
-   */
-  logOut(): Observable<string> {
+  logOut(): Observable<void> {
     const url = environment.apiUrl + 'auth/log-out';
 
-    return this.httpClient.post<any>(url, null).pipe(
-      map(response => response.message)
-    );
+    return this.httpClient.post<any>(url, null);
   }
 
-  /**
-   *  Refresh tokens
-   *
-   *  @return Message
-   */
-  refreshTokens(): Observable<string> {
+  refreshTokens(): Observable<void> {
     const url = environment.apiUrl + 'auth/refresh-tokens';
 
     return this.httpClient.get<any>(url).pipe(
-      map(response => {
-        localStorage.setItem('access_token', response.data);
-        return response.message
-      })
-    )
+      map(response => localStorage.setItem('access_token', response.data))
+    );
   }
 
   isLoggedIn(): Observable<boolean> {
