@@ -13,6 +13,8 @@
 @use "components/container";
 @use "components/modal";
 @use "components/loading";
+@use "components/auth-modal";
+@use "components/nav";
 
 body {
   background-color: var(--color-light-darker);
