@@ -2,3 +2,10 @@
   --color: var(--color-primary);
   --color-hover: var(--color-primary-darker);
 }
+
+.link {
+  &__icon + &__text,
+  &__text + &__icon {
+    margin-left: 0.5rem;
+  }
+}

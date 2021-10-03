@@ -24,6 +24,11 @@
   &:focus {
     outline: 0.3rem solid var(--outline-color);
   }
+
+  &__icon + &__text,
+  &__text + &__icon {
+    margin-left: 0.5rem;
+  }
 }
 
 // Colors
@@ -92,38 +97,34 @@
 .button-link {
   --text-color: var(--bg-color);
   --text-color-hover: var(--bg-color-hover);
+  --outline-color: transparent;
 
   width: auto;
   background-color: transparent;
   padding: 0.05rem;
   opacity: 0.8;
   transition: opacity 300ms;
+  position: relative;
 
   &:hover {
     background-color: transparent;
     opacity: 1;
   }
-}
 
-.button-link--underline {
-  @extend .button-link;
-
-  position: relative;
+  &:focus::after {
+    left: 0;
+    opacity: 0.6;
+  }
 
   &::after {
     content: "";
     position: absolute;
-    bottom: -0.4rem;
+    bottom: -0.3em;
     left: -50%;
     width: 100%;
     height: 0.05em;
     background-color: var(--text-color);
     opacity: 0;
     transition: left 300ms, opacity 300ms;
-  }
-
-  &:hover::after {
-    left: 0;
-    opacity: 0.6;
   }
 }

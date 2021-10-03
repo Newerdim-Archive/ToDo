@@ -1,6 +1,6 @@
 @use "utilities/mixins/media";
 
-.log-in-modal {
+.auth-modal {
   &__title {
     font-size: 3rem;
     margin-bottom: 0;
@@ -23,13 +23,13 @@
     margin: 1.6rem 0;
   }
 
-  &__sign-up {
-    margin-bottom: 0.3rem;
+  &__footer .button {
+    margin-top: 0.5rem;
   }
 }
 
 @include media.md {
-  .log-in-modal {
+  .auth-modal {
     padding: 2.5rem;
   }
 }

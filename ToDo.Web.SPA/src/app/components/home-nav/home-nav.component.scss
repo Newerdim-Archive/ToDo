@@ -8,23 +8,25 @@
   position: sticky;
   top: 0;
 
-  .container {
+  .nav__container {
     display: flex;
+    align-items: center;
     height: 100%;
-
     // This is for hiding navbar on mobile
     background-color: var(--color-light);
-    align-items: center;
   }
 
   &__link--brand {
     --color-icon: var(--color-primary);
     --color-icon-accent: var(--color-light);
+
+    font-weight: bold;
   }
 
   &__button--toggle {
     margin-left: auto;
     width: auto;
+    padding: 0.2rem;
   }
 }
 
@@ -64,10 +66,8 @@
 }
 
 @include media.s {
-  .nav {
-    &__button--toggle {
-      display: none;
-    }
+  .nav__button--toggle {
+    display: none;
   }
 
   .navbar {
