@@ -13,8 +13,11 @@ import {Router} from "@angular/router";
 })
 export class AuthModalsComponent implements OnInit {
 
-  errorMessage = '';
-  modalId = ModalId;
+  signUpErrorMessage = '';
+  isSignUpLoading = false;
+
+  logInErrorMessage = '';
+  isLogInLoading = false;
 
   constructor(private modalService: ModalService,
               private socialAuthService: SocialAuthService,
@@ -23,6 +26,11 @@ export class AuthModalsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  showLogInModal(): void {
+    this.modalService.hideAll();
+    this.modalService.show(ModalId.LogIn)
   }
 
   hideLogInModal(): void {
@@ -38,34 +46,41 @@ export class AuthModalsComponent implements OnInit {
     this.modalService.hide(ModalId.SignUp);
   }
 
-  showLogInModal(): void {
-    this.modalService.hideAll();
-    this.modalService.show(ModalId.LogIn)
-  }
-
   logInWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user => {
-      this.authService.externalLogIn(user.idToken, ExternalAuthProvider.Google).subscribe(
-        () => {
-          this.router.navigate(['/app']);
-        },
-        error => {
-          console.log(error);
-          this.errorMessage = error.error.message;
-        });
-    });
+    this.isLogInLoading = true;
+
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then(user => {
+        this.authService.externalLogIn(user.idToken, ExternalAuthProvider.Google)
+          .subscribe(
+            () => {
+              this.router.navigate(['/app']);
+            },
+            error => {
+              this.isLogInLoading = false;
+              this.logInErrorMessage = error.errors.message;
+            }
+          );
+      })
+      .catch(() => this.isLogInLoading = false);
   }
 
   signUpWithGoogle(): void {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user => {
-      this.authService.externalSignUp(user.idToken, ExternalAuthProvider.Google).subscribe(
-        () => {
-          this.router.navigate(['/app']);
-        },
-        error => {
-          console.log(error);
-          this.errorMessage = error.error.message;
-        });
-    });
+    this.isSignUpLoading = true;
+
+    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID)
+      .then(user => {
+        this.authService.externalSignUp(user.idToken, ExternalAuthProvider.Google)
+          .subscribe(
+            () => {
+              this.router.navigate(['/app']);
+            },
+            error => {
+              this.isSignUpLoading = false;
+              this.signUpErrorMessage = error.errors.message;
+            }
+          );
+      })
+      .catch(() => this.isSignUpLoading = false);
   }
 }

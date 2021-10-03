@@ -5,7 +5,7 @@ import {ModalId} from "../enums/ModalId";
   providedIn: 'root'
 })
 export class ModalService {
-  private shownModalsIds: string[] = [];
+  private _shownModalsIds: string[] = [];
 
   constructor() {
   }
@@ -20,7 +20,7 @@ export class ModalService {
 
     modal!.classList.add('is-active');
 
-    this.shownModalsIds.push(id);
+    this._shownModalsIds.push(id);
   }
 
   hide(id: ModalId): void {
@@ -33,11 +33,11 @@ export class ModalService {
 
     modal!.classList.remove('is-active');
 
-    this.shownModalsIds = this.shownModalsIds.filter(modalId => modalId == id);
+    this._shownModalsIds = this._shownModalsIds.filter(modalId => modalId == id);
   }
 
   hideAll(): void {
-    this.shownModalsIds.forEach(modalId => {
+    this._shownModalsIds.forEach(modalId => {
       document.getElementById(modalId)!.classList.remove('is-active');
     })
   }

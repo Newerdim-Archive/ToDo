@@ -12,6 +12,7 @@
 @use "components/icon";
 @use "components/container";
 @use "components/modal";
+@use "components/loading";
 
 body {
   background-color: var(--color-light-darker);
