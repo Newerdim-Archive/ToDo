@@ -1,0 +1,20 @@
+@use "utilities/functions/color";
+
+a {
+  color: inherit;
+  display: flex;
+  align-items: center;
+  transition: opacity 300ms;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 1;
+  }
+}
+
+.anchor {
+  &__icon + &__text,
+  &__text + &__icon {
+    margin-left: 0.5rem;
+  }
+}

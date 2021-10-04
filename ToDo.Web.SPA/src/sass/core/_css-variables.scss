@@ -10,23 +10,34 @@
 }
 
 :root {
-  --color-primary: hsl(162, 62%, 24%);
-  --color-primary-hsl: 162, 62%, 24%;
-  --color-primary-lighter: hsl(162, 62%, 35%);
-  --color-primary-darker: hsl(162, 62%, 16%);
+  --color-primary: hsl(248, 15%, 11%);
+  --color-primary-text: var(--color-light);
+  --color-primary-hsl: 248, 15%, 11%;
+  --color-primary-lighter: hsl(235, 16%, 15%);
+  --color-primary-darker: hsl(232, 15%, 8%);
 
-  --color-dark: hsl(0, 0%, 15%);
-  --color-dark-hsl: 0, 0%, 15%;
-  --color-dark-darker: 0, 0%, 5%;
+  --color-accent: hsl(171, 87%, 68%);
+  --color-accent-text: var(--color-light);
+  --color-accent-hsl: 171, 87%, 68%;
+  --color-accent-lighter: hsl(185, 80%, 59%);
+  --color-accent-darker: hsl(185, 80%, 49%);
 
-  --color-light: hsl(0, 0%, 100%);
-  --color-light-hsl: 0, 0%, 100%;
-  --color-light-darker: hsl(0, 0%, 94%);
+  --color-dark: hsl(210, 11%, 15%);
+  --color-dark-text: var(--color-light);
+  --color-dark-hsl: 210, 11%, 15%;
+  --color-dark-lighter: hsl(210, 12%, 20%);
+  --color-dark-darker: hsl(204, 10%, 10%);
 
-  --color-icon: var(--color-dark);
-  --color-icon-accent: var(--color-primary);
+  --color-light: hsl(0, 0%, 95%);
+  --color-light-text: var(--color-dark);
+  --color-light-hsl: 0, 0%, 95%;
+  --color-light-lighter: hsl(0, 0%, 100%);
+  --color-light-darker: hsl(0, 0%, 88%);
 
-  --color-muted: hsl(0, 0%, 36%);
+  --color-icon: var(--color-light);
+  --color-icon-accent: var(--color-accent);
+
+  --color-muted: hsl(0, 0%, 50%);
 
   --color-danger: hsl(0, 100%, 50%);
 }

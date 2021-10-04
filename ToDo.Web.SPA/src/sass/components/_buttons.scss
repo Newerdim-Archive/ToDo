@@ -1,29 +1,9 @@
 // Base
 .button {
-  --bg-color: transparent;
-  --text-color: inherit;
-  --bg-color-hover: transparent;
-  --text-color-hover: transparent;
-  --outline-color: hsla(var(--color-primary-hsl), 0.4);
-
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.6em 1em;
-  background-color: var(--bg-color);
-  color: var(--text-color);
   border-radius: var(--border-radius-rounded);
-  transition: background-color 300ms, color 300ms, transform 300ms;
-
-  &:hover {
-    background-color: var(--bg-color-hover);
-    color: var(--text-color-hover);
-  }
-
-  &:active,
-  &:focus {
-    outline: 0.3rem solid var(--outline-color);
-  }
 
   &__icon + &__text,
   &__text + &__icon {
@@ -31,76 +11,51 @@
   }
 }
 
-// Colors
-.button--primary {
-  --bg-color: var(--color-primary);
-  --text-color: var(--color-light);
-  --bg-color-hover: var(--color-primary-darker);
-  --text-color-hover: var(--color-light);
-  --outline-color: hsla(var(--color-primary-hsl), 0.4);
-}
-
-.button--light {
-  --bg-color: var(--color-light);
-  --text-color: var(--color-dark);
-  --bg-color-hover: var(--color-light-darker);
-  --text-color-hover: var(--color-dark);
-  --outline-color: hsla(var(--color-dark-hsl), 0.4);
-}
-
-.button--dark {
-  --bg-color: var(--color-dark);
-  --text-color: var(--color-light);
-  --bg-color-hover: var(--color-dark-darker);
-  --text-color-hover: var(--color-light);
-  --outline-color: hsla(var(--color-dark-hsl), 0.4);
-}
-
-.button-outline--primary {
-  @extend .button-outline;
-  @extend .button--primary;
-}
-
-.button-outline--light {
-  @extend .button--light;
-  @extend .button-outline;
-}
-
-.button-link--light {
-  @extend .button-link;
-  @extend .button--light;
-}
-
-.button-link--dark {
-  @extend .button-link;
-  @extend .button--dark;
-}
-
-.button-link--primary {
-  @extend .button-link;
-  @extend .button--primary;
-}
-
 // Types
+.button-basic {
+  padding: 0.6em 1em;
+  background-color: var(--button-bg-color);
+  color: var(--button-text-color);
+
+  transition: background-color 300ms, color 300ms, outline 300ms;
+
+  &:hover {
+    background-color: var(--button-bg-color-hover);
+    color: var(--button-text-color-hover);
+  }
+
+  &:active,
+  &:focus {
+    outline: 0.3rem solid var(--button-outline-color);
+  }
+}
+
 .button-outline {
   padding: 0.475em 0.875em;
   background-color: transparent;
-  color: var(--bg-color);
-  border: 0.125rem solid var(--bg-color);
+  color: var(--button-bg-color);
+  border: 0.125rem solid var(--button-bg-color);
+
+  transition: background-color 300ms, color 300ms, outline 300ms;
 
   &:hover {
-    background-color: var(--bg-color);
-    color: var(--text-color);
+    background-color: var(--button-bg-color);
+    color: var(--button-text-color);
+  }
+
+  &:active,
+  &:focus {
+    outline: 0.3rem solid var(--button-outline-color);
   }
 }
 
 .button-link {
-  --text-color: var(--bg-color);
-  --text-color-hover: var(--bg-color-hover);
-  --outline-color: transparent;
+  --button-text-color: var(--button-bg-color);
+  --button-outline-color: transparent;
 
   width: auto;
   background-color: transparent;
+  color: var(--button-text-color);
   padding: 0.05rem;
   opacity: 0.8;
   transition: opacity 300ms;
@@ -123,7 +78,7 @@
     left: -50%;
     width: 100%;
     height: 0.05em;
-    background-color: var(--text-color);
+    background-color: var(--button-text-color);
     opacity: 0;
     transition: left 300ms, opacity 300ms;
   }

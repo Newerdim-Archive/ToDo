@@ -1,15 +1,19 @@
 <div class="modal-wrapper" id="logInModal">
   <div class="modal-wrapper__dimmer" (click)="hide()"></div>
-  <section class="modal modal--light auth-modal">
+  <section class="modal auth-modal">
     <h2 class="auth-modal__title">Log In</h2>
-    <h3 class="auth-modal__subtitle">Log in into existing account</h3>
-    <app-google-button class="auth-modal__provider-button" [class.loading]="isLoading" (click)="logInWithGoogle()"
-                       text="Log In with Google"></app-google-button>
+    <h3 class="auth-modal__subtitle">Log in into an existing account</h3>
+    <app-google-button
+      class="auth-modal__provider-button"
+      [class.loading]="isLoading"
+      (click)="logInWithGoogle()"
+      text="Log In with Google"
+    ></app-google-button>
     <div *ngIf="errorMessage" class="text--error">Error message: {{errorMessage}}</div>
     <div class="auth-modal__divider"></div>
     <footer class="auth-modal__footer">
       Not a member?
-      <button class="button button-link--primary text--bold" (click)="showSignUpModal()">
+      <button class="auth-modal__button--footer" (click)="showSignUpModal()">
         Sign up
       </button>
     </footer>

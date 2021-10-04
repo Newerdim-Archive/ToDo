@@ -1,0 +1,29 @@
+@use "utilities/functions/color";
+@use "utilities/mixins/button";
+
+.home-nav {
+  --nav-bg-color: #{color.lighter(primary)};
+  --nav-text-color: #{color.text(primary)};
+  --navbar-bg-color: #{color.darker(primary)};
+  --navbar-text-color: #{color.text(primary)};
+
+  &__button {
+    &--toggle {
+      padding: 0.2rem;
+
+      @include button.basic(primary);
+    }
+
+    &--item {
+      @include button.link(light);
+    }
+
+    &--item-demo {
+      @include button.outline(light);
+    }
+  }
+
+  &__link--brand {
+    color: color.base(accent);
+  }
+}

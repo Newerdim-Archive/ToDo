@@ -1,5 +1,10 @@
-[class^='icon'] {
+.icon {
   width: var(--icon-size);
   height: var(--icon-size);
   display: block;
+}
+
+.icon--brand {
+  --color-icon: transparent;
+  --color-icon-accent: var(--color-accent);
 }

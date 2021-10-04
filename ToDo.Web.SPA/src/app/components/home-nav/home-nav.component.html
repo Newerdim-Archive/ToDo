@@ -1,26 +1,26 @@
-<nav class="nav">
+<nav class="nav home-nav">
   <div class="nav__container container">
-    <a class="nav__link--brand" routerLink="/">
-      <app-icon class="link__icon" name="brand"></app-icon>
-      <span class="link__text">Tododim</span>
+    <a class="nav__link--brand home-nav__link--brand" routerLink="/">
+      <app-icon class="anchor__icon icon--brand" name="brand"></app-icon>
+      <span class="anchor__text">Tododim</span>
     </a>
-    <button class="nav__button--toggle button button--light" (click)="toggleNavbar()" aria-label="Show navbar">
+    <button class="nav__button--toggle home-nav__button--toggle" (click)="toggleNavbar()" aria-label="Show navbar">
       <app-toggle-menu-icon [isMenuOpen]="isNavbarShown"></app-toggle-menu-icon>
     </button>
     <section class="navbar nav__navbar" [class.is-active]="isNavbarShown">
       <ul class="navbar__list">
         <li class="navbar__item">
-          <button class="button button-link--dark" (click)="showLogInModal()">
+          <button class="home-nav__button--item" (click)="showLogInModal()">
             Log In
           </button>
         </li>
         <li class="navbar__item">
-          <button class="button button-link--dark" (click)="showSignUpModal()">
+          <button class="home-nav__button--item" (click)="showSignUpModal()">
             Sign Up
           </button>
         </li>
         <li class="navbar__item">
-          <a routerLink="app" class="button button-outline--primary">Try it now</a>
+          <a routerLink="app" class="home-nav__button--item-demo">Try it now</a>
         </li>
       </ul>
     </section>

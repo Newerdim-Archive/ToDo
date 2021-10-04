@@ -1,0 +1,29 @@
+@use "components/buttons";
+@use "utilities/functions/color";
+
+@mixin basic($color) {
+  @extend .button;
+  @extend .button-basic;
+
+  --button-bg-color: #{color.base($color)};
+  --button-text-color: #{color.text($color)};
+  --button-bg-color-hover: #{color.darker($color)};
+  --button-text-color-hover: #{color.text($color)};
+  --button-outline-color: #{color.with-alpha($color, 0.4)};
+}
+
+@mixin outline($color) {
+  @extend .button;
+  @extend .button-outline;
+
+  --button-bg-color: #{color.base($color)};
+  --button-text-color: #{color.text($color)};
+  --button-outline-color: #{color.with-alpha($color, 0.4)};
+}
+
+@mixin link($color) {
+  @extend .button;
+  @extend .button-link;
+
+  --button-bg-color: #{color.base($color)};
+}
