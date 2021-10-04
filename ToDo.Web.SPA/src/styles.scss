@@ -2,12 +2,8 @@
 @use "core/css-variables";
 @use "core/typography";
 @use "core/text";
-@use "core/padding";
-@use "core/margin";
-@use "core/opacity";
-@use "core/a";
+@use "core/anchor";
 
-@use "components/link";
 @use "components/buttons";
 @use "components/icon";
 @use "components/container";
@@ -16,7 +12,9 @@
 @use "components/auth-modal";
 @use "components/nav";
 
+@use "utilities/functions/color";
+
 body {
-  background-color: var(--color-light-darker);
-  color: var(--color-light-darker-text);
+  background-color: color.base(primary);
+  color: color.text(primary);
 }

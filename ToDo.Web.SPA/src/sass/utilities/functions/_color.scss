@@ -1,0 +1,19 @@
+@function base($color-name) {
+  @return var(--color-#{$color-name});
+}
+
+@function darker($color-name) {
+  @return var(--color-#{$color-name}-darker);
+}
+
+@function lighter($color-name) {
+  @return var(--color-#{$color-name}-lighter);
+}
+
+@function text($color-name) {
+  @return var(--color-#{$color-name}-text);
+}
+
+@function with-alpha($color-name, $opacity) {
+  @return hsla(var(--color-#{$color-name}-hsl), #{$opacity});
+}

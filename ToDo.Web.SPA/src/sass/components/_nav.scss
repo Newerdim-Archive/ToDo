@@ -1,11 +1,17 @@
-@use "components/link";
 @use "utilities/mixins/media";
+@use "utilities/mixins/button";
 
 .nav {
+  --nav-bg-color: inherit;
+  --nav-text-color: inherit;
+  --navbar-bg-color: inherit;
+  --navbar-text-color: inherit;
+
   width: 100%;
   height: var(--nav-height);
   z-index: 1;
-  background-color: var(--color-light);
+  background-color: var(--nav-bg-color);
+  color: var(--nav-text-color);
   position: sticky;
   top: 0;
 
@@ -14,28 +20,23 @@
     align-items: center;
     height: 100%;
     // This is for hiding navbar on mobile
-    background-color: var(--color-light);
+    background-color: var(--nav-bg-color);
   }
 
   &__link--brand {
-    --color-icon: var(--color-primary);
-    --color-icon-accent: var(--color-light);
-
-    @extend .link--primary;
-
     font-weight: bold;
+    opacity: 1;
   }
 
   &__button--toggle {
     margin-left: auto;
     width: auto;
-    padding: 0.2rem;
   }
 }
 
 @include media.s {
   .nav__button--toggle {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -49,10 +50,9 @@
   top: var(--nav-height);
   transform: translateY(-101%);
   z-index: -1;
-  background-color: var(--color-light);
-  color: var(--color-dark);
+  background-color: var(--navbar-bg-color);
+  color: var(--navbar-text-color);
   transition: transform 300ms;
-  border-top: 0.05rem solid var(--color-light-darker);
 
   &.is-active {
     transform: translateY(0);

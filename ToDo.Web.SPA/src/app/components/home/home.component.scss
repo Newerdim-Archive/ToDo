@@ -1,4 +1,6 @@
 @use "utilities/mixins/media";
+@use "utilities/mixins/button";
+@use "utilities/functions/color";
 
 .header {
   min-height: calc(100vh - var(--nav-height));
@@ -12,7 +14,8 @@
   }
 
   &__content {
-    max-width: 17.5rem;
+    max-width: 100%;
+    width: fit-content;
     margin: auto;
     display: flex;
     align-items: stretch;
@@ -21,7 +24,28 @@
     text-align: center;
   }
 
+  &__button {
+    &--create-account {
+      @include button.basic(light);
+    }
+
+    &--try-demo {
+      @include button.outline(light);
+    }
+  }
+
+  &__brand {
+    color: color.base(accent);
+  }
+
   &__divider {
     margin: 1rem 0;
+  }
+}
+
+@include media.md {
+  .header__content {
+    max-width: 24rem;
+    font-size: 1.4rem;
   }
 }

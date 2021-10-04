@@ -1,14 +1,20 @@
 @use "utilities/mixins/media";
+@use "utilities/mixins/button";
+@use "utilities/functions/color";
 
 .auth-modal {
+  --modal-bg-color: #{color.lighter(primary)};
+  --modal-text-color: #{color.text(primary)};
+
   &__title {
     font-size: 3rem;
     margin-bottom: 0;
+
   }
 
   &__subtitle {
     font-weight: normal;
-    color: var(--color-muted);
+    color: color.base(muted);
     margin-bottom: 1.6rem;
   }
 
@@ -18,13 +24,17 @@
 
   &__divider {
     height: 0.06rem;
-    background-color: hsla(var(--color-dark-hsl), 0.2);
+    background-color: color.with-alpha(light, 0.3);
     width: 100%;
     margin: 1.6rem 0;
   }
 
   &__footer .button {
     margin-top: 0.5rem;
+  }
+
+  &__button--footer {
+    @include button.link(accent);
   }
 }
 
