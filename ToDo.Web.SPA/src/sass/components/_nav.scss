@@ -2,10 +2,12 @@
 @use "utilities/mixins/button";
 
 .nav {
-  --nav-bg-color: inherit;
-  --nav-text-color: inherit;
-  --navbar-bg-color: inherit;
-  --navbar-text-color: inherit;
+  /*
+    --nav-bg-color: inherit;
+    --nav-text-color: inherit;
+    --navbar-bg-color: inherit;
+    --navbar-text-color: inherit;
+  */
 
   width: 100%;
   height: var(--nav-height);
